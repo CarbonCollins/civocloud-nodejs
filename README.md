@@ -13,6 +13,7 @@ This package is currently not on npm as i have been pre writing docs.
 - [api functions](#api-functions)
   - [ssh keys](#ssh-keys)
     - [listSSHKeys()](#listsshkeys)
+    - [uploadSSHKey()](#uploadsshkeyname-publickey)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
