@@ -1,7 +1,11 @@
+const path = require('path');
+
 const Civo = require('../index');
 
+require('dotenv').config({path: path.join(__dirname, '../.env')});
+
 const fakecivo = new Civo('wrong key');
-const civo = new Civo('G8lNRyrEIFnXbl0br2mpOgZC21xoVcxOAnWT35nCgMRT3JYw0f');
+const civo = new Civo(process.env.civo_apiToken);
 
 
 civo.listNetworks().then((payload) => {
