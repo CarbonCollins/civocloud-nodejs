@@ -80,6 +80,9 @@ class CivoAPI {
    */
   constructor(apiToken) {
     this.apiToken = apiToken;
+    if (!this.apiToken || this.apiToken === '') {
+      throw new Error('invalid civo API key');
+    }
   }
 
   // ----- SSH Keys APIs ----- //
