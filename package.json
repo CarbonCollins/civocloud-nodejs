@@ -1,0 +1,21 @@
+{
+  "name": "civocloud-nodejs",
+  "version": "0.1.0",
+  "description": "Node.JS module for accessing civo cloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "tests/test.js"
+  },
+  "author": {
+    "name": "Steven Collins",
+    "github": "https://github.com/CarbonCollins"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0"
+  }
+}
