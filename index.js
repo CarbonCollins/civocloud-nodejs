@@ -26,7 +26,7 @@ function getRequest(path, apiToken) {
       method: 'GET',
       uri: `${endpoint}/${path}`,
       headers: {
-        Authorization: `bearer ${apiToken}`
+        Authorization: `Bearer ${apiToken}`
       }
     }, (err, res, body) => {
       if (err) {
@@ -57,12 +57,21 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~getInstanceSizes
+   * @method CivoAPI~listInstanceSizes
    * @description gets an array of the currently available instance sizes on civo cloud
    * @returns {Promise} a promise wich resolves with the instance size list or rejects with an error
    */
-  getInstanceSizes() {
+  listInstanceSizes() {
     return getRequest('sizes', this.apiToken);
+  }
+
+  /**
+   * @method CivoAPI~listRegions
+   * @description gets an array of the currently available regions on civo cloud
+   * @returns {Promise} a promise wich resolves with the available region list or rejects with an error
+   */
+  listRegions() {
+    return getRequest('regions', this.apiToken);
   }
 }
 
@@ -71,7 +80,6 @@ class CivoAPI {
  * @type {Object} module.exports.instanceSizes exports the names of the instance sizes
  */
 module.exports = CivoAPI;
-
 module.exports.instanceSizes = {
   XS: 'g1.xsmall',
   S: 'gl.small',
