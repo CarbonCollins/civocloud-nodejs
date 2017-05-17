@@ -4,8 +4,8 @@ This module is for accessing the [civo API which is documented here](https://www
 This package is currently not on npm as i have been pre writing docs.
 
 ## installation
-1. install [npm](https://nodejs.org) "npm homepage")
-2. `npm install civocloud --save`
+1. install [npm](https://nodejs.org "npm homepage")
+2. `$ npm install civocloud --save`
 
 ## table of contents
 
@@ -15,7 +15,7 @@ This package is currently not on npm as i have been pre writing docs.
     - [listSSHKeys()](#listsshkeys)
     - [uploadSSHKey()](#uploadsshkeyname-publickey)
   - [networks](#networks)
-    - [listNetworks](#listnetworks)
+    - [listNetworks()](#listnetworks)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
