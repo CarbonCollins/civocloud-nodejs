@@ -5,8 +5,9 @@
     "sourceType": "module"
   },
   "extends": "eslint:recommended",
-  "globals": {
-    "module": true
+  "env": {
+    "node":  true,
+    "es6":   true
   },
   "rules": {
     "comma-dangle": 0,

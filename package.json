@@ -4,7 +4,7 @@
   "description": "Node.JS module for accessing civo cloud",
   "main": "index.js",
   "scripts": {
-    "test": "tests/test.js"
+    "test": "/tests/test.js"
   },
   "author": {
     "name": "Steven Collins",
