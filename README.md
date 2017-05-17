@@ -14,6 +14,8 @@ This package is currently not on npm as i have been pre writing docs.
   - [ssh keys](#ssh-keys)
     - [listSSHKeys()](#listsshkeys)
     - [uploadSSHKey()](#uploadsshkeyname-publickey)
+  - [networks](#networks)
+    - [listNetworks](#listnetworks)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -70,6 +72,20 @@ civo.uploadSSHKey('some key name', public_key).then((payload) => {
 the public_key should be an ssh public key with the appended key type but no prepended data
 
 [ssh keys api docs](https://www.civo.com/api/sshkeys "SSH keys docs")
+
+### networks
+
+#### listNetworks()
+lists all of the available networks on the civo account
+```
+civo.listNetworks().then((networks) => {
+  console.log(networks);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[networks api docs](https://www.civo.com/api/networks "Networks docs")
 
 ### instance sizes
 

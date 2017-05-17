@@ -104,6 +104,17 @@ class CivoAPI {
     return postRequest('sshkeys', this.apiToken, { name, public_key });
   }
 
+  // ----- Network APIs ----- //
+
+  /**
+   * @method CivoAPI~listNetworks
+   * @description gets an array of the private networks on civo cloud
+   * @returns {Promise} a promise wich resolves with the network list or rejects with an error
+   */
+  listNetworks() {
+    return getRequest('networks', this.apiToken);
+  }
+
   // ----- Instance Sizes APIs ----- //
 
   /**
