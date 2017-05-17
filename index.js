@@ -22,25 +22,51 @@ const endpoint = 'https://api.civo.com/v2';
  */
 function getRequest(path, apiToken) {
   return new Promise((resolve, reject) => {
-    request({
-      method: 'GET',
-      uri: `${endpoint}/${path}`,
-      headers: {
-        Authorization: `Bearer ${apiToken}`
-      }
-    }, (err, res, body) => {
+    request.get(`${endpoint}/${path}`, {}, (err, res, body) => {
       if (err) {
         reject(err);
-      } else if (res.statusCode === 200) {
-        try {
-          resolve(JSON.parse(body));
-        } catch (error) {
-          reject(error);
-        }     
       } else {
-        reject(body);
+        try {
+          if (res.statusCode === 200) {
+            resolve(JSON.parse(body));
+          } else {
+            reject(JSON.parse(body));
+          }
+        } catch (error) {
+          reject({ error, body });
+        }
       }
-    });
+    })
+    .auth(null, null, true, apiToken);
+  });
+}
+
+/**
+ * @method postRequest
+ * @description performs a post request and formats the return body
+ * @param {String} path the path to apply to the endpoint to query
+ * @param {String} apiToken the api token supplied by civo
+ * @returns {Promise} resolves with the body or rejects with an error
+ */
+function postRequest(path, apiToken, form) {
+  return new Promise((resolve, reject) => {
+    request.post(`${endpoint}/${path}`, {}, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        try {
+          if (res.statusCode === 200) {
+            resolve(JSON.parse(body));
+          } else {
+            reject(JSON.parse(body));
+          }
+        } catch (error) {
+          reject({ error, body });
+        }
+      }
+    })
+    .form(form)
+    .auth(null, null, true, apiToken);
   });
 }
 
@@ -56,6 +82,30 @@ class CivoAPI {
     this.apiToken = apiToken;
   }
 
+  // ----- SSH Keys APIs ----- //
+
+  /**
+   * @method CivoAPI~listSSHKeys
+   * @description gets an array of the currently available ssh keys on civo cloud
+   * @returns {Promise} a promise wich resolves with the sshkeys list or rejects with an error
+   */
+  listSSHKeys() {
+    return getRequest('sshkeys', this.apiToken);
+  }
+
+  /**
+   * @method CivoAPI~uploadSSHKey
+   * @description uploads a supplied ssh key into civo
+   * @param {String} name the name to be used to identify the key in civo
+   * @param {String} public_key the public key string to be uploaded
+   * @returns {Promise} a promise wich resolves with the result and id or rejects with an error
+   */
+  uploadSSHKey(name, public_key) {
+    return postRequest('sshkeys', this.apiToken, { name, public_key });
+  }
+
+  // ----- Instance Sizes APIs ----- //
+
   /**
    * @method CivoAPI~listInstanceSizes
    * @description gets an array of the currently available instance sizes on civo cloud
@@ -64,6 +114,8 @@ class CivoAPI {
   listInstanceSizes() {
     return getRequest('sizes', this.apiToken);
   }
+
+  // ----- Instance Regions APIs ----- //
 
   /**
    * @method CivoAPI~listRegions
