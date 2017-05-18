@@ -45,7 +45,8 @@ function getRequest(path, apiToken) {
  * @method postRequest
  * @description performs a post request and formats the return body
  * @param {String} path the path to apply to the endpoint to query
- * @param {String} apiToken the api token supplied by civo
+ * @param {String} apiToken the api token supplied by 
+ * @param {Object} form form data to be attached to the request
  * @returns {Promise} resolves with the body or rejects with an error
  */
 function postRequest(path, apiToken, form) {
@@ -70,6 +71,34 @@ function postRequest(path, apiToken, form) {
   });
 }
 
+/**
+ * @method putRequest
+ * @description performs a put request and formats the return body
+ * @param {String} path the path to apply to the endpoint to query
+ * @param {String} apiToken the api token supplied by civo
+ * @returns {Promise} resolves with the body or rejects with an error
+ */
+function putRequest(path, apiToken, form) {
+  return new Promise((resolve, reject) => {
+    request.post(`${endpoint}/${path}`, {}, (err, res, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        try {
+          if (res.statusCode === 200) {
+            resolve(JSON.parse(body));
+          } else {
+            reject(JSON.parse(body));
+          }
+        } catch (error) {
+          reject({ error, body });
+        }
+      }
+    })
+    .form(form)
+    .auth(null, null, true, apiToken);
+  });
+}
 /**
  * @class {CivoAPI} 
  */
@@ -117,6 +146,18 @@ class CivoAPI {
   listNetworks() {
     return getRequest('networks', this.apiToken);
   }
+
+  /**
+   * @method CivoAPI~createNetwork
+   * @description creates a new private network in civo
+   * @param {String} name the name to be used to identify the key in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createNetwork(name) {
+    console.log({ name });
+    return postRequest('networks', this.apiToken, { name });
+  }
+    
 
   // ----- Instance Sizes APIs ----- //
 

@@ -13,9 +13,10 @@ This package is currently not on npm as i have been pre writing docs.
 - [api functions](#api-functions)
   - [ssh keys](#ssh-keys)
     - [listSSHKeys()](#listsshkeys)
-    - [uploadSSHKey()](#uploadsshkeyname-publickey)
+    - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
+    - [createNetwork(name)](#createnetworkname)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -80,6 +81,19 @@ lists all of the available networks on the civo account
 ```
 civo.listNetworks().then((networks) => {
   console.log(networks);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createNetwork(name)
+
+*potential issue with api endpoint currently*
+
+creates a new private network in civo with a given `name`
+```
+civo.createNetwork('some key name').then((payload) => {
+  console.log(payload);
 }).catch((err) => {
   console.error(err);
 });
