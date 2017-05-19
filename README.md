@@ -109,7 +109,7 @@ civo.createNetwork('test network').then((payload) => {
 
 renames an existsing private network identified by its `id` with `label`
 ```
-civo.renameNetwork('test network').then((payload) => {
+civo.renameNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'new test network').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
@@ -120,7 +120,7 @@ civo.renameNetwork('test network').then((payload) => {
 
 deletes an existing private network specified using the networks `id`
 ```
-civo.renameNetwork('test network').then((payload) => {
+civo.deleteNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
