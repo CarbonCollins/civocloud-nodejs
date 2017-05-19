@@ -8,15 +8,21 @@
     "github": "https://github.com/CarbonCollins"
   },
   "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./tests/allTests.js"
+  },
   "engines": {
-    "node" : ">=4.0.0"
+    "node": ">=4.0.0"
   },
   "dependencies": {
     "request": "^2.81.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "chai": "^3.5.0",
     "dotenv": "^4.0.0",
-    "eslint": "^3.19.0"
+    "eslint": "^3.19.0",
+    "eslint-plugin-mocha": "^4.9.0",
+    "mocha": "^3.4.1"
   }
 }
