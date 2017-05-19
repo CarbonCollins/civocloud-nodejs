@@ -16,7 +16,9 @@ This package is currently not on npm as i have been pre writing docs.
     - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
-    - [createNetwork(name)](#createnetworkname)
+    - [createNetwork(label)](#createnetworklabel)
+    - [renameNetwork(id, label)](#renamenetworkid-label)
+    - [deleteNetwork(id)](#deletenetworkid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -86,13 +88,33 @@ civo.listNetworks().then((networks) => {
 });
 ```
 
-#### createNetwork(name)
+#### createNetwork(label)
 
-*potential issue with api endpoint currently*
-
-creates a new private network in civo with a given `name`
+creates a new private network in civo with a given `label`
 ```
-civo.createNetwork('some key name').then((payload) => {
+civo.createNetwork('test network').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### renameNetwork(id, label)
+
+renames an existsing private network identified by its `id` with `label`
+```
+civo.renameNetwork('test network').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteNetwork(id)
+
+deletes an existing private network specified using the networks `id`
+```
+civo.renameNetwork('test network').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);

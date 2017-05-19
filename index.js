@@ -14,36 +14,44 @@ const request = require('request');
 const endpoint = 'https://api.civo.com/v2';
 
 /**
- * @method getRequest
- * @description performs a get request and formats the return body
+ * @method handlerResponse handles the responses from the civo API
+ * @param {Function} resolve a promise resolve callback
+ * @param {Function} reject a promise reject callback
+ */
+function handleResponse(resolve, reject) {
+  return (err, res, body) => {
+    if (err) {
+      reject(err);
+    } else {
+      try {
+        if (res.statusCode === 200 || res.statusCode === 201 || res.statusCode === 202) {
+          resolve(JSON.parse(body));
+        } else {
+          reject(JSON.parse(body));
+        }
+      } catch (error) {
+        reject({ error, body });
+      }
+    }
+  };
+}
+
+/**
+ * @method getRequest performs a get request and formats the return body
  * @param {String} path the path to apply to the endpoint to query
  * @param {String} apiToken the api token supplied by civo
  * @returns {Promise} resolves with the body or rejects with an error
  */
 function getRequest(path, apiToken) {
   return new Promise((resolve, reject) => {
-    request.get(`${endpoint}/${path}`, {}, (err, res, body) => {
-      if (err) {
-        reject(err);
-      } else {
-        try {
-          if (res.statusCode === 200) {
-            resolve(JSON.parse(body));
-          } else {
-            reject(JSON.parse(body));
-          }
-        } catch (error) {
-          reject({ error, body });
-        }
-      }
-    })
+    request
+    .get(`${endpoint}/${path}`, {}, handleResponse(resolve, reject))
     .auth(null, null, true, apiToken);
   });
 }
 
 /**
- * @method postRequest
- * @description performs a post request and formats the return body
+ * @method postRequest performs a post request and formats the return body
  * @param {String} path the path to apply to the endpoint to query
  * @param {String} apiToken the api token supplied by 
  * @param {Object} form form data to be attached to the request
@@ -51,54 +59,43 @@ function getRequest(path, apiToken) {
  */
 function postRequest(path, apiToken, form) {
   return new Promise((resolve, reject) => {
-    request.post(`${endpoint}/${path}`, {}, (err, res, body) => {
-      if (err) {
-        reject(err);
-      } else {
-        try {
-          if (res.statusCode === 200) {
-            resolve(JSON.parse(body));
-          } else {
-            reject(JSON.parse(body));
-          }
-        } catch (error) {
-          reject({ error, body });
-        }
-      }
-    })
+    request
+    .post(`${endpoint}/${path}`, {}, handleResponse(resolve, reject))
     .form(form)
     .auth(null, null, true, apiToken);
   });
 }
 
 /**
- * @method putRequest
- * @description performs a put request and formats the return body
+ * @method putRequest performs a put request and formats the return body
  * @param {String} path the path to apply to the endpoint to query
  * @param {String} apiToken the api token supplied by civo
+ * @param {Object} form form data to be attached to the request
  * @returns {Promise} resolves with the body or rejects with an error
  */
 function putRequest(path, apiToken, form) {
   return new Promise((resolve, reject) => {
-    request.post(`${endpoint}/${path}`, {}, (err, res, body) => {
-      if (err) {
-        reject(err);
-      } else {
-        try {
-          if (res.statusCode === 200) {
-            resolve(JSON.parse(body));
-          } else {
-            reject(JSON.parse(body));
-          }
-        } catch (error) {
-          reject({ error, body });
-        }
-      }
-    })
+    request
+    .put(`${endpoint}/${path}`, {}, handleResponse(resolve, reject))
     .form(form)
     .auth(null, null, true, apiToken);
   });
 }
+
+/**
+ * @method deleteRequest performs a put request and formats the return body
+ * @param {String} path the path to apply to the endpoint to query
+ * @param {String} apiToken the api token supplied by civo
+ * @returns {Promise} resolves with the body or rejects with an error
+ */
+function deleteRequest(path, apiToken) {
+  return new Promise((resolve, reject) => {
+    request
+    .delete(`${endpoint}/${path}`, {}, handleResponse(resolve, reject))
+    .auth(null, null, true, apiToken);
+  });
+}
+
 /**
  * @class {CivoAPI} 
  */
@@ -117,8 +114,7 @@ class CivoAPI {
   // ----- SSH Keys APIs ----- //
 
   /**
-   * @method CivoAPI~listSSHKeys
-   * @description gets an array of the currently available ssh keys on civo cloud
+   * @method CivoAPI~listSSHKeys gets an array of the currently available ssh keys on civo cloud
    * @returns {Promise} a promise wich resolves with the sshkeys list or rejects with an error
    */
   listSSHKeys() {
@@ -126,8 +122,7 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~uploadSSHKey
-   * @description uploads a supplied ssh key into civo
+   * @method CivoAPI~uploadSSHKey uploads a supplied ssh key into civo
    * @param {String} name the name to be used to identify the key in civo
    * @param {String} public_key the public key string to be uploaded
    * @returns {Promise} a promise wich resolves with the result and id or rejects with an error
@@ -139,8 +134,7 @@ class CivoAPI {
   // ----- Network APIs ----- //
 
   /**
-   * @method CivoAPI~listNetworks
-   * @description gets an array of the private networks on civo cloud
+   * @method CivoAPI~listNetworks gets an array of the private networks on civo cloud
    * @returns {Promise} a promise wich resolves with the network list or rejects with an error
    */
   listNetworks() {
@@ -148,22 +142,37 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~createNetwork
-   * @description creates a new private network in civo
-   * @param {String} name the name to be used to identify the key in civo
+   * @method CivoAPI~createNetwork creates a new private network in civo
+   * @param {String} label the name to be used to identify the key in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
-  createNetwork(name) {
-    console.log({ name });
-    return postRequest('networks', this.apiToken, { name });
+  createNetwork(label) {
+    return postRequest('networks', this.apiToken, { label });
   }
-    
+
+  /**
+   * @method CivoAPI~renameNetwork renames an existing network within civo
+   * @param {String} id the networks id to be used to identify the network in civo
+   * @param {String} label the new label to be used for the network
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  renameNetwork(id, label) {
+    return putRequest(`networks/${id}`, this.apiToken, { label });
+  }
+
+  /**
+   * @method CivoAPI~deleteNetwork deletes an existing network within civo
+   * @param {String} id the networks id to be used to identify the network in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteNetwork(id) {
+    return deleteRequest(`networks/${id}`, this.apiToken);
+  }
 
   // ----- Instance Sizes APIs ----- //
 
   /**
-   * @method CivoAPI~listInstanceSizes
-   * @description gets an array of the currently available instance sizes on civo cloud
+   * @method CivoAPI~listInstanceSizes gets an array of the currently available instance sizes on civo cloud
    * @returns {Promise} a promise wich resolves with the instance size list or rejects with an error
    */
   listInstanceSizes() {
@@ -173,8 +182,7 @@ class CivoAPI {
   // ----- Instance Regions APIs ----- //
 
   /**
-   * @method CivoAPI~listRegions
-   * @description gets an array of the currently available regions on civo cloud
+   * @method CivoAPI~listRegions gets an array of the currently available regions on civo cloud
    * @returns {Promise} a promise wich resolves with the available region list or rejects with an error
    */
   listRegions() {
