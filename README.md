@@ -1,4 +1,12 @@
 # civocloud-nodejs
+
+[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/civocloud-nodejs.svg?style=flat-square)](https://github.com/CarbonCollins/civocloud-nodejs/issues)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/CarbonCollins/civocloud-nodejs/master/LICENSE)
+[![GitHub (pre-)release](https://img.shields.io/github/release/CarbonCollins/civocloud-nodejs/all.svg?style=flat-square)]()
+[![David](https://img.shields.io/david/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
+[![David](https://img.shields.io/david/dev/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
+[![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
+
 This module is for accessing the [civo API which is documented here](https://www.civo.com/api "CIVO API")
 
 ## installation
