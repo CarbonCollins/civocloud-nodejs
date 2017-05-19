@@ -1,11 +1,9 @@
 # civocloud-nodejs
 This module is for accessing the [civo API which is documented here](https://www.civo.com/api "CIVO API")
 
-This package is currently not on npm as i have been pre writing docs.
-
 ## installation
 1. install [npm](https://nodejs.org "npm homepage")
-2. `$ npm install civocloud --save`
+2. `npm install civocloud --save`
 
 ## table of contents
 

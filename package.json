@@ -1,6 +1,6 @@
 {
   "name": "civocloud-nodejs",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Node.JS module for accessing civo cloud",
   "main": "index.js",
   "author": {
