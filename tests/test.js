@@ -9,21 +9,14 @@ const civo = new Civo(process.env.civo_apiToken);
 console.log(process.env.civo_apiToken);
 
 
-civo.listNetworks().then((payload) => {
+civo.listCharges().then((payload) => {
   console.log(payload);
-  return civo.createNetwork('test');
-}).then((payload) => {
+  return civo.listCharges('2017-05-21T13:46:40Z', new Date());
+})
+.then((payload) => {
   console.log(payload);
-  return civo.renameNetwork('ad3668a4-2851-40c3-5f75-442d78129cd5', 'test2');
-}).then((payload) => {
-  console.log(payload);
-  return civo.deleteNetwork('ad3668a4-2851-40c3-5f75-442d78129cd5');
-}).then((payload) => {
-  console.log(payload);
-  return civo.listNetworks();
-}).then((payload) => {
-  console.log(payload);
-}).catch((err) => {
+})
+.catch((err) => {
   console.error(err);
 });
 
