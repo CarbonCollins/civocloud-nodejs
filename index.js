@@ -10,8 +10,9 @@
 'use strict';
 
 const request = require('request');
+const moment = require('moment');
 
-const endpoint = 'https://api.civo.com/v2';
+let endpoint = 'https://api.civo.com/v2';
 
 /**
  * @method handlerResponse handles the responses from the civo API
@@ -49,7 +50,6 @@ function getRequest(path, apiToken) {
     .auth(null, null, true, apiToken);
   });
 }
-
 /**
  * @method postRequest performs a post request and formats the return body
  * @param {String} path the path to apply to the endpoint to query
@@ -103,8 +103,10 @@ class CivoAPI {
   /**
    * @constructor {CivoAPI}
    * @param {String} apiToken the provided api token from your civo account
+   * @param {String} url a custom url for testing
    */
-  constructor(apiToken) {
+  constructor(apiToken, url) {
+    endpoint = url;
     this.apiToken = apiToken;
     if (!this.apiToken || this.apiToken === '') {
       throw new Error('invalid civo API key');
@@ -187,6 +189,23 @@ class CivoAPI {
    */
   listRegions() {
     return getRequest('regions', this.apiToken);
+  }
+
+  // ----- Charges APIs ----- //
+
+  /**
+   * @method Civo~listCharges
+   * @param {String} account_id
+   * @param {String|Date} [from]
+   * @param {String|Date} [to]
+   * @returns {Promise}
+   */
+  listCharges(account_id, from, to) {
+    let _from = from;
+    let _to = to;
+    if (from instanceof Date) { _from = from.toISOString(); }
+    if (to instanceof Date) { _to = to.toISOString(); }
+    return getRequest('charges', this.apiToken, { account_id, from: _from, to: _to });
   }
 }
 
