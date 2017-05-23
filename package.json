@@ -1,6 +1,6 @@
 {
   "name": "civocloud",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Node.JS module for accessing civo cloud",
   "main": "index.js",
   "author": {
@@ -22,7 +22,6 @@
     "url": "https://github.com/CarbonCollins/civocloud-nodejs/issues"
   },
   "dependencies": {
-    "moment": "^2.18.1",
     "request": "^2.81.0"
   },
   "devDependencies": {
