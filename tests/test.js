@@ -9,7 +9,7 @@ const civo = new Civo(process.env.civo_apiToken);
 console.log(process.env.civo_apiToken);
 
 
-civo.createNetwork('test call network').then((payload) => {
+fakecivo.listSSHKeys().then((payload) => {
   console.log(payload);
 })
 .catch((err) => {

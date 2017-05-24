@@ -1,8 +1,66 @@
 'use strict';
 
 const expect = require('chai').expect;
+const http = require('http');
+const EventEmitter = require('promise-once-events');
+const qs = require('querystring');
+const url = require('url');
 
 const CivoCloud = require('../index');
+const eventEmitter = new EventEmitter();
+
+const responses = {
+  getSSHKeys: {
+    response: [ { id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', name: 'test', public_key: 'AAAA', fingerprint: 'a6:79' } ]
+  }
+}
+
+const errors = {
+  authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' }
+}
+
+const server = http.createServer((req, res) => {
+  let data = '';
+  let params = {};
+  let body;
+
+  req.on('data', (chunk) => { data += chunk; });
+
+  req.on('end', () => {
+    if (req.query && Object.keys(req.query).length > 0) {
+      params = url.parse(req.url, true);
+    }
+    body = qs.parse(data) || {};
+
+    eventEmitter.emit('received', {
+      method: req.method,
+      status: 200,
+      headers: req.headers,
+      url: req.url,
+      body,
+      params
+    });
+
+    res.writeHead(200);
+    if (req.headers.authorization === 'Bearer validAPIKey') {
+      if (req.method === 'GET') {
+        switch (req.url) {
+          case '/sshkeys':
+            res.write(JSON.stringify(responses.getSSHKeys.response)); break;
+          default:
+            res.write('Response not written'); break;
+        }
+      } else {
+        res.write('method response not written');
+      }
+    } else {
+      res.write(JSON.stringify(errors.authentication));
+    }
+    res.end()
+  });
+});
+
+server.listen(3000);
 
 describe('civocloud-nodejs test suite', () => {
   before(() => {
@@ -73,8 +131,73 @@ describe('civocloud-nodejs test suite', () => {
   });
 
   describe('API tests', () => {
-    it('auto fail as no tests written', () => {
-      expect(true).to.be.equal(false, 'no tests written yet');
+    const validCivo = new CivoCloud('validAPIKey', 'http://localhost:3000');
+    const invalidCivo = new CivoCloud('invalidAPIKey', 'http://localhost:3000');
+
+    describe('SSH Keys API tests', () => {
+      describe('listSSHKeys()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.listSSHKeys()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listSSHKeys() should be a GET request');
+            expect(request.url).to.be.equal('/sshkeys', 'listSSHKeys() should call "/sshkeys" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(responses.getSSHKeys.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listSSHKeys()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listSSHKeys() should be a GET request');
+            expect(request.url).to.be.equal('/sshkeys', 'listSSHKeys() should call "/sshkeys" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+      });
+      describe('uploadSSHKey()', () => {
+        it('valid auth', () => {
+          expect(true).to.be.false;
+        });
+        it('invalid auth', () => {
+          expect(true).to.be.false;
+        });
+      });
     });
+    describe('Network API tests', () => {
+      it('listNetworks()', () => {
+        expect(true).to.be.false;
+      });
+      it('createNetworks()', () => {
+        expect(true).to.be.false;
+      });
+      it('renameNetworks()', () => {
+        expect(true).to.be.false;
+      });
+      it('deleteNetworks()', () => {
+        expect(true).to.be.false;
+      });
+    });
+  });
+  it('force failed because not all tests have been written', () => {
+    expect(true).to.be.false;
   });
 });
