@@ -9,11 +9,7 @@ const civo = new Civo(process.env.civo_apiToken);
 console.log(process.env.civo_apiToken);
 
 
-civo.listCharges().then((payload) => {
-  console.log(payload);
-  return civo.listCharges('2017-05-21T13:46:40Z', new Date());
-})
-.then((payload) => {
+civo.createNetwork('test call network').then((payload) => {
   console.log(payload);
 })
 .catch((err) => {

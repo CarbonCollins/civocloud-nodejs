@@ -141,10 +141,11 @@ class CivoAPI {
   /**
    * @method CivoAPI~createNetwork creates a new private network in civo
    * @param {String} label the name to be used to identify the key in civo
+   * @param {String} [region] an optional region to create the network in
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
-  createNetwork(label) {
-    return this.__postRequest('networks', { label });
+  createNetwork(label, region) {
+    return this.__postRequest('networks', { label, region });
   }
 
   /**
