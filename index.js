@@ -39,7 +39,6 @@ class CivoAPI {
         reject(err);
       } else {
         try {
-          console.log(res.statusCode);
           if (res.statusCode === 200 || res.statusCode === 201 || res.statusCode === 202) {
             resolve(JSON.parse(body));
           } else {

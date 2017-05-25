@@ -21,6 +21,9 @@ class civoAPIStub {
       },
       putNetworks: {
         response: { id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', name: 'renamed', result: 'success' }
+      },
+      deleteNetworks: {
+        response: { result: 'success' }
       }
     };
     this.errors = {
@@ -106,6 +109,17 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
                 }
+            }
+          } else if (req.method === 'DELETE') {
+            switch (url) {
+              case '/networks':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteNetworks.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              default:
+                status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
             }
           } else {
             status = 500; res.write('method response not written');
