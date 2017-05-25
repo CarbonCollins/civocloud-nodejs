@@ -12,7 +12,7 @@ console.log(process.env.civo_apiToken);
 // .then((payload) => {
 //   console.log(payload);
 // })
-civo.listInstanceSizes()
+civo.listRegions()
 .then((payload) => {
   console.log(payload);
 })
