@@ -24,6 +24,9 @@ class civoAPIStub {
       },
       deleteNetworks: {
         response: { result: 'success' }
+      },
+      getSizes: {
+        response: [ { id: 0, name: 'g1.xsmall', nice_name: 'Extra Small', cpu_cores: 1, ram_mb: 1024, disk_gb: 25, description: 'Extra Small - 1GB RAM, 1 CPU Core, 25GB SSD Disk' } ]
       }
     };
     this.errors = {
@@ -73,6 +76,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getSSHKeys.response)); break;
               case '/networks': 
                 status = 200; res.write(JSON.stringify(this.responses.getNetworks.response)); break;
+              case '/sizes': 
+                status = 200; res.write(JSON.stringify(this.responses.getSizes.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

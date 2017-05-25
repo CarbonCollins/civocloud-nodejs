@@ -12,7 +12,7 @@ console.log(process.env.civo_apiToken);
 // .then((payload) => {
 //   console.log(payload);
 // })
-civo.deleteNetwork('a944053e-1626-4551-716f-4c6eaa88b6d8')
+civo.listInstanceSizes()
 .then((payload) => {
   console.log(payload);
 })
