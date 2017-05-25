@@ -28,7 +28,8 @@ class civoAPIStub {
       invalidSSHKey: { code: 'database_ssh_key_create', reason: 'The SSH key entered is invalid, please check it and try again', result: 'Server error' },
       duplicateSSHKey: { code: 'sshkey_duplicate', reason: 'An SSH key with this name already exists, please choose another', result: 'Server error' },
       invalidName: { code: 'parameter_name_invalid', reason: 'The name supplied was empty', result: 'Server error' },
-      invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' }
+      invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' },
+      invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -100,8 +101,10 @@ class civoAPIStub {
               case '/networks':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.label && body.label === 'new name') {
                   status = 200; res.write(JSON.stringify(this.responses.putNetworks.response)); break;
-                } else {
+                } else if (params.id && params.id === 'invalidId') {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
                 }
             }
           } else {

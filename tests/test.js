@@ -9,11 +9,7 @@ const civo = new Civo(process.env.civo_apiToken);
 console.log(process.env.civo_apiToken);
 
 
-civo.listNetworks()
-.then((payload) => {
-  console.log(payload);
-  return civo.renameNetwork('f133ebbb-f888-4cef-6348-d95af3546923', 'renamed')
-})
+civo.renameNetwork('no', 'test')
 .then((payload) => {
   console.log(payload);
 })

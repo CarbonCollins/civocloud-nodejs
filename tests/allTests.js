@@ -387,7 +387,77 @@ describe('civocloud-nodejs test suite', () => {
           }).catch((err) => {
             done(err);
           });
-        }); 
+        });
+        it('invalid label', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.renameNetwork('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('PUT', 'renameNetwork() should be a PUT request');
+            expect(request.url).to.be.equal('/networks', 'renameNetwork() should call "/networks" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no body data should be recived');
+            expect(bodyKeys).to.not.include('label', 'expects body to not contain label');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+            expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidLabel), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid id', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.renameNetwork('invalidId', 'new name')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('PUT', 'renameNetwork() should be a PUT request');
+            expect(request.url).to.be.equal('/networks', 'renameNetwork() should call "/networks" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(1, '1 keys of body data should be recived');
+            expect(bodyKeys).to.include('label', 'expects body to contain label');
+            expect(request.body.label).to.be.equal('new name', 'the "label" body field did not match');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+            expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+            expect(request.params.id).to.be.equal('invalidId', 'received id parameter was not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidId), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('no params', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.renameNetwork()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('PUT', 'renameNetwork() should be a PUT request');
+            expect(request.url).to.be.equal('/networks', 'renameNetwork() should call "/networks" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+            expect(bodyKeys).to.not.include('label', 'expects body to not contain label');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, 'one parameter should be used');
+            expect(paramKeys).to.include('id', 'expects parameters to not specify an id');
+            expect(request.params.id).to.be.equal('undefined', 'received id parameter should be empty');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidLabel), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
       });
     });
   });
