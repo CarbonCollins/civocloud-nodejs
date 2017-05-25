@@ -12,17 +12,26 @@ const eventEmitter = new EventEmitter();
 const responses = {
   getSSHKeys: {
     response: [ { id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', name: 'test', public_key: 'AAAA', fingerprint: 'a6:79' } ]
+  },
+  postSSHKey: {
+    response: { result: 'success', id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' }
   }
 }
 
 const errors = {
-  authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' }
+  authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' },
+  invalidSSHKey: { code: 'database_ssh_key_create', reason: 'The SSH key entered is invalid, please check it and try again', result: 'Server error' },
+  emptySSHKey: { code: 'parameter_public_key_empty', reason: 'The public key was empty', result: 'Server error' },
+  duplicateSSHKey: { code: 'sshkey_duplicate', reason: 'An SSH key with this name already exists, please choose another', result: 'Server error' },
+  invalidName: { code: 'parameter_name_invalid', reason: 'The name supplied was empty', result: 'Server error' },
+  emptyName: { code: 'parameter_name_invalid', reason: 'The name supplied was empty', result: 'Server error' },
 }
 
 const server = http.createServer((req, res) => {
   let data = '';
   let params = {};
   let body;
+  let status = 500;
 
   req.on('data', (chunk) => { data += chunk; });
 
@@ -32,30 +41,45 @@ const server = http.createServer((req, res) => {
     }
     body = qs.parse(data) || {};
 
-    eventEmitter.emit('received', {
-      method: req.method,
-      status: 200,
-      headers: req.headers,
-      url: req.url,
-      body,
-      params
-    });
 
     res.writeHead(200);
     if (req.headers.authorization === 'Bearer validAPIKey') {
       if (req.method === 'GET') {
         switch (req.url) {
           case '/sshkeys':
-            res.write(JSON.stringify(responses.getSSHKeys.response)); break;
+            status = 200; res.write(JSON.stringify(responses.getSSHKeys.response)); break;
           default:
-            res.write('Response not written'); break;
+            status = 500; res.write('Response not written'); break;
+        }
+      } else if (req.method === 'POST') {
+        switch (req.url) {
+          case '/sshkeys':
+            if (body.name && body.name === 'name' && body.public_key && body.public_key === 'ssh-rsa AAAAAA==') {
+              status = 200; res.write(JSON.stringify(responses.postSSHKey.response)); break;
+            } else if (body.name && body.name === 'name' && body.public_key && body.public_key === '') {
+              status = 500; res.write(JSON.stringify(errors.invalidSSHKey)); break;
+            } else if (body.name && body.name === 'name' && !body.public_key) {
+              status = 500; res.write(JSON.stringify(errors.emptySSHKey)); break;
+            } else {
+              status = 500; res.write(JSON.stringify(errors.emptyName)); break;
+            }
+          default:
+            status = 500; res.write('Response not written'); break;
         }
       } else {
-        res.write('method response not written');
+        status = 500; res.write('method response not written');
       }
     } else {
-      res.write(JSON.stringify(errors.authentication));
+      status = 401; res.write(JSON.stringify(errors.authentication));
     }
+    eventEmitter.emit('received', {
+      method: req.method,
+      status,
+      headers: req.headers,
+      url: req.url,
+      body,
+      params
+    });
     res.end()
   });
 });
@@ -161,7 +185,7 @@ describe('civocloud-nodejs test suite', () => {
           ]).then((data) => {
             const request = data[0][0];
             const response = data[1];
-            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
             expect(request.method).to.be.equal('GET', 'listSSHKeys() should be a GET request');
             expect(request.url).to.be.equal('/sshkeys', 'listSSHKeys() should call "/sshkeys" endpoint');
             expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
@@ -174,11 +198,94 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
       describe('uploadSSHKey()', () => {
-        it('valid auth', () => {
-          expect(true).to.be.false;
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.uploadSSHKey('name', 'ssh-rsa AAAAAA==')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('POST', 'uploadSSHKeys() should be a POST request');
+            expect(request.url).to.be.equal('/sshkeys', 'uploadSSHKeys() should call "/sshkeys" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(2, '2 keys of body data should be recived');
+            expect(bodyKeys).to.include('name', 'expects body to contain name');
+            expect(request.body.name).to.be.equal('name', 'the "name" body field did not match');
+            expect(bodyKeys).to.include('public_key', 'expects body to contain public_key');
+            expect(request.body.public_key).to.be.equal('ssh-rsa AAAAAA==', 'the "public_key" body field did not match');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(responses.postSSHKey.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
         });
-        it('invalid auth', () => {
-          expect(true).to.be.false;
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.uploadSSHKey('name', 'ssh-rsa AAAAAA==')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('POST', 'uploadSSHKeys() should be a POST request');
+            expect(request.url).to.be.equal('/sshkeys', 'uploadSSHKeys() should call "/sshkeys" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(2, '2 keys of body data should be recived');
+            expect(bodyKeys).to.include('name', 'expects body to contain name');
+            expect(request.body.name).to.be.equal('name', 'the "name" body field did not match');
+            expect(bodyKeys).to.include('public_key', 'expects body to contain public_key');
+            expect(request.body.public_key).to.be.equal('ssh-rsa AAAAAA==', 'the "public_key" body field did not match');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid private_key', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.uploadSSHKey('name')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('POST', 'uploadSSHKeys() should be a POST request');
+            expect(request.url).to.be.equal('/sshkeys', 'uploadSSHKeys() should call "/sshkeys" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(1, '1 key of body data should be recived');
+            expect(bodyKeys).to.include('name', 'expects body to contain name');
+            expect(request.body.name).to.be.equal('name', 'the "name" body field did not match');
+            expect(bodyKeys).to.not.include('public_key', 'expects body to contain public_key');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(errors.emptySSHKey), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid name', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.uploadSSHKey()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('POST', 'uploadSSHKeys() should be a POST request');
+            expect(request.url).to.be.equal('/sshkeys', 'uploadSSHKeys() should call "/sshkeys" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no body data should be recived');
+            expect(bodyKeys).to.not.include('name', 'expects body to contain name');
+            expect(bodyKeys).to.not.include('public_key', 'expects body to contain public_key');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(errors.emptyName), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
         });
       });
     });
