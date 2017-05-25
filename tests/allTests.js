@@ -15,6 +15,9 @@ const responses = {
   },
   postSSHKey: {
     response: { result: 'success', id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' }
+  },
+  getNetworks: {
+    response: [ { id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', name: 'Default', region: 'lon1', default: true, label: 'Default' }]
   }
 }
 
@@ -48,6 +51,8 @@ const server = http.createServer((req, res) => {
         switch (req.url) {
           case '/sshkeys':
             status = 200; res.write(JSON.stringify(responses.getSSHKeys.response)); break;
+          case '/networks': 
+            status = 200; res.write(JSON.stringify(responses.getNetworks.response)); break;
           default:
             status = 500; res.write('Response not written'); break;
         }
@@ -290,8 +295,43 @@ describe('civocloud-nodejs test suite', () => {
       });
     });
     describe('Network API tests', () => {
-      it('listNetworks()', () => {
-        expect(true).to.be.false;
+      describe('listNetworks()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.listNetworks()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listNetworks() should be a GET request');
+            expect(request.url).to.be.equal('/networks', 'listNetworks() should call "/networks" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(responses.getNetworks.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listNetworks()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'listNetworks() should be a GET request');
+            expect(request.url).to.be.equal('/networks', 'listNetworks() should call "/networks" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
       });
       it('createNetworks()', () => {
         expect(true).to.be.false;
