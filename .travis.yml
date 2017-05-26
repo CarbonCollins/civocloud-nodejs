@@ -1,7 +1,20 @@
 language: node_js
-node_js:
-  - "node"
-  - "7"
-  - "6"
-  - "5"
-  - "4"
+matrix:
+  include:
+    - node_js: "4"
+      env:
+        - UNIT=test:harmony
+    - node_js: "5"
+      env:
+        - UNIT=test:harmony
+    - node_js: "6"
+      env:
+        - UNIT=test
+    - node_js: "7"
+      env:
+        - UNIT=test
+    - node_js: "node"
+      env:
+        - UNIT=test
+script:
+  - npm run $UNIT

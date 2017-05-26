@@ -22,13 +22,15 @@ This module is for accessing the [civo API which is documented here](https://www
     - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
-    - [createNetwork(label)](#createnetworklabel)
+    - [createNetwork(label[, region])](#createnetworklabel-region)
     - [renameNetwork(id, label)](#renamenetworkid-label)
     - [deleteNetwork(id)](#deletenetworkid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
     - [listRegions()](#listregions)
+  - [charges](#charges)
+    - [listCharges([from, to])](#listchargesfrom-to)
 - [other info](#other-info)
 
 ## getting started
@@ -94,11 +96,19 @@ civo.listNetworks().then((networks) => {
 });
 ```
 
-#### createNetwork(label)
+#### createNetwork(label[, region])
 
 creates a new private network in civo with a given `label`
 ```
 civo.createNetwork('test network').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+an optional `region` can also be specified:
+```
+civo.createNetwork('test network', 'lon1').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
@@ -156,6 +166,31 @@ civo.listRegions().then((regions) => {
 ```
 
 [instance regions api docs](https://www.civo.com/api/regions "Instance Regions docs")
+
+### charges
+
+#### listCharges([from, to])
+lists all of the charges for an account with an optional date range (max 31 days) between `from` and `to`.
+```
+civo.listCharges().then((charges) => {
+  console.log(charges);
+}).catch((err) => {
+  console.error(err);
+});
+```
+The optional `to` and `from` need to be supplied in RFC3339 time string format (e.g. '2017-05-21T13:46:40Z') or you can pass a Date object into the function like so:
+```
+const dateNow = new Date();
+const dateTenDaysAgo = new Date(dateNow.getDate() - 10);
+
+civo.listCharges(dateTenDaysAgo, dateNow).then((charges) => {
+  console.log(charges);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[charges api docs](https://www.civo.com/api/charges "Charges docs")
 
 ## Other info
 This package is not an official package from [civo](https://www.civo.com) and has not been made by them as it is just an abstraction layer to the [civo API](https://www.civo.com/api "civo API").
