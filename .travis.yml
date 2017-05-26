@@ -21,6 +21,6 @@ matrix:
         - UNIT=test
     - node_js: "node"
       env:
-        - UNIT=unit
+        - UNIT=test
 script:
   - npm run $UNIT
