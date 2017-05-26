@@ -29,6 +29,8 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
     - [listRegions()](#listregions)
+  - [instance templates](#instance-templates)
+    - [listTemplates()](#listtemplates)
   - [quota](#quota)
     - [getQuota()](#getQuota)
   - [charges](#charges)
@@ -168,6 +170,20 @@ civo.listRegions().then((regions) => {
 ```
 
 [instance regions api docs](https://www.civo.com/api/regions "Instance Regions docs")
+
+### instance templates
+
+#### listTemplates()
+lists all of the available templates that can be used when creating an instance
+```
+civo.listTemplates().then((templates) => {
+  console.log(templates);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[instance templates api docs](https://www.civo.com/api/templates "Templates docs")
 
 ### quota
 
