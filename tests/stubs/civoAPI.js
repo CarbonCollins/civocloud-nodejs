@@ -33,6 +33,9 @@ class civoAPIStub {
       getCharges: {
         response: [ { code: 'instance-g1.small', label: 'test', from: '2017-04-23T18:07:00Z', to: '2017-05-01T13:46:40Z', num_hours: 0 } ],
         responseTenDays: [ { code: 'instance-g1.small', label: 'test', from: '2017-05-01T00:00:00Z', to: '2017-05-11T00:00:00Z', num_hours: 0 } ]
+      },
+      getQuotas: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_email_address": "xxxxx@xxxxx.uk", "instance_count_limit": 16, "instance_count_usage": 2, "cpu_core_limit": 16, "cpu_core_usage": 3, "ram_mb_limit": 16384, "ram_mb_usage": 3072, "disk_gb_limit": 400, "disk_gb_usage": 75, "disk_volume_count_limit": 16, "disk_volume_count_usage": 2, "disk_snapshot_count_limit": 30, "disk_snapshot_count_usage": 0, "public_ip_address_limit": 16, "public_ip_address_usage": 2, "subnet_count_limit": 1, "subnet_count_usage": 1, "network_count_limit": 1, "network_count_usage": 1, "security_group_limit": 16, "security_group_usage": 4, "security_group_rule_limit": 160, "security_group_rule_usage": 4, "port_count_limit": 32, "port_count_usage": 3 }
       }
     };
     this.errors = {
@@ -95,6 +98,8 @@ class civoAPIStub {
                 } else {
                   status = 200; res.write(JSON.stringify(this.responses.getCharges.response)); break;
                 }
+              case '/quota':
+                status = 200; res.write(JSON.stringify(this.responses.getQuotas.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

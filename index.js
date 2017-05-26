@@ -187,6 +187,16 @@ class CivoAPI {
     return this.__getRequest('regions');
   }
 
+  // ----- Quota APIs ----- //
+
+  /**
+   * @method Civo~getQuota gets an object of quota values
+   * @returns {Promise}
+   */
+  getQuota() {
+    return this.__getRequest('quota');
+  }
+
   // ----- Charges APIs ----- //
 
   /**
