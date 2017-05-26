@@ -196,7 +196,7 @@ class CivoAPI {
    * @returns {Promise}
    */
   listCharges(from, to) {
-    return this.__getRequest('charges', this.apiToken, {
+    return this.__getRequest('charges', {
       from: (from instanceof Date) ? from.toISOString() : from,
       to: (to instanceof Date) ? to.toISOString() : to
     });

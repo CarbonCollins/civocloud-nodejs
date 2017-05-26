@@ -12,7 +12,11 @@ console.log(process.env.civo_apiToken);
 // .then((payload) => {
 //   console.log(payload);
 // })
-civo.listRegions()
+
+const dateNow = new Date('2017-05-11T00:00:00Z');
+const dateTenDaysAgo = new Date('2017-05-01T00:00:00Z');
+
+civo.listCharges(dateTenDaysAgo)
 .then((payload) => {
   console.log(payload);
 })

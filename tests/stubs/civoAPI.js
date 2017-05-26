@@ -2,7 +2,6 @@
 
 const http = require('http');
 const qs = require('querystring');
-const url = require('url');
 
 class civoAPIStub {
   constructor(event) {
@@ -30,6 +29,10 @@ class civoAPIStub {
       },
       getRegions: {
         response: [ { code: 'lon1' } ]
+      },
+      getCharges: {
+        response: [ { code: 'instance-g1.small', label: 'test', from: '2017-04-23T18:07:00Z', to: '2017-05-01T13:46:40Z', num_hours: 0 } ],
+        responseTenDays: [ { code: 'instance-g1.small', label: 'test', from: '2017-05-01T00:00:00Z', to: '2017-05-11T00:00:00Z', num_hours: 0 } ]
       }
     };
     this.errors = {
@@ -38,7 +41,8 @@ class civoAPIStub {
       duplicateSSHKey: { code: 'sshkey_duplicate', reason: 'An SSH key with this name already exists, please choose another', result: 'Server error' },
       invalidName: { code: 'parameter_name_invalid', reason: 'The name supplied was empty', result: 'Server error' },
       invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' },
-      invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' }
+      invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' },
+      invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -51,22 +55,24 @@ class civoAPIStub {
       req.on('data', (chunk) => { data += chunk; });
 
       req.on('end', () => {
+        if (req.url.includes('?')) {
+          const urlSegments = req.url.split('?');
+          params = qs.parse(urlSegments[1]);
+          url = urlSegments[0]
+        }
+
         const urlChips = req.url.split('/');
         if (urlChips.length > 2) {
           url = `/${urlChips[1]}`;
           switch(urlChips[1]) {
             case 'networks':
-              params = {
+              params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
-              };
+              });
               break;
             default:
-              params = {};
+              // no default code
           }
-        }
-
-        if (req.query && Object.keys(req.query).length > 0) {
-          params = url.parse(req.url, true);
         }
 
         body = qs.parse(data) || {};
@@ -83,6 +89,12 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getSizes.response)); break;
               case '/regions': 
                 status = 200; res.write(JSON.stringify(this.responses.getRegions.response)); break;
+              case '/charges': 
+                if (params.to && params.from) {
+                  status = 200; res.write(JSON.stringify(this.responses.getCharges.responseTenDays)); break;
+                } else {
+                  status = 200; res.write(JSON.stringify(this.responses.getCharges.response)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
