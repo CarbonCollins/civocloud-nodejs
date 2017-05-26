@@ -30,7 +30,7 @@ This module is for accessing the [civo API which is documented here](https://www
   - [instance regions](#instance-regions)
     - [listRegions()](#listregions)
   - [quota](#quota)
-    - [getQuota()](#getQuotaname)
+    - [getQuota()](#getQuota)
   - [charges](#charges)
     - [listCharges([from, to])](#listchargesfrom-to)
 - [other info](#other-info)
