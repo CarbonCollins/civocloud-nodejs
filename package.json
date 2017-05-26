@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/allTests.js"
+    "test": "./node_modules/.bin/mocha ./tests/allTests.js",
     "test:harmony": "./node_modules/.bin/mocha --harmony ./tests/allTests.js"
   },
   "engines": {
