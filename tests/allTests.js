@@ -11,10 +11,6 @@ const civoStub = new CivoAPIStub(eventEmitter);
 civoStub.listen(3000);
 
 describe('civocloud-nodejs test suite', () => {
-  before(() => {
-    console.warn('Tests have not been written to fully cover code yet');
-  });
-
   describe('package tests', () => {
     it('package exports CivoAPI class', () => {
       expect(CivoCloud).to.be.an('function', 'package should export the CivoAPI class constructor');
@@ -213,6 +209,7 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
     describe('Network API tests', () => { // ----- NETWORK API TESTS
       describe('listNetworks()', () => {
         it('valid auth', (done) => {
@@ -528,6 +525,7 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
     describe('Instance Sizing API tests', () => { // ----- INSTANCE SIZING TESTS
       describe('listInstanceSizes()', () => {
         it('valid auth', (done) => {
@@ -568,6 +566,7 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
     describe('Instance Regions API tests', () => { // ----- INSTANCE REGIONS TESTS
       describe('listRegions()', () => {
         it('valid auth', (done) => {
@@ -608,6 +607,89 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
+    describe('Instance Template API tests', () => { // ----- INSTANCE TEMPLATE TESTS
+      describe('listTemplates()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.listTemplates()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listTemplates() should be a GET request');
+            expect(request.url).to.be.equal('/templates', 'listTemplates() should call "/templates" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getRegions.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listTemplates()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'listTemplates() should be a GET request');
+            expect(request.url).to.be.equal('/templates', 'listTemplates() should call "/templates" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+      })
+    });
+
+    describe('Account Quota API tests', () => { // ----- QUOTA TESTS
+      describe('getQuota()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.getQuota()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'getQuota() should be a GET request');
+            expect(request.url).to.be.equal('/quota', 'getQuota() should call "/quota" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getQuotas.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.getQuota()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'getQuota() should be a GET request');
+            expect(request.url).to.be.equal('/quota', 'getQuota() should call "/quota" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+      });
+    });
+  
     describe('Account Charges API tests', () => { // ----- ACCOUNT CHARGES TESTS
       describe('listCharges()', () => {
         it('valid auth', (done) => {
@@ -709,47 +791,6 @@ describe('civocloud-nodejs test suite', () => {
             expect(request.params.from).to.be.equal('2017-05-01T00:00:00Z', 'received from parameter was not the same as sent');
             expect(paramKeys).to.not.include('to', 'expects parameters to not specify a to date string');
             expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidDateOrder), 'correct response was not returned');
-            done();
-          }).catch((err) => {
-            done(err);
-          });
-        });
-      });
-    });
-
-    describe('Account Quota API tests', () => { // ----- QUOTA TESTS
-      describe('getQuota()', () => {
-        it('valid auth', (done) => {
-          Promise.all([
-            eventEmitter.once('received'),
-            validCivo.getQuota()
-          ]).then((data) => {
-            const request = data[0][0];
-            const response = data[1];
-            expect(request.status).to.be.equal(200, 'returned status should be 200');
-            expect(request.method).to.be.equal('GET', 'getQuota() should be a GET request');
-            expect(request.url).to.be.equal('/quota', 'getQuota() should call "/quota" endpoint');
-            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
-            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
-            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getQuotas.response), 'correct response was not returned');
-            done();
-          }).catch((err) => {
-            done(err);
-          });
-        });
-        it('invalid auth', (done) => {
-          Promise.all([
-            eventEmitter.once('received'),
-            invalidCivo.getQuota()
-          ]).then((data) => {
-            const request = data[0][0];
-            const response = data[1];
-            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
-            expect(request.method).to.be.equal('GET', 'getQuota() should be a GET request');
-            expect(request.url).to.be.equal('/quota', 'getQuota() should call "/quota" endpoint');
-            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
-            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
-            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
             done();
           }).catch((err) => {
             done(err);
