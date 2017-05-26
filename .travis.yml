@@ -6,7 +6,7 @@ matrix:
         - UNIT=test:harmony
     - node_js: "5"
       env:
-        - UNIT=test
+        - UNIT=test:harmony
     - node_js: "6"
       env:
         - UNIT=test
