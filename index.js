@@ -187,6 +187,16 @@ class CivoAPI {
     return this.__getRequest('regions');
   }
 
+  // ----- Instance Templates APIs ----- //
+
+  /**
+   * @method CivoAPI~listTemplates gets an array of the currently available templates on civo cloud
+   * @returns {Promise} a promise wich resolves with the available region list or rejects with an error
+   */
+  listTemplates() {
+    return this.__getRequest('templates');
+  }
+
   // ----- Quota APIs ----- //
 
   /**

@@ -36,6 +36,9 @@ class civoAPIStub {
       },
       getQuotas: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_email_address": "xxxxx@xxxxx.uk", "instance_count_limit": 16, "instance_count_usage": 2, "cpu_core_limit": 16, "cpu_core_usage": 3, "ram_mb_limit": 16384, "ram_mb_usage": 3072, "disk_gb_limit": 400, "disk_gb_usage": 75, "disk_volume_count_limit": 16, "disk_volume_count_usage": 2, "disk_snapshot_count_limit": 30, "disk_snapshot_count_usage": 0, "public_ip_address_limit": 16, "public_ip_address_usage": 2, "subnet_count_limit": 1, "subnet_count_usage": 1, "network_count_limit": 1, "network_count_usage": 1, "security_group_limit": 16, "security_group_usage": 4, "security_group_rule_limit": 160, "security_group_rule_usage": 4, "port_count_limit": 32, "port_count_usage": 3 }
+      },
+      getTemplates: {
+        response: [ { "id": "centos-6", "name": "CentOS 6", "tenant": "", "short_description": "CentOS 6 - aiming to be compatible with RHEL 6", "description": "", "default_username": "centos" }, { "id": "centos-7", "name": "CentOS 7", "tenant": "", "short_description": "CentOS 7 - aiming to be compatible with RHEL 7", "description": "", "default_username": "centos" }, { "id": "coreos", "name": "CoreOS", "tenant": "", "short_description": "CoreOS - lightweight Linux operating system built within containers", "description": "", "default_username": "core" }, { "id": "debian-jessie", "name": "Debian Jessie", "tenant": "", "short_description": "Debian v8 (Jessie), current stable Debian release", "description": "", "default_username": "admin" }, { "id": "ubuntu-14.04", "name": "Ubuntu 14.04", "tenant": "", "short_description": "Ubuntu 14.04.2 LTS", "description": "", "default_username": "ubuntu" }, { "id": "ubuntu-16.04", "name": "Ubuntu 16.04", "tenant": "", "short_description": "Ubuntu 16.04", "description": "", "default_username": "ubuntu" } ]
       }
     };
     this.errors = {
@@ -103,6 +106,8 @@ class civoAPIStub {
                 }
               case '/quota':
                 status = 200; res.write(JSON.stringify(this.responses.getQuotas.response)); break;
+              case '/templates':
+                status = 200; res.write(JSON.stringify(this.responses.getTemplates.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

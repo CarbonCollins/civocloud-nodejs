@@ -622,7 +622,7 @@ describe('civocloud-nodejs test suite', () => {
             expect(request.url).to.be.equal('/templates', 'listTemplates() should call "/templates" endpoint');
             expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
             expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
-            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getRegions.response), 'correct response was not returned');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getTemplates.response), 'correct response was not returned');
             done();
           }).catch((err) => {
             done(err);
@@ -646,7 +646,17 @@ describe('civocloud-nodejs test suite', () => {
             done(err);
           });
         });
-      })
+      });
+      describe('createTemplate()', () => {
+        it('tests not written yet', () => {
+          expect(true).to.be.false;
+        })
+      });
+      describe('deleteTemplate()', () => {
+        it('tests not written yet', () => {
+          expect(true).to.be.false;
+        })
+      });
     });
 
     describe('Account Quota API tests', () => { // ----- QUOTA TESTS
