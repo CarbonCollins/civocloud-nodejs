@@ -45,7 +45,8 @@ class civoAPIStub {
       invalidName: { code: 'parameter_name_invalid', reason: 'The name supplied was empty', result: 'Server error' },
       invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' },
       invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' },
-      invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' }
+      invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
+      invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -95,6 +96,8 @@ class civoAPIStub {
               case '/charges': 
                 if (params.to && params.from) {
                   status = 200; res.write(JSON.stringify(this.responses.getCharges.responseTenDays)); break;
+                } else if (params.to || params.from) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidDateOrder)); break;
                 } else {
                   status = 200; res.write(JSON.stringify(this.responses.getCharges.response)); break;
                 }
