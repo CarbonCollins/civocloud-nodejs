@@ -29,6 +29,8 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
     - [listRegions()](#listregions)
+  - [quota](#quota)
+    - [getQuota()](#getQuota)
   - [charges](#charges)
     - [listCharges([from, to])](#listchargesfrom-to)
 - [other info](#other-info)
@@ -166,6 +168,19 @@ civo.listRegions().then((regions) => {
 ```
 
 [instance regions api docs](https://www.civo.com/api/regions "Instance Regions docs")
+
+### quota
+
+#### getQuota()
+gets the quotas for the civo account.
+```
+civo.getQuota().then((quotas) => {
+  console.log(quotass);
+}).catch((err) => {
+  console.error(err);
+});
+
+[quota api docs](https://www.civo.com/api/quota "Quota docs")
 
 ### charges
 
