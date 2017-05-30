@@ -25,6 +25,9 @@ This module is for accessing the [civo API which is documented here](https://www
     - [createNetwork(label[, region])](#createnetworklabel-region)
     - [renameNetwork(id, label)](#renamenetworkid-label)
     - [deleteNetwork(id)](#deletenetworkid)
+  - [firewalls](#firewalls)
+    - [listFirewalls()](#listfirewalls)
+    - [createFirewall(name)](#createfirewallname)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -144,6 +147,32 @@ civo.deleteNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 ```
 
 [networks api docs](https://www.civo.com/api/networks "Networks docs")
+
+
+### firewalls
+
+#### listFirewalls()
+lists all of the available firewalls that the civo account can use
+```
+civo.listFirewalls().then((firewalls) => {
+  console.log(firewalls);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createFirewall(name)
+
+creates a new firewall in civo with a given `name`
+```
+civo.createFirewall('test firewall').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[firewalls api docs](https://www.civo.com/api/firewalls "Firewalls docs")
 
 ### instance sizes
 

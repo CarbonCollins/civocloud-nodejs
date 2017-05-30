@@ -177,6 +177,14 @@ class CivoAPI {
     return this.__getRequest('firewalls');
   }
 
+  /**
+   * @method CivoAPI~createFirewall creates a new firewall in civo
+   * @param {String} name the name to be used to identify the firewall in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createFirewall(name) {
+    return this.__postRequest('firewalls', { name });
+  }
 
   // ----- Instance Sizes APIs ----- //
 

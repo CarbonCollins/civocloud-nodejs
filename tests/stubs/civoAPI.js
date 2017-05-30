@@ -48,6 +48,9 @@ class civoAPIStub {
       },
       getFirewalls: {
         response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "Carbon IoT", "openstack_security_group_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "rules_count": 0, "instances_count": 0, "region": "lon1" }]
+      },
+      postFirewalls: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test firewall", "result": "success" }
       }
     };
     this.errors = {
@@ -147,6 +150,12 @@ class civoAPIStub {
                   status = 200; res.write(JSON.stringify(this.responses.postNetworks.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
+                }
+              case '/firewalls':
+                if (body.name && body.name === 'test firewall') {
+                  status = 200; res.write(JSON.stringify(this.responses.postFirewalls.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
               case '/templates':
                 if (body.image_id && body.name) {

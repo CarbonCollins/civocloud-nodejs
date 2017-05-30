@@ -566,8 +566,67 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
       describe('createFirewall()', () => {
-        it('auto fail no tests written', () => {
-          expect(true).to.be.false;
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewall('test firewall')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('POST', 'createFirewall() should be a POST request');
+            expect(request.url).to.be.equal('/firewalls', 'createFirewall() should call "/firewalls" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(1, '1 key of body data should be recived');
+            expect(bodyKeys).to.include('name', 'expects body to contain name');
+            expect(request.body.name).to.be.equal('test firewall', 'the "name" body field did not match');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postFirewalls.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.createFirewall('test firewall')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('POST', 'createFirewall() should be a POST request');
+            expect(request.url).to.be.equal('/firewalls', 'createFirewall() should call "/firewalls" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(1, '1 key of body data should be recived');
+            expect(bodyKeys).to.include('name', 'expects body to contain label');
+            expect(request.body.name).to.be.equal('test firewall', 'the "name" body field did not match');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid name', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewall()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('POST', 'createFirewall() should be a POST request');
+            expect(request.url).to.be.equal('/firewalls', 'createFirewalk() should call "/firewalls" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no body data should be recived');
+            expect(bodyKeys).to.not.include('name', 'expects no name to be sent');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidName), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
         });
       });
       describe('deleteFirewall()', () => {
