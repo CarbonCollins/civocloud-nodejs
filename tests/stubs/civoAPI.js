@@ -36,7 +36,16 @@ class civoAPIStub {
       },
       getQuotas: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "default_user_email_address": "xxxxx@xxxxx.uk", "instance_count_limit": 16, "instance_count_usage": 2, "cpu_core_limit": 16, "cpu_core_usage": 3, "ram_mb_limit": 16384, "ram_mb_usage": 3072, "disk_gb_limit": 400, "disk_gb_usage": 75, "disk_volume_count_limit": 16, "disk_volume_count_usage": 2, "disk_snapshot_count_limit": 30, "disk_snapshot_count_usage": 0, "public_ip_address_limit": 16, "public_ip_address_usage": 2, "subnet_count_limit": 1, "subnet_count_usage": 1, "network_count_limit": 1, "network_count_usage": 1, "security_group_limit": 16, "security_group_usage": 4, "security_group_rule_limit": 160, "security_group_rule_usage": 4, "port_count_limit": 32, "port_count_usage": 3 }
-      }
+      },
+      getTemplates: {
+        response: [ { "id": "centos-6", "name": "CentOS 6", "tenant": "", "short_description": "CentOS 6 - aiming to be compatible with RHEL 6", "description": "", "default_username": "centos" }, { "id": "centos-7", "name": "CentOS 7", "tenant": "", "short_description": "CentOS 7 - aiming to be compatible with RHEL 7", "description": "", "default_username": "centos" }, { "id": "coreos", "name": "CoreOS", "tenant": "", "short_description": "CoreOS - lightweight Linux operating system built within containers", "description": "", "default_username": "core" }, { "id": "debian-jessie", "name": "Debian Jessie", "tenant": "", "short_description": "Debian v8 (Jessie), current stable Debian release", "description": "", "default_username": "admin" }, { "id": "ubuntu-14.04", "name": "Ubuntu 14.04", "tenant": "", "short_description": "Ubuntu 14.04.2 LTS", "description": "", "default_username": "ubuntu" }, { "id": "ubuntu-16.04", "name": "Ubuntu 16.04", "tenant": "", "short_description": "Ubuntu 16.04", "description": "", "default_username": "ubuntu" } ]
+      },
+      postTemplates: {
+        response: { "result": "success" }
+      },
+      deleteTemplates: {
+        response: { result: 'success' }
+      },
     };
     this.errors = {
       authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' },
@@ -46,7 +55,8 @@ class civoAPIStub {
       invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' },
       invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' },
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
-      invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' }
+      invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
+      invalidImageId: { code: 'parameter_image_id_missing', reason: "The image ID wasn't supplied", result: 'Server error' },
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -70,6 +80,11 @@ class civoAPIStub {
           url = `/${urlChips[1]}`;
           switch(urlChips[1]) {
             case 'networks':
+              params = Object.assign({}, params, {
+                id: urlChips[2] || undefined
+              });
+              break;
+            case 'templates':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
@@ -103,6 +118,8 @@ class civoAPIStub {
                 }
               case '/quota':
                 status = 200; res.write(JSON.stringify(this.responses.getQuotas.response)); break;
+              case '/templates':
+                status = 200; res.write(JSON.stringify(this.responses.getTemplates.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -126,6 +143,14 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
                 }
+              case '/templates':
+                if (body.image_id && body.name) {
+                  status = 200; res.write(JSON.stringify(this.responses.postTemplates.response)); break;
+                } else if (body.name) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidImageId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -145,6 +170,12 @@ class civoAPIStub {
               case '/networks':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteNetworks.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/templates':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteTemplates.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
