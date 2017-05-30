@@ -186,6 +186,15 @@ class CivoAPI {
     return this.__postRequest('firewalls', { name });
   }
 
+  /**
+   * @method CivoAPI~deleteFirewall deletes an existing firewall within civo
+   * @param {String} id the firewalls id to be used to identify the network in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteFirewall(id) {
+    return this.__deleteRequest(`firewalls/${id}`);
+  }
+
   // ----- Instance Sizes APIs ----- //
 
   /**

@@ -28,6 +28,7 @@ This module is for accessing the [civo API which is documented here](https://www
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
+    - [deleteFirewall(id)](#deletefirewallid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -172,6 +173,16 @@ civo.createFirewall('test firewall').then((payload) => {
 });
 ```
 
+#### deleteFirewall(id)
+deletes a firewall in civo with a firewall 'id'
+```
+civo.deleteFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
 [firewalls api docs](https://www.civo.com/api/firewalls "Firewalls docs")
 
 ### instance sizes
@@ -217,8 +228,8 @@ civo.listTemplates().then((templates) => {
 #### createTemplate(name, image_id[, short_description, description, default_username, cloud_config])
 creates a new custom template in civo with a `name` and openstack `image_id`
 ```
-civo.createTemplate('test template', 'ubuntu-16.04').then((templates) => {
-  console.log(templates);
+civo.createTemplate('test template', 'ubuntu-16.04').then((template) => {
+  console.log(template);
 }).catch((err) => {
   console.error(err);
 });
@@ -227,8 +238,8 @@ civo.createTemplate('test template', 'ubuntu-16.04').then((templates) => {
 #### deleteTemplate(id)
 deletes a custom template in civo with a template 'id'
 ```
-civo.deleteTemplate('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((templates) => {
-  console.log(templates);
+civo.deleteTemplate('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
 }).catch((err) => {
   console.error(err);
 });

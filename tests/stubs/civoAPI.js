@@ -51,6 +51,9 @@ class civoAPIStub {
       },
       postFirewalls: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test firewall", "result": "success" }
+      },
+      deleteFirewalls: {
+        response: { result: 'success' }
       }
     };
     this.errors = {
@@ -86,11 +89,8 @@ class civoAPIStub {
           url = `/${urlChips[1]}`;
           switch(urlChips[1]) {
             case 'networks':
-              params = Object.assign({}, params, {
-                id: urlChips[2] || undefined
-              });
-              break;
             case 'templates':
+            case 'firewalls':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
@@ -184,6 +184,12 @@ class civoAPIStub {
               case '/networks':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteNetworks.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/firewalls':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteFirewalls.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
