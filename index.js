@@ -197,6 +197,20 @@ class CivoAPI {
     return this.__getRequest('templates');
   }
 
+  /**
+   * @method CivoAPI~createTemplate creates a new template on the civo account
+   * @param {String} image_id The openstack template id to base the new template off of
+   * @param {String} name a readable name for the custom template
+   * @param {String} [short_description] an optional one line description of the template
+   * @param {String} [description] an optional full description of the template
+   * @param {String} [default_username] an optional udername to be created within the new template
+   * @param {String} [cloud_config] an optional customisation script to run after the instance is first booted
+   * @returns {Promise} a promise wich resolves with the available region list or rejects with an error
+   */
+  createTemplate(image_id, name, short_description, description, default_username, cloud_config) {
+    return this.__postRequest('templates', { name, image_id, short_description, description, default_username, cloud_config })
+  }
+
   // ----- Quota APIs ----- //
 
   /**

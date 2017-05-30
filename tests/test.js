@@ -13,9 +13,7 @@ console.log(process.env.civo_apiToken);
 //   console.log(payload);
 // })
 
-const dateNow = new Date('2017-05-11T00:00:00Z');
-const dateTenDaysAgo = new Date('2017-05-01T00:00:00Z');
-civo.listCharges('2017-05-20T08:27:55Z', '2017-05-26T08:27:55Z')
+civo.listTemplates()
 .then((payload) => {
   console.log(payload);
 })

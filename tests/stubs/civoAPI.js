@@ -39,6 +39,9 @@ class civoAPIStub {
       },
       getTemplates: {
         response: [ { "id": "centos-6", "name": "CentOS 6", "tenant": "", "short_description": "CentOS 6 - aiming to be compatible with RHEL 6", "description": "", "default_username": "centos" }, { "id": "centos-7", "name": "CentOS 7", "tenant": "", "short_description": "CentOS 7 - aiming to be compatible with RHEL 7", "description": "", "default_username": "centos" }, { "id": "coreos", "name": "CoreOS", "tenant": "", "short_description": "CoreOS - lightweight Linux operating system built within containers", "description": "", "default_username": "core" }, { "id": "debian-jessie", "name": "Debian Jessie", "tenant": "", "short_description": "Debian v8 (Jessie), current stable Debian release", "description": "", "default_username": "admin" }, { "id": "ubuntu-14.04", "name": "Ubuntu 14.04", "tenant": "", "short_description": "Ubuntu 14.04.2 LTS", "description": "", "default_username": "ubuntu" }, { "id": "ubuntu-16.04", "name": "Ubuntu 16.04", "tenant": "", "short_description": "Ubuntu 16.04", "description": "", "default_username": "ubuntu" } ]
+      },
+      postTemplates: {
+        response: { "result": "success" }
       }
     };
     this.errors = {
@@ -49,7 +52,8 @@ class civoAPIStub {
       invalidLabel: { code: 'parameter_label_invalid', reason: 'The label supplied was empty', result: 'Server error' },
       invalidId: { code: 'database_network_not_found', reason: 'Failed to find the network within the internal database', result: 'Resource not found' },
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
-      invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' }
+      invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
+      invalidImageId: { "code": "parameter_image_id_missing", "reason": "The image ID wasn't supplied", "result": "Server error" },
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -130,6 +134,14 @@ class civoAPIStub {
                   status = 200; res.write(JSON.stringify(this.responses.postNetworks.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
+                }
+              case '/templates':
+                if (body.image_id && body.name) {
+                  status = 200; res.write(JSON.stringify(this.responses.postTemplates.response)); break;
+                } else if (body.image_id) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidImageId)); break;
                 }
               default:
                 status = 500; res.write('Response not written'); break;
