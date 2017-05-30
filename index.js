@@ -200,13 +200,14 @@ class CivoAPI {
   /**
    * @method CivoAPI~createTemplate creates a new template on the civo account
    * @param {String} name a readable name for the custom template
+   * @param {String} image_id an openstack glance image id
    * @param {String} [short_description] an optional one line description of the template
    * @param {String} [description] an optional full description of the template
    * @param {String} [default_username] an optional udername to be created within the new template
    * @param {String} [cloud_config] an optional customisation script to run after the instance is first booted
    * @returns {Promise} a promise wich resolves with the available region list or rejects with an error
    */
-  createTemplate(name, short_description, description, default_username, cloud_config) {
+  createTemplate(name, image_id, short_description, description, default_username, cloud_config) {
     return this.__postRequest('templates', { name, image_id, short_description, description, default_username, cloud_config })
   }
 

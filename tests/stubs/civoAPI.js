@@ -146,10 +146,10 @@ class civoAPIStub {
               case '/templates':
                 if (body.image_id && body.name) {
                   status = 200; res.write(JSON.stringify(this.responses.postTemplates.response)); break;
-                } else if (body.image_id) {
-                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
-                } else {
+                } else if (body.name) {
                   status = 500; res.write(JSON.stringify(this.errors.invalidImageId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
               default:
                 status = 500; res.write('Response not written'); break;

@@ -651,7 +651,7 @@ describe('civocloud-nodejs test suite', () => {
         it('valid auth', (done) => {
           Promise.all([
             eventEmitter.once('received'),
-            validCivo.createTemplate('ubuntu-16.04', 'test template', 'test template', 'a testing template', 'root', '')
+            validCivo.createTemplate('test template', 'ubuntu-16.04', 'test template', 'a testing template', 'root', '')
           ]).then((data) => {
             const request = data[0][0];
             const response = data[1];
@@ -670,7 +670,7 @@ describe('civocloud-nodejs test suite', () => {
         it('invalid auth', (done) => {
           Promise.all([
             eventEmitter.once('received'),
-            invalidCivo.createTemplate('ubuntu-16.04', 'test template', 'test template', 'a testing template', 'root', '')
+            invalidCivo.createTemplate('test template', 'ubuntu-16.04', 'test template', 'a testing template', 'root', '')
           ]).then((data) => {
             const request = data[0][0];
             const response = data[1];
@@ -689,7 +689,7 @@ describe('civocloud-nodejs test suite', () => {
         it('optional vars removed', (done) => {
           Promise.all([
             eventEmitter.once('received'),
-            validCivo.createTemplate('ubuntu-16.04', 'test template')
+            validCivo.createTemplate('test template', 'ubuntu-16.04')
           ]).then((data) => {
             const request = data[0][0];
             const response = data[1];
@@ -705,10 +705,10 @@ describe('civocloud-nodejs test suite', () => {
             done(err);
           });
         });
-        it('missing name', (done) => {
+        it('missing image_id', (done) => {
           Promise.all([
             eventEmitter.once('received'),
-            validCivo.createTemplate('ubuntu-16.04')
+            validCivo.createTemplate('test template')
           ]).then((data) => {
             const request = data[0][0];
             const response = data[1];
@@ -716,15 +716,15 @@ describe('civocloud-nodejs test suite', () => {
             expect(request.method).to.be.equal('POST', 'createTemplate() should be a POST request');
             expect(request.url).to.be.equal('/templates', 'createTemplate() should call "/createTemplate" endpoint');
             expect(Object.keys(request.body)).to.have.lengthOf(1, '1 key of body data should be recived');
-            expect(request.body).to.have.all.keys('image_id');
+            expect(request.body).to.have.all.keys('name');
             expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
-            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidName), 'correct response was not returned');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidImageId), 'correct response was not returned');
             done();
           }).catch((err) => {
             done(err);
           });
         });
-        it('missing image_id', (done) => {
+        it('missing all params', (done) => {
           Promise.all([
             eventEmitter.once('received'),
             validCivo.createTemplate()
@@ -736,7 +736,7 @@ describe('civocloud-nodejs test suite', () => {
             expect(request.url).to.be.equal('/templates', 'createTemplate() should call "/createTemplate" endpoint');
             expect(Object.keys(request.body)).to.have.lengthOf(0, 'no body data should be recived');
             expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
-            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidImageId), 'correct response was not returned');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidName), 'correct response was not returned');
             done();
           }).catch((err) => {
             done(err);
