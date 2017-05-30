@@ -527,12 +527,45 @@ describe('civocloud-nodejs test suite', () => {
     });
 
     describe('Firewall API tests', () => { // ----- FIREWALL TESTS
-      describe('createFirewall()', () => {
-        it('auto fail no tests written', () => {
-          expect(true).to.be.false;
+      describe('listFirewalls()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.listFirewalls()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listFirewalls() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls', 'listFirewalls() should call "/firewalls" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getFirewalls.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listFirewalls()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'listFirewalls() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls', 'listFirewalls() should call "/firewalls" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(0, 'No params should be used');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
         });
       });
-      describe('listFirewalls()', () => {
+      describe('createFirewall()', () => {
         it('auto fail no tests written', () => {
           expect(true).to.be.false;
         });
@@ -558,6 +591,7 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
     describe('Instance Sizing API tests', () => { // ----- INSTANCE SIZING TESTS
       describe('listInstanceSizes()', () => {
         it('valid auth', (done) => {

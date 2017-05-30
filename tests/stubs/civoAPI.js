@@ -46,6 +46,9 @@ class civoAPIStub {
       deleteTemplates: {
         response: { result: 'success' }
       },
+      getFirewalls: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "Carbon IoT", "openstack_security_group_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "rules_count": 0, "instances_count": 0, "region": "lon1" }]
+      }
     };
     this.errors = {
       authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' },
@@ -120,6 +123,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getQuotas.response)); break;
               case '/templates':
                 status = 200; res.write(JSON.stringify(this.responses.getTemplates.response)); break;
+              case '/firewalls':
+                status = 200; res.write(JSON.stringify(this.responses.getFirewalls.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }
