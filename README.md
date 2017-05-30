@@ -185,10 +185,10 @@ civo.listTemplates().then((templates) => {
 });
 ```
 
-#### createTemplate(name[, short_description, description, default_username, cloud_config])
-creates a new custom template in civo with a 'name'
+#### createTemplate(name, image_id[, short_description, description, default_username, cloud_config])
+creates a new custom template in civo with a `name` and openstack `image_id`
 ```
-civo.createTemplate('test template').then((templates) => {
+civo.createTemplate('test template', 'ubuntu-16.04').then((templates) => {
   console.log(templates);
 }).catch((err) => {
   console.error(err);
@@ -196,7 +196,7 @@ civo.createTemplate('test template').then((templates) => {
 ```
 
 #### deleteTemplate(id)
-deletes a custom template in civo with an 'id'
+deletes a custom template in civo with a template 'id'
 ```
 civo.deleteTemplate('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((templates) => {
   console.log(templates);
