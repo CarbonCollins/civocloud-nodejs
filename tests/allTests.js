@@ -526,6 +526,38 @@ describe('civocloud-nodejs test suite', () => {
       });
     });
 
+    describe('Firewall API tests', () => { // ----- FIREWALL TESTS
+      describe('createFirewall()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+      describe('listFirewalls()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+      describe('deleteFirewall()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+      describe('createFirewallRule()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+      describe('listFirewallRules()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+      describe('deleteFirewallRule()', () => {
+        it('auto fail no tests written', () => {
+          expect(true).to.be.false;
+        });
+      });
+    });
     describe('Instance Sizing API tests', () => { // ----- INSTANCE SIZING TESTS
       describe('listInstanceSizes()', () => {
         it('valid auth', (done) => {
