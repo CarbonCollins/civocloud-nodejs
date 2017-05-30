@@ -211,6 +211,15 @@ class CivoAPI {
     return this.__postRequest('templates', { name, image_id, short_description, description, default_username, cloud_config })
   }
 
+  /**
+   * @method CivoAPI~deleteTemplate deletes an existing template within civo
+   * @param {String} id the templates id to be used to identify the network in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteTemplate(id) {
+    return this.__deleteRequest(`templates/${id}`);
+  }
+
   // ----- Quota APIs ----- //
 
   /**
