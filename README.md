@@ -217,6 +217,7 @@ civo.getQuota().then((quotas) => {
 }).catch((err) => {
   console.error(err);
 });
+```
 
 [quota api docs](https://www.civo.com/api/quota "Quota docs")
 
