@@ -196,13 +196,30 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~listFirewallRules gets an array of the firewalls on civo account
+   * @method CivoAPI~listFirewallRules gets an array of the firewalls rules on civo account
    * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
    */
   listFirewallRules(id) {
     return this.__getRequest(`firewalls/${id}/rules`);
   }
 
+  /**
+   * @method CivoAPI~createFirewallRule creates a new firewall rule within an existing firewall
+   * @returns {Promise} a promise wich resolves with a success or rejects with an error
+   */
+  createFirewallRule(id, protocol, start_port, end_port, direction, cidr) {
+    return this.__postRequest(`firewalls/${id}/rules`, { protocol, start_port, end_port, cidr, direction });
+  }
+
+  /**
+   * @method CivoAPI~deleteFirewall deletes an existing firewall within civo
+   * @param {String} firewall_id the firewalls id to be used to identify the network in civo
+   * @param {String} id the firewall rules id in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteFirewallRule(firewall_id, id) {
+    return this.__deleteRequest(`firewalls/${firewall_id}/rules/${id}`);
+  }
   // ----- Instance Sizes APIs ----- //
 
   /**

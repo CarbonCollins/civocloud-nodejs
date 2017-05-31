@@ -57,6 +57,9 @@ class civoAPIStub {
       },
       getFirewallRules: {
         response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "", "protocol": "tcp", "start_port": "80", "end_port": "80", "cidr": "0.0.0.0/0", "direction": "ingress" } ]
+      },
+      postFirewallRules: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "protocol": "tcp", "start_port": "2048", "end_port": "", "cidr": "", "direction": "inbound" }
       }
     };
     this.errors = {
@@ -69,6 +72,7 @@ class civoAPIStub {
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
       invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
       invalidImageId: { code: 'parameter_image_id_missing', reason: "The image ID wasn't supplied", result: 'Server error' },
+      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -164,6 +168,14 @@ class civoAPIStub {
                   status = 200; res.write(JSON.stringify(this.responses.postFirewalls.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/firewalls/rules':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.start_port) {
+                  status = 202; res.write(JSON.stringify(this.responses.postFirewallRules.response)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidStartPort)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
               case '/templates':
                 if (body.image_id && body.name) {

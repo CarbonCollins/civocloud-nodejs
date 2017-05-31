@@ -758,8 +758,124 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
       describe('createFirewallRule()', () => {
-        it('auto fail no tests written', () => {
-          expect(true).to.be.false;
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewallRule('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'tcp', '80', '80', 'inwards', '0.0.0.0/0')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(202, 'returned status should be 200');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(5, '5 body data keys should be recived');
+            expect(request.body).to.have.all.keys('protocol', 'start_port', 'end_port', 'direction', 'cidr');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postFirewallRules.response), 'correct response was not returned'); done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.createFirewallRule('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'tcp', '80', '80', 'inwards', '0.0.0.0/0')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(5, '5 body data keys should be recived');
+            expect(request.body).to.have.all.keys('protocol', 'start_port', 'end_port', 'direction', 'cidr');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('valid no optionals', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewallRule('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'tcp', '80')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(202, 'returned status should be 200');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(2, '2 body data keys should be recived');
+            expect(request.body).to.have.all.keys('protocol', 'start_port');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postFirewallRules.response), 'correct response was not returned'); done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('valid no optionals', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewallRule('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'tcp', '80')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(202, 'returned status should be 200');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(2, '2 body data keys should be recived');
+            expect(request.body).to.have.all.keys('protocol', 'start_port');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postFirewallRules.response), 'correct response was not returned'); done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid start_port', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewallRule('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'no body data keys should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidStartPort), 'correct response was not returned'); done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid id', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.createFirewallRule()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('POST', 'createFirewallRule() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'createFirewallRule() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'no body data keys should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(request.params.id).to.be.equal('undefined', 'the parsed id is not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidId), 'correct response was not returned'); done();
+          }).catch((err) => {
+            done(err);
+          });
         });
       });
       describe('deleteFirewallRule()', () => {
