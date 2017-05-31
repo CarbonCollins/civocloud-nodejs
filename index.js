@@ -205,6 +205,12 @@ class CivoAPI {
 
   /**
    * @method CivoAPI~createFirewallRule creates a new firewall rule within an existing firewall
+   * @param {String} id the Id for the firewall to create the rule in
+   * @param {String} [protocol] the protocol that the ule will allow e.g. 'tcp'
+   * @param {String|Number} start_port The single port or start of a range of ports to allows
+   * @param {Stirng|Number} [end_port] the end of a range of ports
+   * @param {String} [direction] the direction in which the rule applies to e.g. 'inwards'
+   * @param {String} [cidr] a ip range in which the rule is applied to e.g. '0.0.0.0/0' for all
    * @returns {Promise} a promise wich resolves with a success or rejects with an error
    */
   createFirewallRule(id, protocol, start_port, end_port, direction, cidr) {
