@@ -697,12 +697,67 @@ describe('civocloud-nodejs test suite', () => {
           });
         });
       });
-      describe('createFirewallRule()', () => {
-        it('auto fail no tests written', () => {
-          expect(true).to.be.false;
+      describe('listFirewallRules()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.listFirewallRules('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(200, 'returned status should be 200');
+            expect(request.method).to.be.equal('GET', 'listFirewallRules() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'listFirewallRules() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect()
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.getFirewallRules.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listFirewallRules('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'listFirewallRules() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'listFirewallRules() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one param should be used');
+            expect(request.params).to.have.all.keys('id');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid id', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.listFirewallRules()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('GET', 'listFirewallRules() should be a GET request');
+            expect(request.url).to.be.equal('/firewalls/rules', 'listFirewallRules() should call "/firewalls/:id/rules" endpoint');
+            expect(Object.keys(request.body)).to.have.lengthOf(0, 'No body data should be recived');
+            expect(Object.keys(request.params)).to.have.lengthOf(1, 'one params should be passed');
+            expect(request.params.id).to.be.equal('undefined', 'No id should have been passed');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
         });
       });
-      describe('listFirewallRules()', () => {
+      describe('createFirewallRule()', () => {
         it('auto fail no tests written', () => {
           expect(true).to.be.false;
         });

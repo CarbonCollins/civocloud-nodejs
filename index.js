@@ -195,6 +195,14 @@ class CivoAPI {
     return this.__deleteRequest(`firewalls/${id}`);
   }
 
+  /**
+   * @method CivoAPI~listFirewallRules gets an array of the firewalls on civo account
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listFirewallRules(id) {
+    return this.__getRequest(`firewalls/${id}/rules`);
+  }
+
   // ----- Instance Sizes APIs ----- //
 
   /**

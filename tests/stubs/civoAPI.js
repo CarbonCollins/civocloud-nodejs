@@ -54,6 +54,9 @@ class civoAPIStub {
       },
       deleteFirewalls: {
         response: { result: 'success' }
+      },
+      getFirewallRules: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "", "protocol": "tcp", "start_port": "80", "end_port": "80", "cidr": "0.0.0.0/0", "direction": "ingress" } ]
       }
     };
     this.errors = {
@@ -94,6 +97,9 @@ class civoAPIStub {
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
+              if (urlChips.length === 4) {
+                url = `/${urlChips[1]}/${urlChips[3]}`
+              }
               break;
             default:
               // no default code
@@ -128,6 +134,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getTemplates.response)); break;
               case '/firewalls':
                 status = 200; res.write(JSON.stringify(this.responses.getFirewalls.response)); break;
+              case '/firewalls/rules':
+                status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }
