@@ -29,6 +29,7 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
     - [deleteFirewall(id)](#deletefirewallid)
+    - [listFirewallRules(id)](#listfirewallrulesid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -178,6 +179,16 @@ deletes a firewall in civo with a firewall 'id'
 ```
 civo.deleteFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### listFirewallRules(id)
+lists all of the available firewall rules that a specific firewall has in the civo account
+```
+civo.listFirewallRules('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((rules) => {
+  console.log(rules);
 }).catch((err) => {
   console.error(err);
 });
