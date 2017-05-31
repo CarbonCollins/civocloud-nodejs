@@ -30,6 +30,7 @@ This module is for accessing the [civo API which is documented here](https://www
     - [createFirewall(name)](#createfirewallname)
     - [deleteFirewall(id)](#deletefirewallid)
     - [listFirewallRules(id)](#listfirewallrulesid)
+    - [createFirewallRule(id, protocol, start_port[, end_port, direction, cidr])](#createfirewallruleid-protocol-startport-endport-direction-cidr)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -189,6 +190,24 @@ lists all of the available firewall rules that a specific firewall has in the ci
 ```
 civo.listFirewallRules('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((rules) => {
   console.log(rules);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createFirewallRule(id, protocol, start_port[, end_port, direction, cidr])
+creates a new firewall rule within the specified firewall `id` with a `protocol` and port number (`start_port`)
+```
+civo.createFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'tcp', '80').then((rule) => {
+  console.log(rule);
+}).catch((err) => {
+  console.error(err);
+});
+```
+optionaly a port range can be specified with `start_port` and `end_port` aswell as a `direction` and a `cidr`
+```
+civo.createFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'tcp', '3000', '3010', 'inwards', '0.0.0.0/0').then((rule) => {
+  console.log(rule);
 }).catch((err) => {
   console.error(err);
 });
