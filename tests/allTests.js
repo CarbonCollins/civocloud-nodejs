@@ -877,6 +877,74 @@ describe('civocloud-nodejs test suite', () => {
           });
         });
       });
+      describe('deleteSnapshot()', () => {
+        it('valid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.deleteSnapshot('test')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(202, 'returned status should be 202 accepted');
+            expect(request.method).to.be.equal('DELETE', 'deleteSnapshot() should be a DELETE request');
+            expect(request.url).to.be.equal('/snapshots', 'deleteSnapshot() should call "/snapshot" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+            expect(paramKeys).to.include('name', 'expects parameters to specify an name');
+            expect(request.params.name).to.be.equal('test', 'received name parameter was not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.deleteSnapshots.response), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid auth', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            invalidCivo.deleteSnapshot('test')
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+            expect(request.method).to.be.equal('DELETE', 'deleteSnapshot() should be a DELETE request');
+            expect(request.url).to.be.equal('/snapshots', 'deleteSnapshot() should call "/snapshot" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+            expect(paramKeys).to.include('name', 'expects parameters to specify an name');
+            expect(request.params.name).to.be.equal('test', 'received name parameter was not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+        it('invalid name', (done) => {
+          Promise.all([
+            eventEmitter.once('received'),
+            validCivo.deleteSnapshot()
+          ]).then((data) => {
+            const request = data[0][0];
+            const response = data[1];
+            expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+            expect(request.method).to.be.equal('DELETE', 'deleteSnapshot() should be a DELETE request');
+            expect(request.url).to.be.equal('/snapshots', 'deleteSnapshot() should call "/snapshot" endpoint');
+            const bodyKeys = Object.keys(request.body);
+            expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+            const paramKeys = Object.keys(request.params);
+            expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+            expect(paramKeys).to.include('name', 'expects parameters to specify an name');
+            expect(request.params.name).to.be.equal('undefined', 'received name parameter was not the same as sent');
+            expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidName), 'correct response was not returned');
+            done();
+          }).catch((err) => {
+            done(err);
+          });
+        });
+      });
     });
 
     describe('Firewall API tests', () => { // ----- FIREWALL TESTS
@@ -1410,6 +1478,7 @@ describe('civocloud-nodejs test suite', () => {
         });
       });
     });
+
     describe('Instance Template API tests', () => { // ----- INSTANCE TEMPLATE TESTS
       describe('listTemplates()', () => {
         it('valid auth', (done) => {

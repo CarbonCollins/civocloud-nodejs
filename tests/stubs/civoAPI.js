@@ -72,6 +72,9 @@ class civoAPIStub {
       },
       putSnapshots: {
         response: { "completed_at": null, "instance_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "testsnapshot", "requested_at": "2017-06-01T15:52:09.78306174Z", "safe": true, "size_gb": 0, "status": "new" }
+      },
+      deleteSnapshots: {
+        response: { "result": "success", "name": "test space" }
       }
     };
     this.errors = {
@@ -267,6 +270,12 @@ class civoAPIStub {
                   status = 202; res.write(JSON.stringify(this.responses.deleteTemplates.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/snapshots':
+                if (params.name && params.name === 'test') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteSnapshots.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
               default:
                 status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;

@@ -207,6 +207,15 @@ class CivoAPI {
     return this.__putRequest(`snapshots/${name}`, { instance_id, safe });
   }
 
+  /**
+   * @method CivoAPI~deleteSnapshot deletes an existing snapshot within civo
+   * @param {String} name the snapshots name to be used to identify the network in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteSnapshot(name) {
+    return this.__deleteRequest(`snapshots/${name}`);
+  }
+
   // ----- Firewall APIs ----- //
 
   /**
