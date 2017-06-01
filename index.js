@@ -185,6 +185,28 @@ class CivoAPI {
     return this.__getRequest('snapshots');
   }
 
+  /**
+   * @method CivoAPI~createSnapshot creates a snapshot of a given instance (alias of updateSnapshot)
+   * @param {String} name the new name of the snapshot
+   * @param {String} instance_id the id of the instance to be snapshotted
+   * @param {Boolean} safe determins if an instance is stopped before snapshotting
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+   createSnapshot(name, instance_id, safe) {
+    return this.updateSnapshot(name, instance_id, safe);
+  }
+
+  /**
+   * @method CivoAPI~updateSnapshot updates a snapshot of a given instance
+   * @param {String} name the new name of the snapshot
+   * @param {String} instance_id the id of the instance to be snapshotted
+   * @param {Boolean} safe determins if an instance is stopped before snapshotting
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+   updateSnapshot(name, instance_id, safe) {
+    return this.__putRequest(`snapshots/${name}`, { instance_id, safe });
+  }
+
   // ----- Firewall APIs ----- //
 
   /**
