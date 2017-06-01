@@ -203,6 +203,8 @@ class CivoAPI {
     return this.__getRequest(`firewalls/${id}/rules`);
   }
 
+
+
   /**
    * @method CivoAPI~createFirewallRule creates a new firewall rule within an existing firewall
    * @param {String} id the Id for the firewall to create the rule in
@@ -218,14 +220,15 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~deleteFirewall deletes an existing firewall within civo
-   * @param {String} firewall_id the firewalls id to be used to identify the network in civo
+   * @method CivoAPI~deleteFirewallRule deletes an existing firewall rule within a firewall
+   * @param {String} firewall_id the firewalls id to be used to identify in civo
    * @param {String} id the firewall rules id in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
   deleteFirewallRule(firewall_id, id) {
     return this.__deleteRequest(`firewalls/${firewall_id}/rules/${id}`);
   }
+
   // ----- Instance Sizes APIs ----- //
 
   /**

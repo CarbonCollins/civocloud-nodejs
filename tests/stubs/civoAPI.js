@@ -60,6 +60,9 @@ class civoAPIStub {
       },
       postFirewallRules: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "protocol": "tcp", "start_port": "2048", "end_port": "", "cidr": "", "direction": "inbound" }
+      },
+      deleteFirewallRules: {
+        response: { "result": "success" }
       }
     };
     this.errors = {
@@ -101,8 +104,13 @@ class civoAPIStub {
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
-              if (urlChips.length === 4) {
+              if (urlChips.length > 3) {
                 url = `/${urlChips[1]}/${urlChips[3]}`
+              }
+              if (urlChips.length > 4) {
+                params = Object.assign({}, params, {
+                  rule_id: urlChips[4] || undefined
+                });
               }
               break;
             default:
@@ -210,6 +218,15 @@ class civoAPIStub {
               case '/firewalls':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteFirewalls.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/firewalls/rules':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx'
+                && params.rule_id && params.rule_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteFirewalls.response)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
