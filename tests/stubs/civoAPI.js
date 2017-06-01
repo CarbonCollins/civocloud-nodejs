@@ -66,6 +66,9 @@ class civoAPIStub {
       },
       deleteFirewallRules: {
         response: { "result": "success" }
+      },
+      getSnapshots: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "instance_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "factorio", "template": "ubuntu-16.04", "region": "lon1", "name": "factorio", "safe": false, "size_gb": 0, "state": "snapshotting", "requested_at": "2017-06-01T13:03:27Z", "completed_at": null } ]
       }
     };
     this.errors = {
@@ -152,6 +155,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getFirewalls.response)); break;
               case '/firewalls/rules':
                 status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
+              case '/snapshots':
+                status = 200; res.write(JSON.stringify(this.responses.getSnapshots.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

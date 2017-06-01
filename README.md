@@ -26,6 +26,8 @@ This module is for accessing the [civo API which is documented here](https://www
     - [createNetwork(label[, region])](#createnetworklabel-region)
     - [renameNetwork(id, label)](#renamenetworkid-label)
     - [deleteNetwork(id)](#deletenetworkid)
+  - [snapshots](#snapshots)
+    - [listSnapshots()](#listsnapshots)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -163,6 +165,19 @@ civo.deleteNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 
 [networks api docs](https://www.civo.com/api/networks "Networks docs")
 
+### snapshots
+
+#### listSnapshots()
+snapshots that the civo account can use
+```
+civo.listSnapshots().then((snapshots) => {
+  console.log(snapshots);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[snapshots api docs](https://www.civo.com/api/networks "Snapshot docs")
 
 ### firewalls
 

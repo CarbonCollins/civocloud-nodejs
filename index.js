@@ -175,6 +175,16 @@ class CivoAPI {
     return this.__deleteRequest(`networks/${id}`);
   }
 
+  // ----- Snapshot APIs ----- //
+
+  /**
+   * @method CivoAPI~listSnapshots gets an array of the snapshots on civo account
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listSnapshots() {
+    return this.__getRequest('snapshots');
+  }
+
   // ----- Firewall APIs ----- //
 
   /**
@@ -210,8 +220,6 @@ class CivoAPI {
   listFirewallRules(id) {
     return this.__getRequest(`firewalls/${id}/rules`);
   }
-
-
 
   /**
    * @method CivoAPI~createFirewallRule creates a new firewall rule within an existing firewall
