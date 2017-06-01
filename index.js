@@ -128,6 +128,14 @@ class CivoAPI {
     return this.__postRequest('sshkeys', { name, public_key });
   }
 
+  /**
+   * @method CivoAPI~listSSHKeys gets an array of the currently available ssh keys on civo cloud
+   * @param {String} name the name of the public key to delete
+   * @returns {Promise} a promise wich resolves with the sshkeys list or rejects with an error
+   */
+  deleteSSHKey(name) {
+    return this.__deleteRequest(`sshkeys/${name}`);
+  }
   // ----- Network APIs ----- //
 
   /**

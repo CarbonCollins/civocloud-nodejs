@@ -12,6 +12,9 @@ class civoAPIStub {
       postSSHKey: {
         response: { result: 'success', id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' }
       },
+      deleteSSHKey: {
+        response: { result: 'success', id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' }
+      },
       getNetworks: {
         response: [ { id: 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', name: 'Default', region: 'lon1', default: true, label: 'Default' }]
       },
@@ -98,6 +101,7 @@ class civoAPIStub {
         if (urlChips.length > 2) {
           url = `/${urlChips[1]}`;
           switch(urlChips[1]) {
+            case 'sshkeys':
             case 'networks':
             case 'templates':
             case 'firewalls':
@@ -209,6 +213,12 @@ class civoAPIStub {
             }
           } else if (req.method === 'DELETE') {
             switch (url) {
+              case '/sshkeys':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteSSHKey.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
               case '/networks':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteNetworks.response)); break;
