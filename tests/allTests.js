@@ -208,6 +208,11 @@ describe('civocloud-nodejs test suite', () => {
           });
         });
       });
+      describe('deleteSSHKey()', () => {
+        it('tests not written for this call', () => {
+          expect(true).to.be.false;
+        })
+      });
     });
 
     describe('Network API tests', () => { // ----- NETWORK API TESTS
