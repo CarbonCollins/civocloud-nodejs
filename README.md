@@ -31,6 +31,7 @@ This module is for accessing the [civo API which is documented here](https://www
     - [deleteFirewall(id)](#deletefirewallid)
     - [listFirewallRules(id)](#listfirewallrulesid)
     - [createFirewallRule(id, protocol, start_port[, end_port, direction, cidr])](#createfirewallruleid-protocol-startport-endport-direction-cidr)
+    - [deleteFirewallRule(id, rule_id)](#deletefirewallruleid-ruleid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -208,6 +209,16 @@ optionaly a port range can be specified with `start_port` and `end_port` aswell 
 ```
 civo.createFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'tcp', '3000', '3010', 'inwards', '0.0.0.0/0').then((rule) => {
   console.log(rule);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteFirewallRule(id, rule_id)
+deletes a firewall rule (`rule_id`) from a specified firewall (`id`)
+```
+civo.deleteFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
 }).catch((err) => {
   console.error(err);
 });
