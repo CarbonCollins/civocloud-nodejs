@@ -46,6 +46,24 @@ class civoAPIStub {
       deleteTemplates: {
         response: { result: 'success' }
       },
+      getFirewalls: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "Carbon IoT", "openstack_security_group_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "rules_count": 0, "instances_count": 0, "region": "lon1" }]
+      },
+      postFirewalls: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test firewall", "result": "success" }
+      },
+      deleteFirewalls: {
+        response: { result: 'success' }
+      },
+      getFirewallRules: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "", "protocol": "tcp", "start_port": "80", "end_port": "80", "cidr": "0.0.0.0/0", "direction": "ingress" } ]
+      },
+      postFirewallRules: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "firewall_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_security_group_rule_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "protocol": "tcp", "start_port": "2048", "end_port": "", "cidr": "", "direction": "inbound" }
+      },
+      deleteFirewallRules: {
+        response: { "result": "success" }
+      }
     };
     this.errors = {
       authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' },
@@ -57,6 +75,7 @@ class civoAPIStub {
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
       invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
       invalidImageId: { code: 'parameter_image_id_missing', reason: "The image ID wasn't supplied", result: 'Server error' },
+      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -80,14 +99,19 @@ class civoAPIStub {
           url = `/${urlChips[1]}`;
           switch(urlChips[1]) {
             case 'networks':
-              params = Object.assign({}, params, {
-                id: urlChips[2] || undefined
-              });
-              break;
             case 'templates':
+            case 'firewalls':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
+              if (urlChips.length > 3) {
+                url = `/${urlChips[1]}/${urlChips[3]}`
+              }
+              if (urlChips.length > 4) {
+                params = Object.assign({}, params, {
+                  rule_id: urlChips[4] || undefined
+                });
+              }
               break;
             default:
               // no default code
@@ -120,6 +144,10 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getQuotas.response)); break;
               case '/templates':
                 status = 200; res.write(JSON.stringify(this.responses.getTemplates.response)); break;
+              case '/firewalls':
+                status = 200; res.write(JSON.stringify(this.responses.getFirewalls.response)); break;
+              case '/firewalls/rules':
+                status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -142,6 +170,20 @@ class civoAPIStub {
                   status = 200; res.write(JSON.stringify(this.responses.postNetworks.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
+                }
+              case '/firewalls':
+                if (body.name && body.name === 'test firewall') {
+                  status = 200; res.write(JSON.stringify(this.responses.postFirewalls.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/firewalls/rules':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.start_port) {
+                  status = 202; res.write(JSON.stringify(this.responses.postFirewallRules.response)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidStartPort)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
               case '/templates':
                 if (body.image_id && body.name) {
@@ -170,6 +212,21 @@ class civoAPIStub {
               case '/networks':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteNetworks.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/firewalls':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteFirewalls.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/firewalls/rules':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx'
+                && params.rule_id && params.rule_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteFirewalls.response)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }

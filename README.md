@@ -25,6 +25,13 @@ This module is for accessing the [civo API which is documented here](https://www
     - [createNetwork(label[, region])](#createnetworklabel-region)
     - [renameNetwork(id, label)](#renamenetworkid-label)
     - [deleteNetwork(id)](#deletenetworkid)
+  - [firewalls](#firewalls)
+    - [listFirewalls()](#listfirewalls)
+    - [createFirewall(name)](#createfirewallname)
+    - [deleteFirewall(id)](#deletefirewallid)
+    - [listFirewallRules(id)](#listfirewallrulesid)
+    - [createFirewallRule(id, protocol, start_port[, end_port, direction, cidr])](#createfirewallruleid-protocol-startport-endport-direction-cidr)
+    - [deleteFirewallRule(id, rule_id)](#deletefirewallruleid-ruleid)
   - [instance sizes](#instance-sizes)
     - [listInstanceSizes()](#listinstancesizes)
   - [instance regions](#instance-regions)
@@ -145,6 +152,80 @@ civo.deleteNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 
 [networks api docs](https://www.civo.com/api/networks "Networks docs")
 
+
+### firewalls
+
+#### listFirewalls()
+lists all of the available firewalls that the civo account can use
+```
+civo.listFirewalls().then((firewalls) => {
+  console.log(firewalls);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createFirewall(name)
+
+creates a new firewall in civo with a given `name`
+```
+civo.createFirewall('test firewall').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteFirewall(id)
+deletes a firewall in civo with a firewall 'id'
+```
+civo.deleteFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### listFirewallRules(id)
+lists all of the available firewall rules that a specific firewall has in the civo account
+```
+civo.listFirewallRules('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((rules) => {
+  console.log(rules);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createFirewallRule(id, protocol, start_port[, end_port, direction, cidr])
+creates a new firewall rule within the specified firewall `id` with a `protocol` and port number (`start_port`)
+```
+civo.createFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'tcp', '80').then((rule) => {
+  console.log(rule);
+}).catch((err) => {
+  console.error(err);
+});
+```
+optionaly a port range can be specified with `start_port` and `end_port` aswell as a `direction` and a `cidr`
+```
+civo.createFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'tcp', '3000', '3010', 'inwards', '0.0.0.0/0').then((rule) => {
+  console.log(rule);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteFirewallRule(id, rule_id)
+deletes a firewall rule (`rule_id`) from a specified firewall (`id`)
+```
+civo.deleteFirewallRule('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[firewalls api docs](https://www.civo.com/api/firewalls "Firewalls docs")
+
 ### instance sizes
 
 #### listInstanceSizes()
@@ -188,8 +269,8 @@ civo.listTemplates().then((templates) => {
 #### createTemplate(name, image_id[, short_description, description, default_username, cloud_config])
 creates a new custom template in civo with a `name` and openstack `image_id`
 ```
-civo.createTemplate('test template', 'ubuntu-16.04').then((templates) => {
-  console.log(templates);
+civo.createTemplate('test template', 'ubuntu-16.04').then((template) => {
+  console.log(template);
 }).catch((err) => {
   console.error(err);
 });
@@ -198,8 +279,8 @@ civo.createTemplate('test template', 'ubuntu-16.04').then((templates) => {
 #### deleteTemplate(id)
 deletes a custom template in civo with a template 'id'
 ```
-civo.deleteTemplate('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((templates) => {
-  console.log(templates);
+civo.deleteTemplate('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
 }).catch((err) => {
   console.error(err);
 });
@@ -217,6 +298,7 @@ civo.getQuota().then((quotas) => {
 }).catch((err) => {
   console.error(err);
 });
+```
 
 [quota api docs](https://www.civo.com/api/quota "Quota docs")
 
