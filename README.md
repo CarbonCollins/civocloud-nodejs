@@ -20,7 +20,7 @@ This module is for accessing the [civo API which is documented here](https://www
   - [ssh keys](#ssh-keys)
     - [listSSHKeys()](#listsshkeys)
     - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
-    - [deleteSSHKey()](#deletesshkey)
+    - [deleteSSHKey(id)](#deletesshkeyid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -96,8 +96,8 @@ civo.uploadSSHKey('some key name', public_key).then((payload) => {
 ```
 the public_key should be an ssh public key with the appended key type but no prepended data
 
-#### deleteSSHKey()
-deletes an existing ssh key within civo
+#### deleteSSHKey(id)
+deletes an existing ssh key (`id`) within civo
 ```
 civo.deleteSSHKey().then((payload) => {
   console.log(payload);
