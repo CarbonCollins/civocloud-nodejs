@@ -7,7 +7,7 @@
 [![David](https://img.shields.io/david/dev/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
 [![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
 
-This module is for accessing the [civo API which is documented here](https://www.civo.com/api "CIVO API")
+This module is for accessing the [v2 civo API which is documented here](https://www.civo.com/api "CIVO API")
 
 ## installation
 1. install [npm](https://nodejs.org "npm homepage")
@@ -30,6 +30,7 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listSnapshots()](#listsnapshots)
     - [createSnapshot(name, instance_id[, safe])](#createsnapshotname-instanceid-safe)
     - [updateSnapshot(name, instance_id[, safe])](#updatesnapshotname-instanceid-safe)
+    - [deleteSnapshot(name)](#deletesnapshotname)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
