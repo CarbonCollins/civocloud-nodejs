@@ -200,6 +200,16 @@ civo.listSnapshots('test-snapshot', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', true
 });
 ```
 
+#### deleteSnapshot(name)
+deletes a snapshot in civo with a `name`
+```
+civo.deleteSnapshot('test').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
 [snapshots api docs](https://www.civo.com/api/networks "Snapshot docs")
 
 ### firewalls
