@@ -75,6 +75,9 @@ class civoAPIStub {
       },
       deleteSnapshots: {
         response: { "result": "success", "name": "test space" }
+      },
+      getInstances: {
+        response: { "items": [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }, ], "page": 1, "pages": 1, "per_page": 20 }
       }
     };
     this.errors = {
@@ -168,6 +171,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
               case '/snapshots':
                 status = 200; res.write(JSON.stringify(this.responses.getSnapshots.response)); break;
+              case '/instances':
+                status = 200; res.write(JSON.stringify(this.responses.getInstances.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

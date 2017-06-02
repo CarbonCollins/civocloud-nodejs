@@ -136,6 +136,18 @@ class CivoAPI {
   deleteSSHKey(name) {
     return this.__deleteRequest(`sshkeys/${name}`);
   }
+
+  // ----- Instance APIs ----- //
+
+  /**
+   * @method CivoAPI~listInstances gets an array of the instances on civo cloud
+   * @returns {Promise} a promise wich resolves with the instance list or rejects with an error
+   */
+  listInstances() {
+    return this.__getRequest('instances');
+  }
+
+
   // ----- Network APIs ----- //
 
   /**
