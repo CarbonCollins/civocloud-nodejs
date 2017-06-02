@@ -21,6 +21,8 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [listSSHKeys()](#listsshkeys)
     - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
     - [deleteSSHKey(id)](#deletesshkeyid)
+  - [instances](#instances) 
+    - [listInstances()](#listinstances)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -112,6 +114,20 @@ civo.deleteSSHKey().then((payload) => {
 ```
 
 [ssh keys api docs](https://www.civo.com/api/sshkeys "SSH keys docs")
+
+### instances
+
+#### listInstances()
+lists all of the available instances on the civo account
+```
+civo.listInstances().then((instances) => {
+  console.log(instances);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[instance api docs](https://www.civo.com/api/instances "Instance docs")
 
 ### networks
 

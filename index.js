@@ -20,10 +20,10 @@ class CivoAPI {
    * @param {String} apiToken the provided api token from your civo account
    * @param {String} [endpoint] An optional end point
    */
-  constructor(apiToken, endpoint) {
+  constructor(apiToken = '', endpoint = 'https://api.civo.com/v2') {
     this.apiToken = apiToken;
-    this.endpoint = endpoint || 'https://api.civo.com/v2';
-    if (!this.apiToken || this.apiToken === '') {
+    this.endpoint = endpoint;
+    if (this.apiToken === '') {
       throw new Error('invalid civo API key');
     }
   }
@@ -39,7 +39,7 @@ class CivoAPI {
         reject(err);
       } else {
         try {
-          if (res.statusCode === 200 || res.statusCode === 201 || res.statusCode === 202) {
+          if (res.statusCode >= 200 || res.statusCode <= 202) {
             resolve(JSON.parse(body));
           } else {
             reject(JSON.parse(body));
