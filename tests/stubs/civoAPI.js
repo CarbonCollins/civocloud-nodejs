@@ -66,6 +66,15 @@ class civoAPIStub {
       },
       deleteFirewallRules: {
         response: { "result": "success" }
+      },
+      getSnapshots: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "instance_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "factorio", "template": "ubuntu-16.04", "region": "lon1", "name": "factorio", "safe": false, "size_gb": 0, "state": "snapshotting", "requested_at": "2017-06-01T13:03:27Z", "completed_at": null } ]
+      },
+      putSnapshots: {
+        response: { "completed_at": null, "instance_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "testsnapshot", "requested_at": "2017-06-01T15:52:09.78306174Z", "safe": true, "size_gb": 0, "status": "new" }
+      },
+      deleteSnapshots: {
+        response: { "result": "success", "name": "test space" }
       }
     };
     this.errors = {
@@ -117,6 +126,11 @@ class civoAPIStub {
                 });
               }
               break;
+            case 'snapshots':
+              params = Object.assign({}, params, {
+                name: urlChips[2] || undefined
+              });
+              break;
             default:
               // no default code
           }
@@ -152,6 +166,8 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getFirewalls.response)); break;
               case '/firewalls/rules':
                 status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
+              case '/snapshots':
+                status = 200; res.write(JSON.stringify(this.responses.getSnapshots.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -210,6 +226,15 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidLabel)); break;
                 }
+              case '/snapshots':
+                if (params.name && params.name === 'test'
+                && body.instance_id && body.instance_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.putSnapshots.response)); break;
+                } else if (params.name && params.name === 'test') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
             }
           } else if (req.method === 'DELETE') {
             switch (url) {
@@ -245,6 +270,12 @@ class civoAPIStub {
                   status = 202; res.write(JSON.stringify(this.responses.deleteTemplates.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/snapshots':
+                if (params.name && params.name === 'test') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteSnapshots.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
               default:
                 status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;

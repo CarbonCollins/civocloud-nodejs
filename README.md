@@ -26,6 +26,10 @@ This module is for accessing the [civo API which is documented here](https://www
     - [createNetwork(label[, region])](#createnetworklabel-region)
     - [renameNetwork(id, label)](#renamenetworkid-label)
     - [deleteNetwork(id)](#deletenetworkid)
+  - [snapshots](#snapshots)
+    - [listSnapshots()](#listsnapshots)
+    - [createSnapshot(name, instance_id[, safe])](#createsnapshotname-instanceid-safe)
+    - [updateSnapshot(name, instance_id[, safe])](#updatesnapshotname-instanceid-safe)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -163,6 +167,50 @@ civo.deleteNetwork('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 
 [networks api docs](https://www.civo.com/api/networks "Networks docs")
 
+### snapshots
+
+#### listSnapshots()
+snapshots that the civo account can use
+```
+civo.listSnapshots().then((snapshots) => {
+  console.log(snapshots);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createSnapshot(name, instance_id, safe)
+createSnapshot is just an alias of [updateSnapshot()](#updatesnapshotname-instanceid-safe) for code readability.
+
+#### updateSnapshot(name, instance_id, safe)
+this function updates an existing snapshot (`name`) or creates a new snapshot within the civo account of a specified instance (`instance_id`)
+```
+civo.listSnapshots('test-snapshot', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+an optional `safe` boolean can be set to specify if the instance is first shutdown before snapshotting (true) or to snapshot while it is running (false)
+```
+civo.listSnapshots('test-snapshot', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', true).then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteSnapshot(name)
+deletes a snapshot in civo with a `name`
+```
+civo.deleteSnapshot('test').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[snapshots api docs](https://www.civo.com/api/networks "Snapshot docs")
 
 ### firewalls
 
