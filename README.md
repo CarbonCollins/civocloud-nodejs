@@ -27,6 +27,9 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [deleteInstance(id)](#deleteinstanceid)
     - [getInstance(id)](#getinstanceid)
     - [retagInstance(id[, tags]))](#retaginstanceid-tags)
+    - [rebootInstance(id)](#rebootinstanceid)
+    - [hardRebootInstance(id)](#hardrebootinstanceid)
+    - [softRebootInstance(id)](#softrebootinstanceid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -185,6 +188,39 @@ civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test tags').then((pa
 you can also pass an array of tags into the retag function as the package will join them into a space seperated string like so
 ```
 civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', ['test', 'tags']).then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### rebootInstance(id)
+
+reboots an existing instance specified using the instances `id`
+```
+civo.rebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### hardRebootInstance(id)
+
+hard reboots an existing instance specified using the instances `id`
+```
+civo.hardRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### softRebootInstance(id)
+
+soft reboots an existing instance specified using the instances `id`
+```
+civo.softRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);

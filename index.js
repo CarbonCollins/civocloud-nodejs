@@ -73,10 +73,16 @@ class CivoAPI {
    */
   __postRequest(path, form) {
     return new Promise((resolve, reject) => {
-      request
-      .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
-      .form(form)
-      .auth(null, null, true, this.apiToken);
+      if (form) {
+        request
+        .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .form(form)
+        .auth(null, null, true, this.apiToken);
+      } else {
+        request
+        .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .auth(null, null, true, this.apiToken);
+      }
     });
   }
 
@@ -194,6 +200,33 @@ class CivoAPI {
       tags = `${tags.join(' ')}`;
     }
     return this.__putRequest(`instances/${id}/tags`, { tags });
+  }
+
+  /**
+   * @method CivoAPI~rebootInstance reboots an instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  rebootInstance(id) {
+    return this.__postRequest(`instances/${id}/reboot`);
+  }
+
+  /**
+   * @method CivoAPI~hardRebootInstance hard reboots an instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  hardRebootInstance(id) {
+    return this.__postRequest(`instances/${id}/hard_reboot`);
+  }
+
+  /**
+   * @method CivoAPI~softRebootInstance soft reboots an instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  softRebootInstance(id) {
+    return this.__postRequest(`instances/${id}/soft_reboot`);
   }
 
   // ----- Network APIs ----- //
