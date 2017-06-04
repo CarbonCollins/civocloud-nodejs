@@ -77,7 +77,8 @@ class civoAPIStub {
         response: { "result": "success", "name": "test space" }
       },
       getInstances: {
-        response: { "items": [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }, ], "page": 1, "pages": 1, "per_page": 20 }
+        listresponse: { "items": [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }, ], "page": 1, "pages": 1, "per_page": 20 },
+        getresponse: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }
       },
       postInstances: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test-instance", "size": "g1.xsmall", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "", "private_ip": "", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxxx", "ssh_key": "", "status": "BUILDING", "firewall_id": "default", "tags": [ "tag", "test" ], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "" }
@@ -183,7 +184,13 @@ class civoAPIStub {
               case '/snapshots':
                 status = 200; res.write(JSON.stringify(this.responses.getSnapshots.response)); break;
               case '/instances':
-                status = 200; res.write(JSON.stringify(this.responses.getInstances.response)); break;
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.getInstances.getresponse)); break;
+                } else if (params.id) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                } else {
+                  status = 200; res.write(JSON.stringify(this.responses.getInstances.listresponse)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }

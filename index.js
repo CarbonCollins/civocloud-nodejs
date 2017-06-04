@@ -174,6 +174,15 @@ class CivoAPI {
     return this.__deleteRequest(`instances/${id}`);
   }
 
+  /**
+   * @method CivoAPI~getInstance gets an existing instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  getInstance(id) {
+    return this.__getRequest(`instances/${id}`);
+  }
+
   // ----- Network APIs ----- //
 
   /**
