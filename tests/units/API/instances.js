@@ -840,9 +840,72 @@ module.exports = function(expect, eventEmitter, validCivo, invalidCivo, civoStub
       });
     });
   });
-  describe('rebuiltInstance()', () => {
-    it('force fail', () => {
-      expect(false).to.be.true;
+  describe('rebuildInstance()', () => {
+    it('valid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.rebuildInstance('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(202, 'returned status should be 202 accepted');
+        expect(request.method).to.be.equal('PUT', 'rebuildInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/rebuild', 'rebuildInstance() should call "/instances/:id/rebuild" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.putInstances.rebuildresponse), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        invalidCivo.rebuildInstance('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+        expect(request.method).to.be.equal('PUT', 'rebuildInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/rebuild', 'rebuildInstance() should call "/instances/:id/rebuild" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid id', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.rebuildInstance()
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+        expect(request.method).to.be.equal('PUT', 'rebuildInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/rebuild', 'rebuildInstance() should call "/instances/:id/rebuild" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no keys of body data should be recived');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('undefined', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidId), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
     });
   });
   describe('restoreInstance()', () => {

@@ -33,6 +33,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [stopInstance(id)](#stopinstanceid)
     - [startInstance(id)](#startinstanceid)
     - [resizeInstance(id, size)](#resizeinstanceid-size)
+    - [rebuildInstance(id)](#rebuildinstanceid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -265,6 +266,17 @@ civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', civo.instanceSizes.M
 the second example using the raw sizing string.
 ```
 civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'gl.large').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### rebuildInstance(id)
+
+rebuilds an existing instance specified using the instances `id`
+```
+civo.rebuildInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
