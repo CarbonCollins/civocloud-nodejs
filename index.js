@@ -94,10 +94,16 @@ class CivoAPI {
    */
   __putRequest(path, form) {
     return new Promise((resolve, reject) => {
-      request
-      .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
-      .form(form)
-      .auth(null, null, true, this.apiToken);
+      if (form) {
+        request
+        .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .form(form)
+        .auth(null, null, true, this.apiToken);
+    } else {
+        request
+        .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .auth(null, null, true, this.apiToken);
+    }
     });
   }
 
@@ -203,7 +209,7 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~rebootInstance reboots an instance from civo
+   * @method CivoAPI~rebootInstance reboots an instance in civo
    * @param {String} id the instance id to be used to identify the instance in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
@@ -212,7 +218,7 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~hardRebootInstance hard reboots an instance from civo
+   * @method CivoAPI~hardRebootInstance hard reboots an instance in civo
    * @param {String} id the instance id to be used to identify the instance in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
@@ -221,7 +227,7 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~softRebootInstance soft reboots an instance from civo
+   * @method CivoAPI~softRebootInstance soft reboots an instance in civo
    * @param {String} id the instance id to be used to identify the instance in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
@@ -230,12 +236,21 @@ class CivoAPI {
   }
 
   /**
-   * @method CivoAPI~shutdownInstance reboots an instance from civo
+   * @method CivoAPI~stopInstance stops (shutdown) an instance in civo
    * @param {String} id the instance id to be used to identify the instance in civo
    * @returns {Promise} a promise wich resolves with the result or rejects with an error
    */
-  shutdownInstance(id) {
-    return this.__postRequest(`instances/${id}/stop`);
+  stopInstance(id) {
+    return this.__putRequest(`instances/${id}/stop`);
+  }
+
+  /**
+   * @method CivoAPI~startInstance starts an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  startInstance(id) {
+    return this.__putRequest(`instances/${id}/start`);
   }
 
   // ----- Network APIs ----- //
