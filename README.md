@@ -24,6 +24,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
   - [instances](#instances) 
     - [listInstances()](#listinstances)
     - [createInstance(size, network_id, hostname[, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags])](#createinstancesize-networkid-hostname-template-initialuser-sshkeyid-region-publicip-snapshotid-tags)
+    - [deleteInstance(id)](#deleteinstanceid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -141,6 +142,17 @@ civo.createInstance(civo.instanceSizes.M, 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx'
 This example creates a large (using the result from [listSizes()](#listsizes)) ubuntu 16.04 instance with an `initial_user` of "test" and an existing uploaded `ssh_key_id` (uploaded with [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)) within the london `region` (using result from [listRegions()](#listregions)) and with a `public_ip` address, not from a snapshot and has some various tags
 ```
 civo.createInstance('gl.large', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test-instance', 'ubuntu-16.04', 'test', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'lon1', true, null, 'some test tags here').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteInstance(id)
+
+deletes an existing instance specified using the instances `id`
+```
+civo.deleteInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);

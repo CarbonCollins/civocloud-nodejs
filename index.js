@@ -165,6 +165,15 @@ class CivoAPI {
     return this.__postRequest('instances', { size, network_id, hostname, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags });
   }
 
+  /**
+   * @method CivoAPI~deleteInstance deletes an existing instance within civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteInstance(id) {
+    return this.__deleteRequest(`instances/${id}`);
+  }
+
   // ----- Network APIs ----- //
 
   /**
