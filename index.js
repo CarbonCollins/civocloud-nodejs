@@ -229,6 +229,15 @@ class CivoAPI {
     return this.__postRequest(`instances/${id}/soft_reboot`);
   }
 
+  /**
+   * @method CivoAPI~shutdownInstance reboots an instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  shutdownInstance(id) {
+    return this.__postRequest(`instances/${id}/stop`);
+  }
+
   // ----- Network APIs ----- //
 
   /**

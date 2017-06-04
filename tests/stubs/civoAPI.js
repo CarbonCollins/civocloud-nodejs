@@ -82,7 +82,8 @@ class civoAPIStub {
       },
       postInstances: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test-instance", "size": "g1.xsmall", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "", "private_ip": "", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxxx", "ssh_key": "", "status": "BUILDING", "firewall_id": "default", "tags": [ "tag", "test" ], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "" },
-        rebootresponse: { "result": "success" }
+        rebootresponse: { "result": "success" },
+        stopresponse: { "result": "success" }
       },
       deleteInstances: {
         response: { result: 'success' }
@@ -255,6 +256,12 @@ class civoAPIStub {
               case '/instances/hard_reboot':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 200; res.write(JSON.stringify(this.responses.postInstances.rebootresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/stop':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.postInstances.stopresponse)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }

@@ -30,6 +30,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [rebootInstance(id)](#rebootinstanceid)
     - [hardRebootInstance(id)](#hardrebootinstanceid)
     - [softRebootInstance(id)](#softrebootinstanceid)
+    - [shutdownInstance(id)](#shutdowninstanceid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -221,6 +222,17 @@ civo.hardRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) =
 soft reboots an existing instance specified using the instances `id`
 ```
 civo.softRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### shutdownInstance(id)
+
+stops a running instance specified using the instances `id`
+```
+civo.shutdownInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
