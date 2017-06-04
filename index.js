@@ -183,6 +183,19 @@ class CivoAPI {
     return this.__getRequest(`instances/${id}`);
   }
 
+  /**
+   * @method CivoAPI~retagInstance updates the tags on an existing instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String|String[]} [tags] a space seperated string of tags or an array of tags
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  retagInstance(id, tags) {
+    if (tags && Array.isArray(tags)) {
+      tags = `${tags.join(' ')}`;
+    }
+    return this.__putRequest(`instances/${id}/tags`, { tags });
+  }
+
   // ----- Network APIs ----- //
 
   /**

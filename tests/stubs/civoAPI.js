@@ -86,6 +86,9 @@ class civoAPIStub {
       deleteInstances: {
         response: { result: 'success' }
       },
+      putInstances: {
+        response: { "result": "success" }
+      }
     };
     this.errors = {
       authentication: { code: 'authentication_invalid_key', reason: 'The API key provided is invalid, please contact us', result: 'Invalid API Key' },
@@ -267,6 +270,12 @@ class civoAPIStub {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/instances/tags':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
             }
           } else if (req.method === 'DELETE') {

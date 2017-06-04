@@ -26,6 +26,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [createInstance(size, network_id, hostname[, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags])](#createinstancesize-networkid-hostname-template-initialuser-sshkeyid-region-publicip-snapshotid-tags)
     - [deleteInstance(id)](#deleteinstanceid)
     - [getInstance(id)](#getinstanceid)
+    - [retagInstance(id[, tags]))](#retaginstanceid-tags)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -166,6 +167,25 @@ gets an existing instance specified using the instances `id`
 ```
 civo.getInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((instance) => {
   console.log(instance);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### retagInstance(id[, tags])
+
+updates the `tags` list for an existing instance specified using the instances `id`
+```
+civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test tags').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+you can also pass an array of tags into the retag function as the package will join them into a space seperated string like so
+```
+civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', ['test', 'tags']).then((payload) => {
+  console.log(payload);
 }).catch((err) => {
   console.error(err);
 });
