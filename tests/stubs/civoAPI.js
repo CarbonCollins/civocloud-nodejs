@@ -78,6 +78,9 @@ class civoAPIStub {
       },
       getInstances: {
         response: { "items": [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }, ], "page": 1, "pages": 1, "per_page": 20 }
+      },
+      postInstances: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test-instance", "size": "g1.xsmall", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "", "private_ip": "", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxxx", "ssh_key": "", "status": "BUILDING", "firewall_id": "default", "tags": [ "tag", "test" ], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "" }
       }
     };
     this.errors = {
@@ -90,7 +93,11 @@ class civoAPIStub {
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
       invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
       invalidImageId: { code: 'parameter_image_id_missing', reason: "The image ID wasn't supplied", result: 'Server error' },
-      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" }
+      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" },
+      invalidNetworkId: { "code": "database_network_not_found", "reason": "Failed to find the network within the internal database", "result": "Server error" },
+      invalidInstance: { "code": "instance_duplicate", "reason": "An instance with this name already exists, please choose another", "result": "Request error" },
+      invalidSize: { "code": "database_size_not_found", "reason": "Failed to find the size within the internal database", "result": "Server error" },
+      invalidHostname: { "code": "openstack_instance_create", "reason": "Failed to create the instance in OpenStack", "result": "Server error" }
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -217,6 +224,16 @@ class civoAPIStub {
                   status = 500; res.write(JSON.stringify(this.errors.invalidImageId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/instances':
+                if (body.size && body.network_id && body.hostname) {
+                  status = 200; res.write(JSON.stringify(this.responses.postInstances.response)); break;
+                } else if (body.size && body.network_id) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidHostname)); break;
+                } else if (body.size) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidNetworkId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSize)); break;
                 }
               default:
                 status = 500; res.write('Response not written'); break;

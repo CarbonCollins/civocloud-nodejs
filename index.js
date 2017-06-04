@@ -147,6 +147,23 @@ class CivoAPI {
     return this.__getRequest('instances');
   }
 
+  /**
+   * @method CivoAPI~createInstance creates a new instance network in civo
+   * @param {String} size the size of the instance to create (obtained from listInstanceSizes())
+   * @param {String} network_id the id of the private network to create the instance in
+   * @param {String} hostname the name of the instance to use
+   * @param {String} [template] the id of the template to use
+   * @param {String} [initial_user] the name of the initial user to create on the instance
+   * @param {String} [ssh_key_id] the id of the ssh key to add to the instance
+   * @param {String} [region] the region to create the instance in
+   * @param {Boolean} [public_ip] specifies if a public ip should be given to the new instance
+   * @param {String} [snapshot_id] the id of the snapshot to load into the instance
+   * @param {String} [tags] a space seperated list of tags to add to the instance
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createInstance(size, network_id, hostname, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags) {
+    return this.__postRequest('instances', { size, network_id, hostname, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags });
+  }
 
   // ----- Network APIs ----- //
 
