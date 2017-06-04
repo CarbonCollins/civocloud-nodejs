@@ -253,6 +253,16 @@ class CivoAPI {
     return this.__putRequest(`instances/${id}/start`);
   }
 
+  /**
+   * @method CivoAPI~resizeInstance resizes an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} size the new size to resize the exsting instance to
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  resizeInstance(id, size) {
+    return this.__putRequest(`instances/${id}/resize`, { size });
+  }
+
   // ----- Network APIs ----- //
 
   /**

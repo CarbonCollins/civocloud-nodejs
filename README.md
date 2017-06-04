@@ -32,6 +32,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [softRebootInstance(id)](#softrebootinstanceid)
     - [stopInstance(id)](#stopinstanceid)
     - [startInstance(id)](#startinstanceid)
+    - [resizeInstance(id, size)](#resizeinstanceid-size)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -245,6 +246,25 @@ civo.stopInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 starts a stopped instance specified using the instances `id`
 ```
 civo.startInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### resizeInstance(id, size)
+
+resizes an existing instance specified using the instances `id` with a new `size`. The package contains an object with XS, S, M, and L instance sizes however you can also use the size strings received from [listSizes()](#listsizes) which is shown in the second example.
+```
+civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', civo.instanceSizes.M).then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+the second example using the raw sizing string.
+```
+civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'gl.large').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);

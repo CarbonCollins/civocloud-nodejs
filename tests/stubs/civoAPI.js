@@ -90,7 +90,8 @@ class civoAPIStub {
       putInstances: {
         response: { "result": "success" },
         stopresponse: { "result": "success" },
-        startresponse: { "result": "success" }
+        startresponse: { "result": "success" },
+        resizeresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -297,6 +298,14 @@ class civoAPIStub {
               case '/instances/start':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.putInstances.startresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/resize':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.size && body.size === 'g1.small') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.resizeresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSize)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
