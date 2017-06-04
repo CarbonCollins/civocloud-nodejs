@@ -316,6 +316,12 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
+              case '/instances/snapshot':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.snapshot && body.snapshot === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' ) {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.restoreresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
             }
           } else if (req.method === 'DELETE') {
             switch (url) {

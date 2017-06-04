@@ -272,6 +272,16 @@ class CivoAPI {
     return this.__putRequest(`instances/${id}/rebuild`);
   }
 
+  /**
+   * @method CivoAPI~restoreInstance restores an instance in civo from a snapshot
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} snapshot the snapshot id to specify which snapshot to restore
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  restoreInstance(id, snapshot) {
+    return this.__putRequest(`instances/${id}/restore`, { snapshot });
+  }
+
   // ----- Network APIs ----- //
 
   /**
