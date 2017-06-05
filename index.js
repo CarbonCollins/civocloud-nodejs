@@ -419,6 +419,16 @@ class CivoAPI {
     return this.__getRequest(`dns/${id}/records`);
   }
 
+  /**
+   * @method CivoAPI~deleteDomainRecord removes a new domain within civo
+   * @param {String} domain_id the domain to delete the record from
+   * @param {String} id the record to be deleted
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteDomainRecord(domain_id, id) {
+    return this.__deleteRequest(`dns/${domain_id}/records/${id}`);
+  }
+
   // ----- Firewall APIs ----- //
 
   /**

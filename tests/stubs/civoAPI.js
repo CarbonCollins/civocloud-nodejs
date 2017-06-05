@@ -105,7 +105,8 @@ class civoAPIStub {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" }
       },
       deleteDomainNames: {
-        response: { "result": "success" }
+        response: { "result": "success" },
+        recordresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -163,6 +164,11 @@ class civoAPIStub {
                 if (urlChips[3] === 'ip') {
                   params = Object.assign({}, params, {
                     ip_address: urlChips[4] || undefined
+                  });
+                } else if (urlChips[3] === 'records') {
+                  params = Object.assign({}, params, {
+                    id: urlChips[4] || undefined,
+                    domain_id: urlChips[2] || undefined
                   });
                 } else {
                   params = Object.assign({}, params, {
@@ -425,6 +431,15 @@ class civoAPIStub {
               case '/dns':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/dns/records':
+              console.log(params);
+                if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.recordresponse)); break;
+                } else if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
