@@ -21,9 +21,9 @@ class CivoAPI {
    * @param {String} [endpoint] An optional end point
    */
   constructor(apiToken, endpoint) {
-    this.apiToken = apiToken;
+    this.apiToken = apiToken || '';
     this.endpoint = endpoint || 'https://api.civo.com/v2';
-    if (!this.apiToken || this.apiToken === '') {
+    if (this.apiToken === '') {
       throw new Error('invalid civo API key');
     }
   }
@@ -39,7 +39,7 @@ class CivoAPI {
         reject(err);
       } else {
         try {
-          if (res.statusCode === 200 || res.statusCode === 201 || res.statusCode === 202) {
+          if (res.statusCode >= 200 || res.statusCode <= 202) {
             resolve(JSON.parse(body));
           } else {
             reject(JSON.parse(body));
@@ -73,10 +73,16 @@ class CivoAPI {
    */
   __postRequest(path, form) {
     return new Promise((resolve, reject) => {
-      request
-      .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
-      .form(form)
-      .auth(null, null, true, this.apiToken);
+      if (form) {
+        request
+        .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .form(form)
+        .auth(null, null, true, this.apiToken);
+      } else {
+        request
+        .post(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .auth(null, null, true, this.apiToken);
+      }
     });
   }
 
@@ -88,10 +94,16 @@ class CivoAPI {
    */
   __putRequest(path, form) {
     return new Promise((resolve, reject) => {
-      request
-      .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
-      .form(form)
-      .auth(null, null, true, this.apiToken);
+      if (form) {
+        request
+        .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .form(form)
+        .auth(null, null, true, this.apiToken);
+    } else {
+        request
+        .put(`${this.endpoint}/${path}`, {}, this.__handleResponse(resolve, reject))
+        .auth(null, null, true, this.apiToken);
+    }
     });
   }
 
@@ -136,6 +148,160 @@ class CivoAPI {
   deleteSSHKey(name) {
     return this.__deleteRequest(`sshkeys/${name}`);
   }
+
+  // ----- Instance APIs ----- //
+
+  /**
+   * @method CivoAPI~listInstances gets an array of the instances on civo cloud
+   * @returns {Promise} a promise wich resolves with the instance list or rejects with an error
+   */
+  listInstances() {
+    return this.__getRequest('instances');
+  }
+
+  /**
+   * @method CivoAPI~createInstance creates a new instance network in civo
+   * @param {String} size the size of the instance to create (obtained from listInstanceSizes())
+   * @param {String} network_id the id of the private network to create the instance in
+   * @param {String} hostname the name of the instance to use
+   * @param {String} [template] the id of the template to use
+   * @param {String} [initial_user] the name of the initial user to create on the instance
+   * @param {String} [ssh_key_id] the id of the ssh key to add to the instance
+   * @param {String} [region] the region to create the instance in
+   * @param {Boolean} [public_ip] specifies if a public ip should be given to the new instance
+   * @param {String} [snapshot_id] the id of the snapshot to load into the instance
+   * @param {String} [tags] a space seperated list of tags to add to the instance
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createInstance(size, network_id, hostname, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags) {
+    return this.__postRequest('instances', { size, network_id, hostname, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags });
+  }
+
+  /**
+   * @method CivoAPI~deleteInstance deletes an existing instance within civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteInstance(id) {
+    return this.__deleteRequest(`instances/${id}`);
+  }
+
+  /**
+   * @method CivoAPI~getInstance gets an existing instance from civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  getInstance(id) {
+    return this.__getRequest(`instances/${id}`);
+  }
+
+  /**
+   * @method CivoAPI~retagInstance updates the tags on an existing instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String|String[]} [tags] a space seperated string of tags or an array of tags
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  retagInstance(id, tags) {
+    if (tags && Array.isArray(tags)) {
+      tags = `${tags.join(' ')}`;
+    }
+    return this.__putRequest(`instances/${id}/tags`, { tags });
+  }
+
+  /**
+   * @method CivoAPI~rebootInstance reboots an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  rebootInstance(id) {
+    return this.__postRequest(`instances/${id}/reboot`);
+  }
+
+  /**
+   * @method CivoAPI~hardRebootInstance hard reboots an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  hardRebootInstance(id) {
+    return this.__postRequest(`instances/${id}/hard_reboot`);
+  }
+
+  /**
+   * @method CivoAPI~softRebootInstance soft reboots an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  softRebootInstance(id) {
+    return this.__postRequest(`instances/${id}/soft_reboot`);
+  }
+
+  /**
+   * @method CivoAPI~stopInstance stops (shutdown) an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  stopInstance(id) {
+    return this.__putRequest(`instances/${id}/stop`);
+  }
+
+  /**
+   * @method CivoAPI~startInstance starts an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  startInstance(id) {
+    return this.__putRequest(`instances/${id}/start`);
+  }
+
+  /**
+   * @method CivoAPI~resizeInstance resizes an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} size the new size to resize the exsting instance to
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  resizeInstance(id, size) {
+    return this.__putRequest(`instances/${id}/resize`, { size });
+  }
+
+  /**
+   * @method CivoAPI~rebuildInstance rebuilds an instance in civo
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  rebuildInstance(id) {
+    return this.__putRequest(`instances/${id}/rebuild`);
+  }
+
+  /**
+   * @method CivoAPI~restoreInstance restores an instance in civo from a snapshot
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} snapshot the snapshot id to specify which snapshot to restore
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  restoreInstance(id, snapshot) {
+    return this.__putRequest(`instances/${id}/restore`, { snapshot });
+  }
+
+  /**
+   * @method CivoAPI~restoreInstance Applies a firewall to an instance
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} [firewall_id] the firewall id to specify which firewall to apply
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  updateInstanceFirewall(id, firewall_id) {
+    return this.__putRequest(`instances/${id}/firewall`, { firewall_id });
+  }
+
+  /**
+   * @method CivoAPI~movePublicIpToInstance Moves an owned public ip address from another instance you own to the specified instance
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} ip_address the ip address to move to this instance
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  movePublicIpToInstance(id, ip_address) {
+    return this.__putRequest(`instances/${id}/ip/${ip_address}`);
+  }
+
   // ----- Network APIs ----- //
 
   /**

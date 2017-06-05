@@ -75,6 +75,27 @@ class civoAPIStub {
       },
       deleteSnapshots: {
         response: { "result": "success", "name": "test space" }
+      },
+      getInstances: {
+        listresponse: { "items": [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }, ], "page": 1, "pages": 1, "per_page": 20 },
+        getresponse: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test", "size": "g1.small", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "x.x.x.x", "private_ip": "x.x.x.x", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxx", "ssh_key": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "status": "ACTIVE", "firewall_id": "default", "tags": [], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "0.000000,73.958374,4.801173" }
+      },
+      postInstances: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "openstack_server_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "hostname": "test-instance", "size": "g1.xsmall", "region": "lon1", "network_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "public_ip": "", "private_ip": "", "template": "ubuntu-16.04", "snapshot_id": "", "initial_user": "root", "initial_password": "xxxxxxxxxxxxx", "ssh_key": "", "status": "BUILDING", "firewall_id": "default", "tags": [ "tag", "test" ], "civostatsd_token": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "civostatsd_stats": "" },
+        rebootresponse: { "result": "success" }
+      },
+      deleteInstances: {
+        response: { result: 'success' }
+      },
+      putInstances: {
+        response: { "result": "success" },
+        stopresponse: { "result": "success" },
+        startresponse: { "result": "success" },
+        resizeresponse: { "result": "success" },
+        rebuildresponse: { "result": "success" },
+        restoreresponse: { "result": "success" },
+        firewallresponse: { "result": "success" },
+        moveipresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -87,7 +108,13 @@ class civoAPIStub {
       invalidDateRange: { code: 'parameter_date_range_too_long', reason: 'The date range spanned more than 31 days', result: 'Server error' },
       invalidDateOrder: { code: 'parameter_date_range', reason: 'The date range provided had the finish before the start', result: 'Server error' },
       invalidImageId: { code: 'parameter_image_id_missing', reason: "The image ID wasn't supplied", result: 'Server error' },
-      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" }
+      invalidStartPort: { "code": "parameter_start_port_missing", "reason": "The start port wasn't supplied", "result": "Server error" },
+      invalidNetworkId: { "code": "database_network_not_found", "reason": "Failed to find the network within the internal database", "result": "Server error" },
+      invalidInstance: { "code": "instance_duplicate", "reason": "An instance with this name already exists, please choose another", "result": "Request error" },
+      invalidSize: { "code": "database_size_not_found", "reason": "Failed to find the size within the internal database", "result": "Server error" },
+      invalidHostname: { "code": "openstack_instance_create", "reason": "Failed to create the instance in OpenStack", "result": "Server error" },
+      invalidSnapshot: {},
+      invalidIpAddress: {}
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -114,6 +141,7 @@ class civoAPIStub {
             case 'networks':
             case 'templates':
             case 'firewalls':
+            case 'instances':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
@@ -121,9 +149,15 @@ class civoAPIStub {
                 url = `/${urlChips[1]}/${urlChips[3]}`
               }
               if (urlChips.length > 4) {
-                params = Object.assign({}, params, {
-                  rule_id: urlChips[4] || undefined
-                });
+                if (urlChips[3] === 'ip') {
+                  params = Object.assign({}, params, {
+                    ip_address: urlChips[4] || undefined
+                  });
+                } else {
+                  params = Object.assign({}, params, {
+                    rule_id: urlChips[4] || undefined
+                  });
+                }
               }
               break;
             case 'snapshots':
@@ -168,6 +202,14 @@ class civoAPIStub {
                 status = 200; res.write(JSON.stringify(this.responses.getFirewallRules.response)); break;
               case '/snapshots':
                 status = 200; res.write(JSON.stringify(this.responses.getSnapshots.response)); break;
+              case '/instances':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.getInstances.getresponse)); break;
+                } else if (params.id) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                } else {
+                  status = 200; res.write(JSON.stringify(this.responses.getInstances.listresponse)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -213,6 +255,24 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
+              case '/instances':
+                if (body.size && body.network_id && body.hostname) {
+                  status = 200; res.write(JSON.stringify(this.responses.postInstances.response)); break;
+                } else if (body.size && body.network_id) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidHostname)); break;
+                } else if (body.size) {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidNetworkId)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSize)); break;
+                }
+              case '/instances/reboot':
+              case '/instances/soft_reboot':
+              case '/instances/hard_reboot':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.postInstances.rebootresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -234,6 +294,60 @@ class civoAPIStub {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/instances/tags':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/stop':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.stopresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/start':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.startresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/resize':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.size && body.size === 'g1.small') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.resizeresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSize)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/rebuild':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.rebuildresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/restore':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.snapshot && body.snapshot === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' ) {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.restoreresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSnapshot)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/firewall':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.firewallresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/ip':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && params.ip_address && params.ip_address === '0.0.0.0' ) {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.moveipresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidIpAddress)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
             }
           } else if (req.method === 'DELETE') {
@@ -276,6 +390,12 @@ class civoAPIStub {
                   status = 202; res.write(JSON.stringify(this.responses.deleteSnapshots.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/instances':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteInstances.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
               default:
                 status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;

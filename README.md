@@ -7,7 +7,7 @@
 [![David](https://img.shields.io/david/dev/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
 [![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
 
-This module is for accessing the [civo API which is documented here](https://www.civo.com/api "CIVO API")
+This module is for accessing the [v2 civo API which is documented here](https://www.civo.com/api "CIVO API")
 
 ## installation
 1. install [npm](https://nodejs.org "npm homepage")
@@ -21,6 +21,22 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listSSHKeys()](#listsshkeys)
     - [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)
     - [deleteSSHKey(id)](#deletesshkeyid)
+  - [instances](#instances) 
+    - [listInstances()](#listinstances)
+    - [createInstance(size, network_id, hostname[, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags])](#createinstancesize-networkid-hostname-template-initialuser-sshkeyid-region-publicip-snapshotid-tags)
+    - [deleteInstance(id)](#deleteinstanceid)
+    - [getInstance(id)](#getinstanceid)
+    - [retagInstance(id[, tags]))](#retaginstanceid-tags)
+    - [rebootInstance(id)](#rebootinstanceid)
+    - [hardRebootInstance(id)](#hardrebootinstanceid)
+    - [softRebootInstance(id)](#softrebootinstanceid)
+    - [stopInstance(id)](#stopinstanceid)
+    - [startInstance(id)](#startinstanceid)
+    - [resizeInstance(id, size)](#resizeinstanceid-size)
+    - [rebuildInstance(id)](#rebuildinstanceid)
+    - [restoreInstance(id, snapshot)](#restoreinstanceid-snapshot)
+    - [updateInstanceFirewall(id[, firewall_id])](#updateinstancefirewallid-firewallid)
+    - [movePublicIpToInstance(id, ip_address)](#movepubliciptoinstanceid-ipaddress)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -30,6 +46,7 @@ This module is for accessing the [civo API which is documented here](https://www
     - [listSnapshots()](#listsnapshots)
     - [createSnapshot(name, instance_id[, safe])](#createsnapshotname-instanceid-safe)
     - [updateSnapshot(name, instance_id[, safe])](#updatesnapshotname-instanceid-safe)
+    - [deleteSnapshot(name)](#deletesnapshotname)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -111,6 +128,198 @@ civo.deleteSSHKey().then((payload) => {
 ```
 
 [ssh keys api docs](https://www.civo.com/api/sshkeys "SSH keys docs")
+
+### instances
+
+#### listInstances()
+lists all of the available instances on the civo account
+```
+civo.listInstances().then((instances) => {
+  console.log(instances);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createInstance(size, network_id, hostname[, template, initial_user, ssh_key_id, region, public_ip, snapshot_id, tags])
+creates a new instance on the civo account.
+The example below creates an medium `size` ubuntu 14.04 instance (default if `template` not specified) within a specified `network_id` with a `hostname`. The package contains an object with XS, S, M, and L instance sizes however you can also use the size strings received from [listSizes()](#listsizes) which is shown in the second example.
+```
+civo.createInstance(civo.instanceSizes.M, 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test-instance').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+This example creates a large (using the result from [listSizes()](#listsizes)) ubuntu 16.04 instance with an `initial_user` of "test" and an existing uploaded `ssh_key_id` (uploaded with [uploadSSHKey(name, public_key)](#uploadsshkeyname-publickey)) within the london `region` (using result from [listRegions()](#listregions)) and with a `public_ip` address, not from a snapshot and has some various tags
+```
+civo.createInstance('gl.large', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test-instance', 'ubuntu-16.04', 'test', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'lon1', true, null, 'some test tags here').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteInstance(id)
+
+deletes an existing instance specified using the instances `id`
+```
+civo.deleteInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### getInstance(id)
+
+gets an existing instance specified using the instances `id`
+```
+civo.getInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((instance) => {
+  console.log(instance);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### retagInstance(id[, tags])
+
+updates the `tags` list for an existing instance specified using the instances `id`
+```
+civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test tags').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+you can also pass an array of tags into the retag function as the package will join them into a space seperated string like so
+```
+civo.retagInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', ['test', 'tags']).then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### rebootInstance(id)
+
+reboots an existing instance specified using the instances `id`
+```
+civo.rebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### hardRebootInstance(id)
+
+hard reboots an existing instance specified using the instances `id`
+```
+civo.hardRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### softRebootInstance(id)
+
+soft reboots an existing instance specified using the instances `id`
+```
+civo.softRebootInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### stopInstance(id)
+
+stops a running instance specified using the instances `id`
+```
+civo.stopInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### startInstance(id)
+
+starts a stopped instance specified using the instances `id`
+```
+civo.startInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### resizeInstance(id, size)
+
+resizes an existing instance specified using the instances `id` with a new `size`. The package contains an object with XS, S, M, and L instance sizes however you can also use the size strings received from [listSizes()](#listsizes) which is shown in the second example.
+```
+civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', civo.instanceSizes.M).then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+the second example using the raw sizing string.
+```
+civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'gl.large').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### rebuildInstance(id)
+
+rebuilds an existing instance specified using the instances `id`
+```
+civo.rebuildInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### restoreInstance(id, snapshot)
+
+restore an existing instance (`id`) with a `snapshot`
+```
+civo.restoreInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### updateInstanceFirewall(id[, firewall_id])
+
+Specifies which firewall the instance (`id`) should use, if the `firewall_id` is left blank then the default firewall is used
+```
+civo.updateInstanceFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### movePublicIpToInstance(id, ip_address)
+
+Requests a currently owned public `ip_address` to be transfered to another instance (`id`)
+```
+civo.movePublicIpToInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', '0.0.0.0').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[instance api docs](https://www.civo.com/api/instances "Instance docs")
 
 ### networks
 
