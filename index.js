@@ -420,6 +420,15 @@ class CivoAPI {
   }
 
   /**
+   * @method CivoAPI~createDomainRecord gets an array of the domains on civo account
+   * @param {String} domain_id the domain to delete the record from
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  createDomainRecord(domain_id, type, name, value, priority, ttl) {
+    return this.__postRequest(`dns/${domain_id}/records`, { type, name, value, priority, ttl });
+  }
+
+  /**
    * @method CivoAPI~deleteDomainRecord removes a new domain within civo
    * @param {String} domain_id the domain to delete the record from
    * @param {String} id the record to be deleted

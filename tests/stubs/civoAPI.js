@@ -102,7 +102,8 @@ class civoAPIStub {
         recordsresponse: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-04T18:27:50Z", "updated_at": "2017-06-04T18:27:50Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "domain_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test", "value": "0.0.0.0", "type": "a", "priority": 0, "ttl": 3600 }]
       },
       postDomainNames: {
-        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" }
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" },
+        recordresponse: { "result": "success" }
       },
       deleteDomainNames: {
         response: { "result": "success" },
@@ -304,6 +305,12 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
                 }
+              case '/dns/records':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.type && body.name && body.value) {
+                  status = 200; res.write(JSON.stringify(this.responses.postDomainNames.recordresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -435,7 +442,6 @@ class civoAPIStub {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
               case '/dns/records':
-              console.log(params);
                 if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.recordresponse)); break;
                 } else if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {

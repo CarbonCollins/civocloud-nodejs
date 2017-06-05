@@ -233,7 +233,110 @@ module.exports = function(expect, eventEmitter, validCivo, invalidCivo, civoStub
     });
   });
   describe('createDomainRecord()', () => {
-
+    it('valid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.createDomainRecord('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'a', '@', '0.0.0.0', '10', '3600')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(200, 'returned status should be 200 ok');
+        expect(request.method).to.be.equal('POST', 'createDomainRecord() should be a POST request');
+        expect(request.url).to.be.equal('/dns/records', 'createDomainRecord() should call "/dns/:id/records" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(5, '5 body data should be recived');
+        expect(request.body).to.have.all.keys('type', 'name', 'value', 'priority', 'ttl');
+        expect(request.body.type).to.be.equal('a');
+        expect(request.body.name).to.be.equal('@');
+        expect(request.body.value).to.be.equal('0.0.0.0');
+        expect(request.body.priority).to.be.equal('10');
+        expect(request.body.ttl).to.be.equal('3600');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postDomainNames.recordresponse), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        invalidCivo.createDomainRecord('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'a', '@', '0.0.0.0', '10', '3600')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+        expect(request.method).to.be.equal('POST', 'createDomainRecord() should be a POST request');
+        expect(request.url).to.be.equal('/dns/records', 'createDomainRecord() should call "/dns/:id/records" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(5, '5 body data should be recived');
+        expect(request.body).to.have.all.keys('type', 'name', 'value', 'priority', 'ttl');
+        expect(request.body.type).to.be.equal('a');
+        expect(request.body.name).to.be.equal('@');
+        expect(request.body.value).to.be.equal('0.0.0.0');
+        expect(request.body.priority).to.be.equal('10');
+        expect(request.body.ttl).to.be.equal('3600');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('missing optionals', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.createDomainRecord('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'a', '@', '0.0.0.0')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(200, 'returned status should be 200 ok');
+        expect(request.method).to.be.equal('POST', 'createDomainRecord() should be a POST request');
+        expect(request.url).to.be.equal('/dns/records', 'createDomainRecord() should call "/dns/:id/records" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(3, '3 body data should be recived');
+        expect(request.body).to.have.all.keys('type', 'name', 'value');
+        expect(request.body.type).to.be.equal('a');
+        expect(request.body.name).to.be.equal('@');
+        expect(request.body.value).to.be.equal('0.0.0.0');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.postDomainNames.recordresponse), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid id', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.createDomainRecord()
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+        expect(request.method).to.be.equal('POST', 'createDomainRecord() should be a POST request');
+        expect(request.url).to.be.equal('/dns/records', 'createDomainRecord() should call "/dns/:id/records" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no body data should be recived');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('undefined', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidId), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
   });
   describe('deleteDomainRecord()', () => {
     it('valid auth', (done) => {
