@@ -96,6 +96,12 @@ class civoAPIStub {
         restoreresponse: { "result": "success" },
         firewallresponse: { "result": "success" },
         moveipresponse: { "result": "success" }
+      },
+      getDomainNames: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-05T10:07:00Z", "updated_at": "2017-06-05T10:07:00Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com" } ]
+      },
+      postDomainNames: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" }
       }
     };
     this.errors = {
@@ -210,6 +216,8 @@ class civoAPIStub {
                 } else {
                   status = 200; res.write(JSON.stringify(this.responses.getInstances.listresponse)); break;
                 }
+              case '/dns':
+                status = 200; res.write(JSON.stringify(this.responses.getDomainNames.response)); break;
               default:
                 status = 500; res.write('Response not written'); break;
             }

@@ -47,6 +47,8 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [createSnapshot(name, instance_id[, safe])](#createsnapshotname-instanceid-safe)
     - [updateSnapshot(name, instance_id[, safe])](#updatesnapshotname-instanceid-safe)
     - [deleteSnapshot(name)](#deletesnapshotname)
+  - [dns](#dns)
+    - [listDomains()](#listdomains)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -420,6 +422,20 @@ civo.deleteSnapshot('test').then((payload) => {
 ```
 
 [snapshots api docs](https://www.civo.com/api/networks "Snapshot docs")
+
+### dns
+
+#### listDomains()
+lists all of the domains currently in civo
+```
+civo.listDomains().then((domains) => {
+  console.log(domains);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[dns api docs](https://www.civo.com/api/networks "DNS docs")
 
 ### firewalls
 

@@ -382,6 +382,18 @@ class CivoAPI {
     return this.__deleteRequest(`snapshots/${name}`);
   }
 
+  // ----- DNS APIs ----- //
+
+  /**
+   * @method CivoAPI~listDomains gets an array of the domains on civo account
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listDomains() {
+    return this.__getRequest('dns');
+  }
+
+
+
   // ----- Firewall APIs ----- //
 
   /**
