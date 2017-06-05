@@ -282,6 +282,16 @@ class CivoAPI {
     return this.__putRequest(`instances/${id}/restore`, { snapshot });
   }
 
+  /**
+   * @method CivoAPI~restoreInstance Applies a firewall to an instance
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} [firewall_id] the firewall id to specify which firewall to apply
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  updateInstanceFirewall(id, firewall_id) {
+    return this.__putRequest(`instances/${id}/firewall`, { firewall_id });
+  }
+
   // ----- Network APIs ----- //
 
   /**

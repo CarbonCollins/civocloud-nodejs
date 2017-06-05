@@ -35,6 +35,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [resizeInstance(id, size)](#resizeinstanceid-size)
     - [rebuildInstance(id)](#rebuildinstanceid)
     - [restoreInstance(id, snapshot)](#restoreinstanceid-snapshot)
+    - [updateInstanceFirewall(id[, firewall_id])](#updateinstancefirewallid-firewallid)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -288,7 +289,18 @@ civo.rebuildInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
 
 restore an existing instance (`id`) with a `snapshot`
 ```
-civo.reestoreInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+civo.restoreInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### updateInstanceFirewall(id[, firewall_id])
+
+Specifies which firewall the instance (`id`) should use, if the `firewall_id` is left blank then the default firewall is used
+```
+civo.updateInstanceFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
