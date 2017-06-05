@@ -410,6 +410,14 @@ class CivoAPI {
     return this.__deleteRequest(`dns/${id}`);
   }
 
+  /**
+   * @method CivoAPI~listDomainRecords gets an array of the domains on civo account
+   * @param {String} id the domains id to get the records in
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listDomainRecords(id) {
+    return this.__getRequest(`dns/${id}/records`);
+  }
 
   // ----- Firewall APIs ----- //
 

@@ -51,6 +51,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [listDomains()](#listdomains)
     - [createDomain(name)](#createdomainname)
     - [deleteDomain(id)](#deletedomainid)
+    - [listDomainRecords(id)](#listdomainrecordsid)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -452,6 +453,16 @@ deletes an existing domain (`id') from the civo account
 ```
 civo.deleteDomain('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### listDomainRecords(id)
+lists all of the records within a domain (`id`)
+```
+civo.listDomainRecords('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((records) => {
+  console.log(records);
 }).catch((err) => {
   console.error(err);
 });

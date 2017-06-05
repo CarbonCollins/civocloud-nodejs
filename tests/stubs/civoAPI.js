@@ -98,7 +98,8 @@ class civoAPIStub {
         moveipresponse: { "result": "success" }
       },
       getDomainNames: {
-        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-05T10:07:00Z", "updated_at": "2017-06-05T10:07:00Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com" } ]
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-05T10:07:00Z", "updated_at": "2017-06-05T10:07:00Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com" } ],
+        recordsresponse: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-04T18:27:50Z", "updated_at": "2017-06-04T18:27:50Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "domain_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test", "value": "0.0.0.0", "type": "a", "priority": 0, "ttl": 3600 }]
       },
       postDomainNames: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" }
@@ -222,6 +223,12 @@ class civoAPIStub {
                 }
               case '/dns':
                 status = 200; res.write(JSON.stringify(this.responses.getDomainNames.response)); break;
+              case '/dns/records':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.getDomainNames.recordsresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
