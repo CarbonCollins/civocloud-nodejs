@@ -94,7 +94,8 @@ class civoAPIStub {
         resizeresponse: { "result": "success" },
         rebuildresponse: { "result": "success" },
         restoreresponse: { "result": "success" },
-        firewallresponse: { "result": "success" }
+        firewallresponse: { "result": "success" },
+        moveipresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -112,7 +113,8 @@ class civoAPIStub {
       invalidInstance: { "code": "instance_duplicate", "reason": "An instance with this name already exists, please choose another", "result": "Request error" },
       invalidSize: { "code": "database_size_not_found", "reason": "Failed to find the size within the internal database", "result": "Server error" },
       invalidHostname: { "code": "openstack_instance_create", "reason": "Failed to create the instance in OpenStack", "result": "Server error" },
-      invalidSnapshot: {}
+      invalidSnapshot: {},
+      invalidIpAddress: {}
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -147,9 +149,15 @@ class civoAPIStub {
                 url = `/${urlChips[1]}/${urlChips[3]}`
               }
               if (urlChips.length > 4) {
-                params = Object.assign({}, params, {
-                  rule_id: urlChips[4] || undefined
-                });
+                if (urlChips[3] === 'ip') {
+                  params = Object.assign({}, params, {
+                    ip_address: urlChips[4] || undefined
+                  });
+                } else {
+                  params = Object.assign({}, params, {
+                    rule_id: urlChips[4] || undefined
+                  });
+                }
               }
               break;
             case 'snapshots':
@@ -330,6 +338,14 @@ class civoAPIStub {
               case '/instances/firewall':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.putInstances.firewallresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/instances/ip':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && params.ip_address && params.ip_address === '0.0.0.0' ) {
+                  status = 202; res.write(JSON.stringify(this.responses.putInstances.moveipresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidIpAddress)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }

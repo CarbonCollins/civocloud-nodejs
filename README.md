@@ -36,6 +36,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [rebuildInstance(id)](#rebuildinstanceid)
     - [restoreInstance(id, snapshot)](#restoreinstanceid-snapshot)
     - [updateInstanceFirewall(id[, firewall_id])](#updateinstancefirewallid-firewallid)
+    - [movePublicIpToInstance(id, ip_address)](#movepubliciptoinstanceid-ipaddress)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -301,6 +302,17 @@ civo.restoreInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx
 Specifies which firewall the instance (`id`) should use, if the `firewall_id` is left blank then the default firewall is used
 ```
 civo.updateInstanceFirewall('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### movePublicIpToInstance(id, ip_address)
+
+Requests a currently owned public `ip_address` to be transfered to another instance (`id`)
+```
+civo.movePublicIpToInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', '0.0.0.0').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);

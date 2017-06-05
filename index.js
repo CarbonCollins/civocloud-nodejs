@@ -292,6 +292,16 @@ class CivoAPI {
     return this.__putRequest(`instances/${id}/firewall`, { firewall_id });
   }
 
+  /**
+   * @method CivoAPI~movePublicIpToInstance Moves an owned public ip address from another instance you own to the specified instance
+   * @param {String} id the instance id to be used to identify the instance in civo
+   * @param {String} ip_address the ip address to move to this instance
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  movePublicIpToInstance(id, ip_address) {
+    return this.__putRequest(`instances/${id}/ip/${ip_address}`);
+  }
+
   // ----- Network APIs ----- //
 
   /**
