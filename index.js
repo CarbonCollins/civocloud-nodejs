@@ -382,6 +382,62 @@ class CivoAPI {
     return this.__deleteRequest(`snapshots/${name}`);
   }
 
+  // ----- DNS APIs ----- //
+
+  /**
+   * @method CivoAPI~listDomains gets an array of the domains on civo account
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listDomains() {
+    return this.__getRequest('dns');
+  }
+
+  /**
+   * @method CivoAPI~createDomain creates a new domain within civo
+   * @param {String} name the ndomain name for the new domain
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createDomain(name) {
+    return this.__postRequest('dns', { name });
+  }
+
+  /**
+   * @method CivoAPI~deleteDomain removes a new domain within civo
+   * @param {String} id the domain id to be deleted
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteDomain(id) {
+    return this.__deleteRequest(`dns/${id}`);
+  }
+
+  /**
+   * @method CivoAPI~listDomainRecords gets an array of the domains on civo account
+   * @param {String} id the domains id to get the records in
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  listDomainRecords(id) {
+    return this.__getRequest(`dns/${id}/records`);
+  }
+
+  /**
+   * @method CivoAPI~createDomainRecord gets an array of the domains on civo account
+   * @param {String} domain_id the domain to delete the record from
+   * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+   */
+  createDomainRecord(domain_id, type, name, value, priority, ttl) {
+    return this.__postRequest(`dns/${domain_id}/records`, { type, name, value, priority, ttl });
+  }
+
+  /**
+   * @method CivoAPI~deleteDomainRecord removes a new domain within civo
+   * @param {String} domain_id the domain to delete the record from
+   * @param {String} id the record to be deleted
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteDomainRecord(domain_id, id) {
+    return this.__deleteRequest(`dns/${domain_id}/records/${id}`);
+  }
+
   // ----- Firewall APIs ----- //
 
   /**

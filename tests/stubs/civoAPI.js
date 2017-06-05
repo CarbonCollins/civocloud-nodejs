@@ -96,6 +96,18 @@ class civoAPIStub {
         restoreresponse: { "result": "success" },
         firewallresponse: { "result": "success" },
         moveipresponse: { "result": "success" }
+      },
+      getDomainNames: {
+        response: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-05T10:07:00Z", "updated_at": "2017-06-05T10:07:00Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com" } ],
+        recordsresponse: [ { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "created_at": "2017-06-04T18:27:50Z", "updated_at": "2017-06-04T18:27:50Z", "account_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "domain_id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test", "value": "0.0.0.0", "type": "a", "priority": 0, "ttl": 3600 }]
+      },
+      postDomainNames: {
+        response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" },
+        recordresponse: { "result": "success" }
+      },
+      deleteDomainNames: {
+        response: { "result": "success" },
+        recordresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -142,6 +154,7 @@ class civoAPIStub {
             case 'templates':
             case 'firewalls':
             case 'instances':
+            case 'dns':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
@@ -152,6 +165,11 @@ class civoAPIStub {
                 if (urlChips[3] === 'ip') {
                   params = Object.assign({}, params, {
                     ip_address: urlChips[4] || undefined
+                  });
+                } else if (urlChips[3] === 'records') {
+                  params = Object.assign({}, params, {
+                    id: urlChips[4] || undefined,
+                    domain_id: urlChips[2] || undefined
                   });
                 } else {
                   params = Object.assign({}, params, {
@@ -209,6 +227,14 @@ class civoAPIStub {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 200; res.write(JSON.stringify(this.responses.getInstances.listresponse)); break;
+                }
+              case '/dns':
+                status = 200; res.write(JSON.stringify(this.responses.getDomainNames.response)); break;
+              case '/dns/records':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 200; res.write(JSON.stringify(this.responses.getDomainNames.recordsresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
               default:
                 status = 500; res.write('Response not written'); break;
@@ -270,6 +296,18 @@ class civoAPIStub {
               case '/instances/hard_reboot':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 200; res.write(JSON.stringify(this.responses.postInstances.rebootresponse)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/dns':
+                if (body.name && body.name === 'test.com') {
+                  status = 200; res.write(JSON.stringify(this.responses.postDomainNames.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
+              case '/dns/records':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.type && body.name && body.value) {
+                  status = 200; res.write(JSON.stringify(this.responses.postDomainNames.recordresponse)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
@@ -394,6 +432,20 @@ class civoAPIStub {
               case '/instances':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteInstances.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/dns':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/dns/records':
+                if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.recordresponse)); break;
+                } else if (params.domain_id && params.domain_id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }

@@ -35,6 +35,10 @@ describe('civocloud-nodejs test suite', () => {
       require('./units/API/snapshot')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
     });
 
+    describe('DNS API tests', () => { // ----- DNS TESTS
+      require('./units/API/dns')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
+    });
+
     describe('Firewall API tests', () => { // ----- FIREWALL TESTS
       require('./units/API/firewall')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
     });

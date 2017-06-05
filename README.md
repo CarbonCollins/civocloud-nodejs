@@ -47,6 +47,13 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [createSnapshot(name, instance_id[, safe])](#createsnapshotname-instanceid-safe)
     - [updateSnapshot(name, instance_id[, safe])](#updatesnapshotname-instanceid-safe)
     - [deleteSnapshot(name)](#deletesnapshotname)
+  - [dns](#dns)
+    - [listDomains()](#listdomains)
+    - [createDomain(name)](#createdomainname)
+    - [deleteDomain(id)](#deletedomainid)
+    - [listDomainRecords(id)](#listdomainrecordsid)
+    - [createDomainRecord(domain_id, type, name, value, priority, ttl)](#createdomainrecorddomainid-type-name-value-priority-ttl)
+    - [deleteDomainRecord(domain_id, id)](#deletedomainrecorddomainid-id)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -420,6 +427,70 @@ civo.deleteSnapshot('test').then((payload) => {
 ```
 
 [snapshots api docs](https://www.civo.com/api/networks "Snapshot docs")
+
+### dns
+
+#### listDomains()
+lists all of the domains currently in civo
+```
+civo.listDomains().then((domains) => {
+  console.log(domains);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createDomain(name)
+creates a new domain within civo with a supplied domain `name`
+```
+civo.createDomain('test.com').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteDomain(id)
+deletes an existing domain (`id') from the civo account
+```
+civo.deleteDomain('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### listDomainRecords(id)
+lists all of the records within a domain (`id`)
+```
+civo.listDomainRecords('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((records) => {
+  console.log(records);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createDomainRecord(domain_id, type, name, value, priority, ttl)
+creates a new domain record within a specified domain (`domain_id`) with a `type`, `name`, and `value` with optional `priority` and `ttl`
+```
+civo.createDomainRecord('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'a', '@', '0.0.0.0', '10', '3600').then((records) => {
+  console.log(records);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteDomainRecord(domain_id, id)
+deletes a domain record (`id`) from a specified domain (`domain_id`)
+```
+civo.deleteDomainRecord('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((records) => {
+  console.log(records);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[dns api docs](https://www.civo.com/api/dns "DNS docs")
 
 ### firewalls
 
