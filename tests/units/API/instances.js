@@ -909,8 +909,97 @@ module.exports = function(expect, eventEmitter, validCivo, invalidCivo, civoStub
     });
   });
   describe('restoreInstance()', () => {
-    it('force fail', () => {
-      expect(false).to.be.true;
+    it('valid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.restoreInstance('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(202, 'returned status should be 202 accepted');
+        expect(request.method).to.be.equal('PUT', 'restoreInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/restore', 'restoreInstance() should call "/instances/:id/restore" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(bodyKeys).to.include('snapshot', 'expects parameters to specify an snapshot');
+        expect(request.body.snapshot).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.responses.putInstances.restoreresponse), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid auth', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        invalidCivo.restoreInstance('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(401, 'returned status should be 401 unauthorised');
+        expect(request.method).to.be.equal('PUT', 'restoreInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/restore', 'restoreInstance() should call "/instances/:id/restore" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(bodyKeys).to.include('snapshot', 'expects parameters to specify an snapshot');
+        expect(request.body.snapshot).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.authentication), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid snapshot', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.restoreInstance('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx')
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+        expect(request.method).to.be.equal('PUT', 'restoreInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/restore', 'restoreInstance() should call "/instances/:id/restore" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no parameter should be used');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidSnapshot), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
+    });
+    it('invalid id', (done) => {
+      Promise.all([
+        eventEmitter.once('received'),
+        validCivo.restoreInstance()
+      ]).then((data) => {
+        const request = data[0][0];
+        const response = data[1];
+        expect(request.status).to.be.equal(500, 'returned status should be 500 server error');
+        expect(request.method).to.be.equal('PUT', 'restoreInstance() should be a PUT request');
+        expect(request.url).to.be.equal('/instances/restore', 'restoreInstance() should call "/instances/:id/restore" endpoint');
+        const bodyKeys = Object.keys(request.body);
+        expect(bodyKeys).to.have.lengthOf(0, 'no parameter should be used');
+        const paramKeys = Object.keys(request.params);
+        expect(paramKeys).to.have.lengthOf(1, '1 parameter should be used');
+        expect(paramKeys).to.include('id', 'expects parameters to specify an id');
+        expect(request.params.id).to.be.equal('undefined', 'received id parameter was not the same as sent');
+        expect(JSON.stringify(response)).to.be.equal(JSON.stringify(civoStub.errors.invalidId), 'correct response was not returned');
+        done();
+      }).catch((err) => {
+        done(err);
+      });
     });
   });
   describe('updateInstanceFirewall()', () => {

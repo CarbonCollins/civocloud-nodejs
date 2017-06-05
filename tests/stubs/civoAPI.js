@@ -92,7 +92,8 @@ class civoAPIStub {
         stopresponse: { "result": "success" },
         startresponse: { "result": "success" },
         resizeresponse: { "result": "success" },
-        rebuildresponse: { "result": "success" }
+        rebuildresponse: { "result": "success" },
+        restoreresponse: { "result": "success" }
       }
     };
     this.errors = {
@@ -109,7 +110,8 @@ class civoAPIStub {
       invalidNetworkId: { "code": "database_network_not_found", "reason": "Failed to find the network within the internal database", "result": "Server error" },
       invalidInstance: { "code": "instance_duplicate", "reason": "An instance with this name already exists, please choose another", "result": "Request error" },
       invalidSize: { "code": "database_size_not_found", "reason": "Failed to find the size within the internal database", "result": "Server error" },
-      invalidHostname: { "code": "openstack_instance_create", "reason": "Failed to create the instance in OpenStack", "result": "Server error" }
+      invalidHostname: { "code": "openstack_instance_create", "reason": "Failed to create the instance in OpenStack", "result": "Server error" },
+      invalidSnapshot: {}
     };
     this.eventEmitter = event;
     this.server = http.createServer((req, res) => {
@@ -316,9 +318,11 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
-              case '/instances/snapshot':
+              case '/instances/restore':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' && body.snapshot && body.snapshot === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx' ) {
                   status = 202; res.write(JSON.stringify(this.responses.putInstances.restoreresponse)); break;
+                } else if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidSnapshot)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }

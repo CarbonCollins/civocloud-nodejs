@@ -34,6 +34,7 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [startInstance(id)](#startinstanceid)
     - [resizeInstance(id, size)](#resizeinstanceid-size)
     - [rebuildInstance(id)](#rebuildinstanceid)
+    - [restoreInstance(id, snapshot)](#restoreinstanceid-snapshot)
   - [networks](#networks)
     - [listNetworks()](#listnetworks)
     - [createNetwork(label[, region])](#createnetworklabel-region)
@@ -277,6 +278,17 @@ civo.resizeInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'gl.large').then((pa
 rebuilds an existing instance specified using the instances `id`
 ```
 civo.rebuildInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### restoreInstance(id, snapshot)
+
+restore an existing instance (`id`) with a `snapshot`
+```
+civo.reestoreInstance('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
   console.log(payload);
 }).catch((err) => {
   console.error(err);
