@@ -392,6 +392,23 @@ class CivoAPI {
     return this.__getRequest('dns');
   }
 
+  /**
+   * @method CivoAPI~createDomain creates a new domain within civo
+   * @param {String} name the ndomain name for the new domain
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  createDomain(name) {
+    return this.__postRequest('dns', { name });
+  }
+
+  /**
+   * @method CivoAPI~deleteDomain removes a new domain within civo
+   * @param {String} id the domain id to be deleted
+   * @returns {Promise} a promise wich resolves with the result or rejects with an error
+   */
+  deleteDomain(id) {
+    return this.__deleteRequest(`dns/${id}`);
+  }
 
 
   // ----- Firewall APIs ----- //

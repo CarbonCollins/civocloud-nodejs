@@ -49,6 +49,8 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [deleteSnapshot(name)](#deletesnapshotname)
   - [dns](#dns)
     - [listDomains()](#listdomains)
+    - [createDomain(name)](#createdomainname)
+    - [deleteDomain(id)](#deletedomainid)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -435,7 +437,27 @@ civo.listDomains().then((domains) => {
 });
 ```
 
-[dns api docs](https://www.civo.com/api/networks "DNS docs")
+#### createDomain(name)
+creates a new domain within civo with a supplied domain `name`
+```
+civo.createDomain('test.com').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteDomain(id)
+deletes an existing domain (`id') from the civo account
+```
+civo.deleteDomain('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[dns api docs](https://www.civo.com/api/dns "DNS docs")
 
 ### firewalls
 

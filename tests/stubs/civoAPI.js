@@ -102,6 +102,9 @@ class civoAPIStub {
       },
       postDomainNames: {
         response: { "id": "xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx", "name": "test.com", "result": "success" }
+      },
+      deleteDomainNames: {
+        response: { "result": "success" }
       }
     };
     this.errors = {
@@ -148,6 +151,7 @@ class civoAPIStub {
             case 'templates':
             case 'firewalls':
             case 'instances':
+            case 'dns':
               params = Object.assign({}, params, {
                 id: urlChips[2] || undefined
               });
@@ -281,6 +285,12 @@ class civoAPIStub {
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
+              case '/dns':
+                if (body.name && body.name === 'test.com') {
+                  status = 200; res.write(JSON.stringify(this.responses.postDomainNames.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidName)); break;
+                }
               default:
                 status = 500; res.write('Response not written'); break;
             }
@@ -402,6 +412,12 @@ class civoAPIStub {
               case '/instances':
                 if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
                   status = 202; res.write(JSON.stringify(this.responses.deleteInstances.response)); break;
+                } else {
+                  status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
+                }
+              case '/dns':
+                if (params.id && params.id === 'xxxxxxxx-xxxx-4xxx-4xxx-xxxxxxxxxxxx') {
+                  status = 202; res.write(JSON.stringify(this.responses.deleteDomainNames.response)); break;
                 } else {
                   status = 500; res.write(JSON.stringify(this.errors.invalidId)); break;
                 }
