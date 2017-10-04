@@ -54,6 +54,11 @@ This module is for accessing the [v2 civo API which is documented here](https://
     - [listDomainRecords(id)](#listdomainrecordsid)
     - [createDomainRecord(domain_id, type, name, value, priority, ttl)](#createdomainrecorddomainid-type-name-value-priority-ttl)
     - [deleteDomainRecord(domain_id, id)](#deletedomainrecorddomainid-id)
+  - [load balancer](#load-balancer)
+    - [listLoadBalancers()](#listloadbalancers)
+    - [createLoadBalancer(hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls)](#createloadbalancerhostname-backends-protocol-tlscertificate-tlskey-port-maxrequestsize-policy-healthcheckpath-failtimeout-maxconns-ignoreinvalidbackendtls)
+    - [updateLoadBalancer(id, hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls)](#updateloadbalancerid-hostname-backends-protocol-tlscertificate-tlskey-port-maxrequestsize-policy-healthcheckpath-failtimeout-maxconns-ignoreinvalidbackendtls)
+    - [deleteLoadBalancer(id)](#deleteloadbalancerid)
   - [firewalls](#firewalls)
     - [listFirewalls()](#listfirewalls)
     - [createFirewall(name)](#createfirewallname)
@@ -491,6 +496,71 @@ civo.deleteDomainRecord('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'xxxxxxxx-xxxx-4
 ```
 
 [dns api docs](https://www.civo.com/api/dns "DNS docs")
+
+### load balancer
+
+#### listLoadBalancers()
+lists all of the load balancers in use
+```
+civo.listLoadBalancers().then((loadBalancers) => {
+  console.log(loadBalancers);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### createLoadBalancer(hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls)
+creates a new load balancer within civo for a supplied domain `hostname`
+```
+const backends = [
+  {
+    'instance_id': 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx',
+    protocol: 'http',
+    port: 80
+  }
+]
+
+civo.createLoadBalancer('test.com', backends, 'http').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### updateLoadBalancer(id, hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls)
+updates an existing load balancer within civo using a supplied 'id'
+```
+const backends = [
+  {
+    'instance_id': 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx',
+    protocol: 'http',
+    port: 80
+  },
+  {
+    'instance_id': 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx',
+    protocol: 'http',
+    port: 80
+  }
+]
+
+civo.updateLoadBalancer('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx', 'test.com', backends, 'http').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### deleteLoadBalancer(id)
+deletes an existing load balancer (`id') from the civo account
+```
+civo.deleteLoadBalancer('xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx').then((payload) => {
+  console.log(payload);
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+[load balancer api docs](https://www.civo.com/api/loadbalancer "Load Balancer docs")
 
 ### firewalls
 

@@ -438,6 +438,72 @@ class CivoAPI {
     return this.__deleteRequest(`dns/${domain_id}/records/${id}`);
   }
 
+  // ----- Load Balancer APIs ----- //
+
+  /**
+   * @method CivoAPI~listLoadBalancers
+   * @returns {Promise} resolves with a list of available load balancers or rejects with an error
+   */
+  listLoadBalancers() {
+    return this.__getRequest('loadbalancers');
+  }
+
+  /**
+   * @method CivoAPI~createLoadBalancer
+   * @param {String} hostname the hostname to receive traffic on
+   * @param {Object[]} backends an array of backends to load ballance
+   * @param {String} backends.instance_id the backend instance_id
+   * @param {String} backends.protocol the protocol to communicate with the backend on (either 'http' or 'https')
+   * @param {Number} backends.port the port to communicate with the backend on
+   * @param {String} [protocol='http'] protocol to use (either 'http' or 'https')
+   * @param {String} [tls_certificate] if protocol is https then base64-encoded certificate in PEM format 
+   * @param {String} [tls_key] if protocol is https then base64-encoded key in PEM format
+   * @param {String|Number} [port=80] the port to listen on
+   * @param {Number} [max_request_size=20] the maximum request size in megabytes
+   * @param {String} [policy='random'] routing policy can be either 'least_conn', 'random', 'round_robin', or 'ip_hash'
+   * @param {String} [health_check_path='/'] what url to use on the backends to check status
+   * @param {Number} [fail_timeout=30] how long to wait (in seconds) before determining backend failure
+   * @param {Number} [max_conns=10] how many concurrent connections a backend can handle
+   * @param {Boolean} [ignore_invalid_backend_tls=true] ignore invalid/self-signed tls certs on backend 
+   * @returns {Promise} resolves when load balancer is created or rejects with an error
+   */
+  createLoadBalancer(hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls) {
+    return this.__postRequest('loadbalancers', { hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls });
+  }
+
+  /**
+   * @method CivoAPI~updateLoadBalancer
+   * @param {String} id the load balancers id to update
+   * @param {String} [hostname] the hostname to receive traffic on
+   * @param {Object[]} [backends] an array of backends to load ballance
+   * @param {String} [backends.instance_id] the backend instance_id
+   * @param {String} [backends.protocol] the protocol to communicate with the backend on (either 'http' or 'https')
+   * @param {Number} [backends.port] the port to communicate with the backend on
+   * @param {String} [protocol] protocol to use (either 'http' or 'https')
+   * @param {String} [tls_certificate] if protocol is https then base64-encoded certificate in PEM format 
+   * @param {String} [tls_key] if protocol is https then base64-encoded key in PEM format
+   * @param {String|Number} [port] the port to listen on
+   * @param {Number} [max_request_size] the maximum request size in megabytes
+   * @param {String} [policy] routing policy can be either 'least_conn', 'random', 'round_robin', or 'ip_hash'
+   * @param {String} [health_check_path] what url to use on the backends to check status
+   * @param {Number} [fail_timeout] how long to wait (in seconds) before determining backend failure
+   * @param {Number} [max_conns] how many concurrent connections a backend can handle
+   * @param {Boolean} [ignore_invalid_backend_tls] ignore invalid/self-signed tls certs on backend 
+   * @returns {Promise} resolves when load balancer is created or rejects with an error
+   */
+  updateLoadBalancer(id, hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls) {
+    return this.__putRequest(`loadbalancers/${id}`, { hostname, backends, protocol, tls_certificate, tls_key, port, max_request_size, policy, health_check_path, fail_timeout, max_conns, ignore_invalid_backend_tls });
+  }
+
+  /**
+   * @method CivoAPI~deleteLoadBalancer
+   * @param {String} id the id for the load balancers to delete
+   * @returns {Promise} resolves when load balancer is deleted or rejects with an error
+   */
+  deleteLoadBalancer(id) {
+    return this.__deleteRequest(`loadbalancers/${id}`);
+  }
+
   // ----- Firewall APIs ----- //
 
   /**

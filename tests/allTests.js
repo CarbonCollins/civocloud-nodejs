@@ -38,6 +38,10 @@ describe('civocloud-nodejs test suite', () => {
     describe('DNS API tests', () => { // ----- DNS TESTS
       require('./units/API/dns')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
     });
+    
+    describe('Load Balancer API tests', () => { // ----- Load Balancer TESTS
+      require('./units/API/loadbalancer')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
+    });
 
     describe('Firewall API tests', () => { // ----- FIREWALL TESTS
       require('./units/API/firewall')(expect, eventEmitter, validCivo, invalidCivo, civoStub);
