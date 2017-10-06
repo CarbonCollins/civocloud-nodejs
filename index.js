@@ -13,6 +13,7 @@ const instanceSizingMixin = require('./instanceSizing');
 const networkMixin = require('./network');
 const snapshotMixin = require('./snapshot');
 const sshKeyMixin = require('./sshKeys');
+const templateMixin = require('./template');
 
 const mix = (Superclass) => {
   return new MixinBuilder(Superclass);
@@ -36,7 +37,8 @@ module.exports = class CivoAPI extends mix(CivoRequest).with(
   instanceSizingMixin,
   networkMixin,
   snapshotMixin,
-  sshKeyMixin
+  sshKeyMixin,
+  templateMixin
 ) {
   constructor(...args) {
     super(...args);
