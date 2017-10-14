@@ -3,17 +3,19 @@
  * @description all of the Civo API functions
  */
 
-const CivoRequest = require('./request');
+const CivoRequest = require('./lib/request');
 
-const domainMixin = require('./domain');
-const firewallMixin = require('./firewall');
-const instanceMixin = require('./instance');
-const instanceRegionMixin = require('./instanceRegion');
-const instanceSizingMixin = require('./instanceSizing');
-const networkMixin = require('./network');
-const snapshotMixin = require('./snapshot');
-const sshKeyMixin = require('./sshKeys');
-const templateMixin = require('./template');
+const chargesMixin = require('./lib/charges');
+const domainMixin = require('./lib/domain');
+const firewallMixin = require('./lib/firewall');
+const instanceMixin = require('./lib/instance');
+const instanceRegionMixin = require('./lib/instanceRegion');
+const instanceSizingMixin = require('./lib/instanceSizing');
+const networkMixin = require('./lib/network');
+const quotaMixin = require('./lib/quota');
+const snapshotMixin = require('./lib/snapshot');
+const sshKeyMixin = require('./lib/sshKeys');
+const templateMixin = require('./lib/template');
 
 const mix = (Superclass) => {
   return new MixinBuilder(Superclass);
@@ -30,12 +32,14 @@ class MixinBuilder {
 }
 
 module.exports = class CivoAPI extends mix(CivoRequest).with(
+  chargesMixin,
   domainMixin,
   firewallMixin,
   instanceMixin,
   instanceRegionMixin,
   instanceSizingMixin,
   networkMixin,
+  quotaMixin,
   snapshotMixin,
   sshKeyMixin,
   templateMixin
@@ -44,3 +48,5 @@ module.exports = class CivoAPI extends mix(CivoRequest).with(
     super(...args);
   }
 };
+
+module.exports.instanceSizes = instanceMixin.instanceSizes;

@@ -9,7 +9,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/allTests.js",
+    "testold": "./node_modules/.bin/mocha ./tests/allTests.js",
+    "test": "./node_modules/.bin/mocha ./tests/test.js",
     "test:harmony": "./node_modules/.bin/mocha --harmony ./tests/allTests.js"
   },
   "engines": {
@@ -31,6 +32,7 @@
     "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-plugin-mocha": "^4.9.0",
+    "jsdoc-x": "^2.0.0",
     "mocha": "^3.4.1",
     "promise-once-events": "^0.2.0"
   }
