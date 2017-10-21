@@ -11,7 +11,7 @@
   "scripts": {
     "testold": "./node_modules/.bin/mocha ./tests/allTests.js",
     "test": "node ./tests/test.js",
-    "test:harmony": "node --harmony ./tests/allTests.js"
+    "test:harmony": "node --harmony ./tests/test.js"
   },
   "engines": {
     "node": ">=4.0.0"
