@@ -1,8 +1,8 @@
-## Classes
+## Modules
 
 <dl>
-<dt><a href="#Civo">Civo</a></dt>
-<dd><p>The full class with all of the api functions</p>
+<dt><a href="#module_civocloud">civocloud</a></dt>
+<dd><p>a node.js module which provides access to the Civo v2 API</p>
 </dd>
 </dl>
 
@@ -33,27 +33,26 @@
 <dd></dd>
 </dl>
 
-## Members
+<a name="module_civocloud"></a>
 
-<dl>
-<dt><a href="#CivoAPI">CivoAPI</a></dt>
-<dd><p>all of the Civo API functions</p>
-</dd>
-<dt><a href="#Request">Request</a></dt>
-<dd><p>provides all of the various request functions and all handeling to go with them.</p>
-</dd>
-</dl>
+## civocloud
+a node.js module which provides access to the Civo v2 API
 
-<a name="Civo"></a>
 
-## Civo
+* [civocloud](#module_civocloud)
+    * [~Civo](#module_civocloud..Civo)
+        * [new Civo(apiToken, [endpoint])](#new_module_civocloud..Civo_new)
+
+<a name="module_civocloud..Civo"></a>
+
+### civocloud~Civo
 The full class with all of the api functions
 
-**Kind**: global class  
+**Kind**: inner class of [<code>civocloud</code>](#module_civocloud)  
 **Mixes**: [<code>ChargesAPI</code>](#ChargesAPI), [<code>DomainAPI</code>](#DomainAPI), [<code>FirewallAPI</code>](#FirewallAPI), [<code>InstanceAPI</code>](#InstanceAPI), [<code>InstanceRegionAPI</code>](#InstanceRegionAPI), [<code>InstanceSizingAPI</code>](#InstanceSizingAPI), [<code>NetworkAPI</code>](#NetworkAPI), [<code>QuotaAPI</code>](#QuotaAPI), [<code>SnapshotAPI</code>](#SnapshotAPI), [<code>SSHKeysAPI</code>](#SSHKeysAPI), [<code>TemplateAPI</code>](#TemplateAPI)  
-<a name="new_Civo_new"></a>
+<a name="new_module_civocloud..Civo_new"></a>
 
-### new Civo(apiToken, [endpoint])
+#### new Civo(apiToken, [endpoint])
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -750,15 +749,3 @@ deletes an existing template within civo
 | --- | --- | --- |
 | id | <code>String</code> | the templates id to be used to identify the network in civo |
 
-<a name="CivoAPI"></a>
-
-## CivoAPI
-all of the Civo API functions
-
-**Kind**: global variable  
-<a name="Request"></a>
-
-## Request
-provides all of the various request functions and all handeling to go with them.
-
-**Kind**: global variable  

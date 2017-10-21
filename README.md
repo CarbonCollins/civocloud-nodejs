@@ -27,16 +27,16 @@ this package uses native ES6 promises for all api calls.
 
 to use `civocloud-nodejs` you first need to supply the api token:
 ```
-const CivoCloud = require('civocloud');
+const { Civo } = require('civocloud');
 
-const civo = new CivoCloud(apiToken);
+const civo = new Civo(apiToken);
 ```
 
 a simple example of calling one of the APIs is:
 ```
-const CivoCloud = require('civocloud');
+const { Civo } = require('civocloud');
 
-const civo = new CivoCloud(apiToken);
+const civo = new Civo(apiToken);
 
 civo.listInstanceSizes().then((sizes) => {
   console.log(sizes);

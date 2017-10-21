@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * @module civocloud
+ * @desc a node.js module which provides access to the Civo v2 API
+ */
+
 const request = require('request');
 
 const chargesMixin = require('./lib/charges');
@@ -161,7 +166,7 @@ class Civo {
   }
 }
 
-module.exports = mix(Civo).with(
+module.exports = module.exports.Civo = mix(Civo).with(
   chargesMixin,
   domainMixin,
   firewallMixin,
@@ -174,5 +179,3 @@ module.exports = mix(Civo).with(
   sshKeyMixin,
   templateMixin
 );
-
-module.exports.instanceSizes = instanceMixin.instanceSizes;
