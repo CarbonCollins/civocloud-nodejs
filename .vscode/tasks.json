@@ -7,9 +7,15 @@
       "type": "npm",
       "script": "test",
       "group": {
-        "kind": "build",
+        "kind": "test",
         "isDefault": true
       }
+    },
+    {
+      "command": "gulp generateDocs",
+      "taskName": "generateDocs",
+      "type": "shell",
+      "problemMatcher": []
     }
   ]
 }

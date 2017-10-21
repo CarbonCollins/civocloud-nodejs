@@ -9,19 +9,6 @@
       "request": "launch",
       "name": "Launch Test",
       "program": "${workspaceRoot}/tests/test.js"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Test v2",
-      "program": "${workspaceRoot}/tests/newTest.js"
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach to Port",
-      "address": "localhost",
-      "port": 5858
     }
   ]
 }
