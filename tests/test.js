@@ -10,15 +10,11 @@ const mocha = new Mocha();
 const fullSuite = Suite.create(mocha.suite, 'civocloud-nodejs full test suite');
 
 Promise.resolve()
-  .then(packageUnitTests)
+  .then(() => { return packageUnitTests(); })
   .then((suite) => { return fullSuite.addSuite(suite); })
-  .then(apiUnitTests)
+  .then(() => { return apiUnitTests(); })
   .then((suite) => { return fullSuite.addSuite(suite); })
   .then(() => { return mocha.run(); })
   .catch((err) => {
     console.error(err);
   });
-// fullSuite.addSuite(require('./units/package'));
-// fullSuite.addSuite(require('./units/api'));
-
-// mocha.run();

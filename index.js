@@ -31,7 +31,7 @@ class MixinBuilder {
   }
 }
 
-module.exports = class CivoAPI extends mix(CivoRequest).with(
+class CivoAPI extends mix(CivoRequest).with(
   chargesMixin,
   domainMixin,
   firewallMixin,
@@ -47,6 +47,7 @@ module.exports = class CivoAPI extends mix(CivoRequest).with(
   constructor(...args) {
     super(...args);
   }
-};
+}
 
+module.exports = CivoAPI;
 module.exports.instanceSizes = instanceMixin.instanceSizes;

@@ -5,6 +5,18 @@ const jsdocx = require('jsdoc-x');
 const CivoCloud = require('../../index');
 
 /**
+ * @method getFunctionArgumentNames
+ * @desc parses a function to determine its arguments and returns them as a string
+ * @param {Function} func the function to parse
+ * @returns {String[]} an array of argument names for the suppl;ied function
+ */
+function getFunctionArgumentNames(func) {
+  const argMatches = func.toString().match(/\(([^)]*)\)/);
+  const argString = (argMatches && Array.isArray(argMatches) && argMatches.length >= 2) ? argMatches[1] : '';
+  return argString.split(',').map((arg) => { return arg.trim(); });
+}
+
+/**
  * @method getAPITests
  * @desc gets all of the js files within the lib directory and parses there jsdoc tags in order to
  * proceedurly generate tests based on the jsdocs. This requires certain tags to be present such
@@ -14,11 +26,11 @@ const CivoCloud = require('../../index');
  * @returns {Promise} resolves with an object containing the jsdoc info or rejects with an error
  */
 function getAPITests() {
-  return jsdocx.parse('./lib/*.js')
+  return jsdocx.parse('./lib/instance.js')
     .then((docs) => {
       const innerMethods = docs
         .filter((doc) => { // only get methods
-          return doc.scope === 'inner' && doc.type;
+          return doc.scope === 'inner' && doc.access && doc.access === 'public';
         })
         .map((doc) => { // map the docs to remove useless data
           return {
@@ -32,8 +44,7 @@ function getAPITests() {
               })
               : [],
             memberof: doc.memberof,
-            name: doc.name,
-            type: doc.type.names[0] };
+            name: doc.name };
         })
         .reduce((methods, doc) => { // sort all the functions into categories (mixins)
           if (!methods[doc.memberof]) {
@@ -42,7 +53,6 @@ function getAPITests() {
           methods[doc.memberof].push(doc);
           return methods;
         }, {})
-
       return innerMethods;
     })
 }
@@ -54,22 +64,44 @@ module.exports = () => { return getAPITests()
     const innerMethods = methods;
     const outerMethods = Object.keys(methods);
 
-    let testSuite;
-    let method;
-    let methodSuite;
-
     for (let o = 0, oLength = outerMethods.length; o < oLength; o += 1) {
-      console.log(oLength);
-      testSuite = new Suite(`${outerMethods[o]} tests`);
+      const testSuite = new Suite(`${outerMethods[o]}`);
       for (let i = 0, iLength = innerMethods[outerMethods[o]].length; i < iLength; i += 1) {
-        console.log(iLength);
-        method = innerMethods[outerMethods[o]][i];
-        methodSuite = new Suite(`${method.name} tests`);
-        if (method.type === 'GET' && method.params.length === 0) {
-          methodSuite.addTest(new Test('Valid auth', (done) => {
-            done(new Error('not written'));
-          }));
-        }
+        const method = innerMethods[outerMethods[o]][i];
+        const methodSuite = new Suite(`${method.name}()`);
+        methodSuite.addTest(new Test('Function exposed', () => {
+          const civo = new CivoCloud('test');
+          expect(civo[method.name]).to.be.a('function', 'method is not exposed as a function');
+        }));
+
+        methodSuite.addTest(new Test('Correct Parameters', () => {
+          const civo = new CivoCloud('test');
+          const nonOptionalParams = method.params
+            .filter((param) => {
+              return ((!param.optional || (param.optional && param.optional === false)) && param.name !== '');
+            })
+            .map((param) => {
+              return param.name;
+            });
+          const hasOptionals = method.params
+            .map((param) => {
+              return param.optional || false;
+            })
+            .reduce((hasOptional, arg) => {
+              return (hasOptional || arg);
+            }, false);
+
+          if (hasOptionals === true) {
+            nonOptionalParams.push('options');
+          }
+
+          if (nonOptionalParams.length === 0) {
+            nonOptionalParams.push('');
+          }
+          expect(getFunctionArgumentNames(civo[method.name])).to.have.members(nonOptionalParams);
+          expect(civo[method.name]).to.be.a.Function;
+        }));
+
         testSuite.addSuite(methodSuite);
       }
 
