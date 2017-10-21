@@ -10,8 +10,8 @@
   "license": "MIT",
   "scripts": {
     "testold": "./node_modules/.bin/mocha ./tests/allTests.js",
-    "test": "./node_modules/.bin/mocha ./tests/test.js",
-    "test:harmony": "./node_modules/.bin/mocha --harmony ./tests/allTests.js"
+    "test": "node ./tests/test.js",
+    "test:harmony": "node --harmony ./tests/allTests.js"
   },
   "engines": {
     "node": ">=4.0.0"
