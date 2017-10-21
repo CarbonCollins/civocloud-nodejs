@@ -1,28 +1,21 @@
-const path = require('path');
+'use strict';
+const Mocha = require('mocha');
+const Suite = Mocha.Suite;
 
-const Civo = require('../index');
+const moduleUnitTests = require('./units/module');
+const apiUnitTests = require('./units/api');
 
-require('dotenv').config({path: path.join(__dirname, '../.env')});
 
-const fakecivo = new Civo('wrong key');
-const civo = new Civo(process.env.civo_apiToken);
-console.log(process.env.civo_apiToken);
+const mocha = new Mocha();
 
-// civo.deleteNetwork('no')
-// .then((payload) => {
-//   console.log(payload);
-// })
+const fullSuite = Suite.create(mocha.suite, 'civocloud-nodejs full test suite');
 
-civo.listTemplates()
-.then((payload) => {
-  console.log(payload);
-})
-.catch((err) => {
-  console.error(err);
-});
-
-// fakecivo.createNetwork('test').then((payload) => {
-//   console.log(payload);
-// }).catch((err) => {
-//   console.error(err);
-// });
+Promise.resolve()
+  .then(() => { return moduleUnitTests(); })
+  .then((suite) => { return fullSuite.addSuite(suite); })
+  .then(() => { return apiUnitTests(); })
+  .then((suite) => { return fullSuite.addSuite(suite); })
+  .then(() => { return mocha.run(); })
+  .catch((err) => {
+    console.error(err);
+  });
