@@ -21,6 +21,8 @@
 <dd></dd>
 <dt><a href="#InstanceSizingAPI">InstanceSizingAPI</a></dt>
 <dd></dd>
+<dt><a href="#LoadBallancerAPI">LoadBallancerAPI</a></dt>
+<dd></dd>
 <dt><a href="#NetworkAPI">NetworkAPI</a></dt>
 <dd></dd>
 <dt><a href="#QuotaAPI">QuotaAPI</a></dt>
@@ -30,6 +32,13 @@
 <dt><a href="#SSHKeysAPI">SSHKeysAPI</a></dt>
 <dd></dd>
 <dt><a href="#TemplateAPI">TemplateAPI</a></dt>
+<dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#Backend">Backend</a> : <code>Object</code></dt>
 <dd></dd>
 </dl>
 
@@ -49,7 +58,7 @@ a node.js module which provides access to the Civo v2 API
 The full class with all of the api functions
 
 **Kind**: inner class of [<code>civocloud</code>](#module_civocloud)  
-**Mixes**: [<code>ChargesAPI</code>](#ChargesAPI), [<code>DomainAPI</code>](#DomainAPI), [<code>FirewallAPI</code>](#FirewallAPI), [<code>InstanceAPI</code>](#InstanceAPI), [<code>InstanceRegionAPI</code>](#InstanceRegionAPI), [<code>InstanceSizingAPI</code>](#InstanceSizingAPI), [<code>NetworkAPI</code>](#NetworkAPI), [<code>QuotaAPI</code>](#QuotaAPI), [<code>SnapshotAPI</code>](#SnapshotAPI), [<code>SSHKeysAPI</code>](#SSHKeysAPI), [<code>TemplateAPI</code>](#TemplateAPI)  
+**Mixes**: [<code>ChargesAPI</code>](#ChargesAPI), [<code>DomainAPI</code>](#DomainAPI), [<code>FirewallAPI</code>](#FirewallAPI), [<code>InstanceAPI</code>](#InstanceAPI), [<code>InstanceRegionAPI</code>](#InstanceRegionAPI), [<code>InstanceSizingAPI</code>](#InstanceSizingAPI), [<code>LoadBallancerAPI</code>](#LoadBallancerAPI), [<code>NetworkAPI</code>](#NetworkAPI), [<code>QuotaAPI</code>](#QuotaAPI), [<code>SnapshotAPI</code>](#SnapshotAPI), [<code>SSHKeysAPI</code>](#SSHKeysAPI), [<code>TemplateAPI</code>](#TemplateAPI)  
 <a name="new_module_civocloud..Civo_new"></a>
 
 #### new Civo(apiToken, [endpoint])
@@ -518,6 +527,81 @@ gets an array of the currently available instance sizes on civo cloud
 **Returns**: <code>Promise</code> - a promise wich resolves with the instance size list or rejects with an
 error  
 **Access**: public  
+<a name="LoadBallancerAPI"></a>
+
+## LoadBallancerAPI
+**Kind**: global mixin  
+
+* [LoadBallancerAPI](#LoadBallancerAPI)
+    * [~listLoadBalancers()](#LoadBallancerAPI..listLoadBalancers) ⇒ <code>Promise</code>
+    * [~createLoadBalancer(hostname, backends, [options])](#LoadBallancerAPI..createLoadBalancer) ⇒ <code>Promise</code>
+    * [~updateLoadBalancer(id, [options])](#LoadBallancerAPI..updateLoadBalancer) ⇒ <code>Promise</code>
+    * [~deleteLoadBalancer(id)](#LoadBallancerAPI..deleteLoadBalancer) ⇒ <code>Promise</code>
+
+<a name="LoadBallancerAPI..listLoadBalancers"></a>
+
+### LoadBallancerAPI~listLoadBalancers() ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
+**Returns**: <code>Promise</code> - resolves with a list of available load balancers or rejects with an error  
+**Access**: public  
+<a name="LoadBallancerAPI..createLoadBalancer"></a>
+
+### LoadBallancerAPI~createLoadBalancer(hostname, backends, [options]) ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
+**Returns**: <code>Promise</code> - resolves when load balancer is created or rejects with an error  
+**Access**: public  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| hostname | <code>String</code> |  | the hostname to receive traffic on |
+| backends | [<code>Array.&lt;Backend&gt;</code>](#Backend) |  | an array of backends to load ballance |
+| [options] | <code>Object</code> |  | an optional object containing all optional parameters |
+| [options.protocol] | <code>String</code> | <code>&#x27;http&#x27;</code> | protocol to use (either 'http' or 'https') |
+| [options.tls_certificate] | <code>String</code> |  | if protocol is https then base64-encoded certificate in PEM format |
+| [options.tls_key] | <code>String</code> |  | if protocol is https then base64-encoded key in PEM format |
+| [options.port] | <code>String</code> \| <code>Number</code> | <code>80</code> | the port to listen on |
+| [options.max_request_size] | <code>Number</code> | <code>20</code> | the maximum request size in megabytes |
+| [options.policy] | <code>String</code> | <code>&#x27;random&#x27;</code> | routing policy can be either 'least_conn', 'random', 'round_robin', or 'ip_hash' |
+| [options.health_check_path] | <code>String</code> | <code>&#x27;/&#x27;</code> | what url to use on the backends to check status |
+| [options.fail_timeout] | <code>Number</code> | <code>30</code> | how long to wait (in seconds) before determining backend failure |
+| [options.max_conns] | <code>Number</code> | <code>10</code> | how many concurrent connections a backend can handle |
+| [options.ignore_invalid_backend_tls] | <code>Boolean</code> | <code>true</code> | ignore invalid/self-signed tls certs on backend |
+
+<a name="LoadBallancerAPI..updateLoadBalancer"></a>
+
+### LoadBallancerAPI~updateLoadBalancer(id, [options]) ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
+**Returns**: <code>Promise</code> - resolves when load balancer is created or rejects with an error  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | the load balancers id to update |
+| [options] | <code>Object</code> | an optional object containing all optional parameters |
+| [options.hostname] | <code>String</code> | the hostname to receive traffic on |
+| [options.backends] | [<code>Array.&lt;Backend&gt;</code>](#Backend) | an array of backends to load ballance |
+| [options.protocol] | <code>String</code> | protocol to use (either 'http' or 'https') |
+| [options.tls_certificate] | <code>String</code> | if protocol is https then base64-encoded certificate in PEM format |
+| [options.tls_key] | <code>String</code> | if protocol is https then base64-encoded key in PEM format |
+| [options.port] | <code>String</code> \| <code>Number</code> | the port to listen on |
+| [options.max_request_size] | <code>Number</code> | the maximum request size in megabytes |
+| [options.policy] | <code>String</code> | routing policy can be either 'least_conn', 'random', 'round_robin', or 'ip_hash' |
+| [options.health_check_path] | <code>String</code> | what url to use on the backends to check status |
+| [options.fail_timeout] | <code>Number</code> | how long to wait (in seconds) before determining backend failure |
+| [options.max_conns] | <code>Number</code> | how many concurrent connections a backend can handle |
+| [options.ignore_invalid_backend_tls] | <code>Boolean</code> | ignore invalid/self-signed tls certs on backend |
+
+<a name="LoadBallancerAPI..deleteLoadBalancer"></a>
+
+### LoadBallancerAPI~deleteLoadBalancer(id) ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
+**Returns**: <code>Promise</code> - resolves when load balancer is deleted or rejects with an error  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | the id for the load balancers to delete |
+
 <a name="NetworkAPI"></a>
 
 ## NetworkAPI
@@ -748,4 +832,16 @@ deletes an existing template within civo
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>String</code> | the templates id to be used to identify the network in civo |
+
+<a name="Backend"></a>
+
+## Backend : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| instance_id | <code>String</code> | the backend instance_id |
+| protocol | <code>String</code> | the protocol to communicate with the backend on (either 'http' or 'https') |
+| port | <code>Number</code> | the port to communicate with the backend on |
 

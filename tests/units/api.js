@@ -33,6 +33,7 @@ function getFunctionArgumentNames(func) {
 function getAPITests() {
   return jsdocx.parse('./lib/*.js')
     .then((docs) => {
+      console.log(JSON.stringify(docs.filter((doc) => { return doc.scope === 'inner' && doc.name === 'createLoadBalancer'}), null, 2 ))
       const innerMethods = docs
         .filter((doc) => { // only get methods
           return doc.scope === 'inner' && doc.access && doc.access === 'public';
@@ -40,13 +41,17 @@ function getAPITests() {
         .map((doc) => { // map the docs to remove useless data
           return {
             params: (doc.params)
-              ? doc.params.map((param) => {
-                return { 
-                  type: param.type.names[0],
-                  name: param.name,
-                  optional: (param.optional) ? true : false
-                };
-              })
+              ? doc.params
+                .map((param) => {
+                  return { 
+                    type: param.type.names[0],
+                    name: param.name,
+                    optional: (param.optional) ? true : false
+                  };
+                })
+                .filter((param) => {
+                  return !param.name.includes('.');
+                })
               : [],
             memberof: doc.memberof,
             name: doc.name };
