@@ -9,6 +9,6 @@ gulp.task('generateDocs', () => {
   return fs.ensureDir(path.join(__dirname, './docs'))
     .then(() => { return jsdoc2md.render({ files: ['./index.js', './lib/*.js'] }); })
     .then((output) => {
-      return fs.writeFile('docs/app.md', output);
+      return fs.writeFile('docs/api.md', output);
     });
 });

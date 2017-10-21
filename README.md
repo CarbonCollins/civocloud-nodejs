@@ -47,7 +47,7 @@ civo.listInstanceSizes().then((sizes) => {
 
 ## api functions
 
-The api functions are now documented 
+The api functions are now documented [on the API page](./docs/api.md)
 
 ## Other info
 This package is not an official package from [civo](https://www.civo.com) and has not been made by them as it is just an abstraction layer to the [civo API](https://www.civo.com/api "civo API").
