@@ -31,7 +31,7 @@ function getFunctionArgumentNames(func) {
  * @returns {Promise} resolves with an object containing the jsdoc info or rejects with an error
  */
 function getAPITests() {
-  return jsdocx.parse('./lib/instance.js')
+  return jsdocx.parse('./lib/*.js')
     .then((docs) => {
       const innerMethods = docs
         .filter((doc) => { // only get methods
@@ -116,56 +116,3 @@ module.exports = () => { return getAPITests()
     return apiSuite;
   });
 };
-
-
-
-
-
-// describe('civocloud-nodejs test suite', () => {
-//   let innerMethods = {};
-//   let outerMethods = [];
-//   before((done) => {
-//     getAPITests()
-//       .then((methods) => {
-//         console.log('complete');
-//         innerMethods = methods;
-//         outerMethods = Object.keys(methods);
-//         done();
-//       })
-//       .catch((err) => {
-//         done(err);
-//       })
-//   });
-
-//   describe('package tests', () => {
-//     require('./units/package/package')(expect, CivoCloud);
-//   });
-
-//   describe('API tests', () => {
-//     describe('Instance API tests', () => {
-//       for (let i = 0, iLength = innerMethods.InstanceAPI.length; i < iLength; i += 1) {
-//         it(`${innerMethods.InstanceAPI[i].name} tests`, (done) => {
-//           done();
-//         });
-//       }
-//     });
-//   });
-
-// });
-
-
-/*
-const slSuite = new Suite('some suite');
-
-tlSuite.addSuite(slSuite);
-
-tlSuite.addTest(new Test('test case', (done) => {
-  done();
-}));
-
-slSuite.addTest(new Test('test case 2', (done) => {
-  done();
-}));
-
-mocha.run();
-*/
