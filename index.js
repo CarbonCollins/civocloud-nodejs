@@ -13,6 +13,7 @@ const firewallMixin = require('./lib/firewall');
 const instanceMixin = require('./lib/instance');
 const instanceRegionMixin = require('./lib/instanceRegion');
 const instanceSizingMixin = require('./lib/instanceSizing');
+const loadBallancerMixin = require('./lib/loadBallancer');
 const networkMixin = require('./lib/network');
 const quotaMixin = require('./lib/quota');
 const snapshotMixin = require('./lib/snapshot');
@@ -42,6 +43,7 @@ class MixinBuilder {
  * @mixes InstanceAPI
  * @mixes InstanceRegionAPI
  * @mixes InstanceSizingAPI
+ * @mixes LoadBallancerAPI
  * @mixes NetworkAPI
  * @mixes QuotaAPI
  * @mixes SnapshotAPI
@@ -173,6 +175,7 @@ module.exports.Civo = mix(Civo).with(
   instanceMixin,
   instanceRegionMixin,
   instanceSizingMixin,
+  loadBallancerMixin,
   networkMixin,
   quotaMixin,
   snapshotMixin,
