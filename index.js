@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @name CivoAPI
  * @description all of the Civo API functions

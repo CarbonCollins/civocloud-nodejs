@@ -1,3 +1,4 @@
+'use strict';
 const Mocha = require('mocha');
 const Chai = require('chai');
 const jsdocx = require('jsdoc-x');
