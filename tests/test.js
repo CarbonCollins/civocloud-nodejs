@@ -1,5 +1,5 @@
 const Mocha = require('mocha');
-const { Suite } = Mocha;
+const Suite = Mocha.Suite;
 
 const packageUnitTests = require('./units/package');
 const apiUnitTests = require('./units/api');

@@ -1,6 +1,10 @@
-const { Test, Suite } = require('mocha');
-const { expect } = require('chai');
+const Mocha = require('mocha');
+const Chai = require('chai');
 const jsdocx = require('jsdoc-x');
+
+const Test = Mocha.Test;
+const Suite = Mocha.Suite;
+const expect = Chai.expect;
 
 const CivoCloud = require('../../index');
 
