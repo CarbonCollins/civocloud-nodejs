@@ -1,8 +1,9 @@
 ## Classes
 
 <dl>
-<dt><a href="#CivoRequest">CivoRequest</a></dt>
-<dd></dd>
+<dt><a href="#Civo">Civo</a></dt>
+<dd><p>The full class with all of the api functions</p>
+</dd>
 </dl>
 
 ## Mixins
@@ -35,95 +36,29 @@
 ## Members
 
 <dl>
+<dt><a href="#CivoAPI">CivoAPI</a></dt>
+<dd><p>all of the Civo API functions</p>
+</dd>
 <dt><a href="#Request">Request</a></dt>
 <dd><p>provides all of the various request functions and all handeling to go with them.</p>
 </dd>
 </dl>
 
-<a name="CivoRequest"></a>
+<a name="Civo"></a>
 
-## CivoRequest
+## Civo
+The full class with all of the api functions
+
 **Kind**: global class  
+**Mixes**: [<code>ChargesAPI</code>](#ChargesAPI), [<code>DomainAPI</code>](#DomainAPI), [<code>FirewallAPI</code>](#FirewallAPI), [<code>InstanceAPI</code>](#InstanceAPI), [<code>InstanceRegionAPI</code>](#InstanceRegionAPI), [<code>InstanceSizingAPI</code>](#InstanceSizingAPI), [<code>NetworkAPI</code>](#NetworkAPI), [<code>QuotaAPI</code>](#QuotaAPI), [<code>SnapshotAPI</code>](#SnapshotAPI), [<code>SSHKeysAPI</code>](#SSHKeysAPI), [<code>TemplateAPI</code>](#TemplateAPI)  
+<a name="new_Civo_new"></a>
 
-* [CivoRequest](#CivoRequest)
-    * [new CivoRequest(apiToken, [endpoint])](#new_CivoRequest_new)
-    * [~handleResponse(resolve, reject)](#CivoRequest..handleResponse)
-    * [~getRequest(path, [qs])](#CivoRequest..getRequest) ⇒ <code>Promise</code>
-    * [~postRequest(path, form)](#CivoRequest..postRequest) ⇒ <code>Promise</code>
-    * [~putRequest(path, form)](#CivoRequest..putRequest) ⇒ <code>Promise</code>
-    * [~deleteRequest(path)](#CivoRequest..deleteRequest) ⇒ <code>Promise</code>
-
-<a name="new_CivoRequest_new"></a>
-
-### new CivoRequest(apiToken, [endpoint])
+### new Civo(apiToken, [endpoint])
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | apiToken | <code>String</code> |  | the provided api token from your civo account |
 | [endpoint] | <code>String</code> | <code>&#x27;https://api.civo.com/v2&#x27;</code> | An optional end point |
-
-<a name="CivoRequest..handleResponse"></a>
-
-### CivoRequest~handleResponse(resolve, reject)
-handles the responses from the civo API
-
-**Kind**: inner method of [<code>CivoRequest</code>](#CivoRequest)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| resolve | <code>function</code> | a promise resolve callback |
-| reject | <code>function</code> | a promise reject callback |
-
-<a name="CivoRequest..getRequest"></a>
-
-### CivoRequest~getRequest(path, [qs]) ⇒ <code>Promise</code>
-performs a get request and formats the return body
-
-**Kind**: inner method of [<code>CivoRequest</code>](#CivoRequest)  
-**Returns**: <code>Promise</code> - resolves with the body or rejects with an error  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| path | <code>String</code> | the path to apply to the endpoint to query |
-| [qs] | <code>String</code> \| <code>Object</code> | an optional query string to attach to the request |
-
-<a name="CivoRequest..postRequest"></a>
-
-### CivoRequest~postRequest(path, form) ⇒ <code>Promise</code>
-performs a post request and formats the return body
-
-**Kind**: inner method of [<code>CivoRequest</code>](#CivoRequest)  
-**Returns**: <code>Promise</code> - resolves with the body or rejects with an error  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| path | <code>String</code> | the path to apply to the endpoint to query |
-| form | <code>Object</code> | form data to be attached to the request |
-
-<a name="CivoRequest..putRequest"></a>
-
-### CivoRequest~putRequest(path, form) ⇒ <code>Promise</code>
-performs a put request and formats the return body
-
-**Kind**: inner method of [<code>CivoRequest</code>](#CivoRequest)  
-**Returns**: <code>Promise</code> - resolves with the body or rejects with an error  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| path | <code>String</code> | the path to apply to the endpoint to query |
-| form | <code>Object</code> | form data to be attached to the request |
-
-<a name="CivoRequest..deleteRequest"></a>
-
-### CivoRequest~deleteRequest(path) ⇒ <code>Promise</code>
-performs a put request and formats the return body
-
-**Kind**: inner method of [<code>CivoRequest</code>](#CivoRequest)  
-**Returns**: <code>Promise</code> - resolves with the body or rejects with an error  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| path | <code>String</code> | the path to apply to the endpoint to query |
 
 <a name="ChargesAPI"></a>
 
@@ -815,6 +750,12 @@ deletes an existing template within civo
 | --- | --- | --- |
 | id | <code>String</code> | the templates id to be used to identify the network in civo |
 
+<a name="CivoAPI"></a>
+
+## CivoAPI
+all of the Civo API functions
+
+**Kind**: global variable  
 <a name="Request"></a>
 
 ## Request
