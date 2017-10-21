@@ -166,7 +166,7 @@ class Civo {
   }
 }
 
-module.exports = module.exports.Civo = mix(Civo).with(
+module.exports.Civo = mix(Civo).with(
   chargesMixin,
   domainMixin,
   firewallMixin,

@@ -7,7 +7,7 @@ const Test = Mocha.Test;
 const Suite = Mocha.Suite;
 const expect = Chai.expect;
 
-const CivoCloud = require('../../index');
+const civocloud = require('../../index');
 
 /**
  * @method getFunctionArgumentNames
@@ -62,7 +62,7 @@ function getAPITests() {
     })
 }
 
-const apiSuite = new Suite('civocloud-nodejs api test suite');
+const apiSuite = new Suite('civocloud-nodejs api tests');
 
 module.exports = () => { return getAPITests()
   .then((methods) => {
@@ -75,12 +75,12 @@ module.exports = () => { return getAPITests()
         const method = innerMethods[outerMethods[o]][i];
         const methodSuite = new Suite(`${method.name}()`);
         methodSuite.addTest(new Test('Function exposed', () => {
-          const civo = new CivoCloud('test');
+          const civo = new civocloud.Civo('test');
           expect(civo[method.name]).to.be.a('function', 'method is not exposed as a function');
         }));
 
         methodSuite.addTest(new Test('Correct Parameters', () => {
-          const civo = new CivoCloud('test');
+          const civo = new civocloud.Civo('test');
           const nonOptionalParams = method.params
             .filter((param) => {
               return ((!param.optional || (param.optional && param.optional === false)) && param.name !== '');
