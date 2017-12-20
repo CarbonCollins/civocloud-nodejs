@@ -53,13 +53,16 @@ class MixinBuilder {
 class Civo {
   /**
    * @constructor
-   * @param {String} apiToken the provided api token from your civo account
-   * @param {String} [endpoint='https://api.civo.com/v2'] An optional end point
+   * @param {Object} options
+   * @param {String} options.apiToken the provided api token from your civo account
+   * @param {String} [options.host=https://api.civo.com/v2] An optional end point
+   * @param {String|Number} [options.port=443] an optional port to call
    * @lends 
    */
-  constructor(apiToken, endpoint) {
-    this.apiToken = apiToken || '';
-    this.endpoint = endpoint || 'https://api.civo.com/v2';
+  constructor(options = {}) {
+    this.apiToken = options.apiToken || '';
+    this.host = options.host || 'https://api.civo.com/v2';
+    this.port = `${options.port || 443}`;
     if (this.apiToken === '') {
       throw new Error('invalid civo API key');
     }
@@ -101,7 +104,7 @@ class Civo {
   getRequest(path, qs) {
     return new Promise((resolve, reject) => {
       request
-        .get(`${this.endpoint}/${path}`, { qs }, this.handleResponse(resolve, reject))
+        .get(`${this.host}:${this.port}/${path}`, { qs }, this.handleResponse(resolve, reject))
         .auth(null, null, true, this.apiToken);
     });
   }
@@ -118,12 +121,12 @@ class Civo {
     return new Promise((resolve, reject) => {
       if (form) {
         request
-          .post(`${this.endpoint}/${path}`, {}, this.handleResponse(resolve, reject))
+          .post(`${this.host}:${this.port}/${path}`, {}, this.handleResponse(resolve, reject))
           .form(form)
           .auth(null, null, true, this.apiToken);
       } else {
         request
-          .post(`${this.endpoint}/${path}`, {}, this.handleResponse(resolve, reject))
+          .post(`${this.host}:${this.port}/${path}`, {}, this.handleResponse(resolve, reject))
           .auth(null, null, true, this.apiToken);
       }
     });
@@ -141,12 +144,12 @@ class Civo {
     return new Promise((resolve, reject) => {
       if (form) {
         request
-          .put(`${this.endpoint}/${path}`, {}, this.handleResponse(resolve, reject))
+          .put(`${this.host}:${this.port}/${path}`, {}, this.handleResponse(resolve, reject))
           .form(form)
           .auth(null, null, true, this.apiToken);
       } else {
         request
-          .put(`${this.endpoint}/${path}`, {}, this.handleResponse(resolve, reject))
+          .put(`${this.host}:${this.port}/${path}`, {}, this.handleResponse(resolve, reject))
           .auth(null, null, true, this.apiToken);
       }
     });
@@ -162,7 +165,7 @@ class Civo {
   deleteRequest(path) {
     return new Promise((resolve, reject) => {
       request
-        .delete(`${this.endpoint}/${path}`, {}, this.handleResponse(resolve, reject))
+        .delete(`${this.host}:${this.port}/${path}`, {}, this.handleResponse(resolve, reject))
         .auth(null, null, true, this.apiToken);
     });
   }

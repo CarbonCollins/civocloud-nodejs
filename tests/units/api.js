@@ -13,12 +13,47 @@ const expect = Chai.expect;
 
 const serverEmitter = new EventEmitter();
 const serverPort = 3334;
-const serverHost = '127.0.0.1';
+const serverAddress = '127.0.0.1';
+const serverHost = `http://${serverAddress}`;
 const serverValidKey = 'validKey';
-const serverValidId = 'validId';
 let server;
 
 const civocloud = require('../../index');
+
+function generateArgsFromParams(params) {
+  const parameters = ((Array.isArray(params)) ? params : [])
+    .slice(0)
+    .map((param) => {
+      return param.type;
+    })
+    .map((param) => {
+      if (param.includes('Array.<')) {
+        switch (param.substr(7, (param.length - 8))) {
+          case 'String':
+            return ['test1', 'test2', 'test3'];
+          case 'Number':
+            return [5, 7, 9];
+          case 'Object':
+            return [{ test: true }, { test: false }];
+          default:
+            return [];
+        }
+      } else {
+        switch (param) {
+          case 'String':
+            return 'test1';
+          case 'Number':
+            return 5;
+          case 'Object':
+            return { test: true };
+          default:
+            return null;
+        }
+      }
+    });
+
+  return parameters;
+}
 
 /**
  * @method getFunctionArgumentNames
@@ -49,8 +84,6 @@ function getAPITests() {
           return doc.scope === 'inner' && doc.access && doc.access === 'public';
         })
         .map((doc) => { // map the docs to remove useless data
-          console.log(doc.name);
-          console.log(doc.see);
           return {
             params: (doc.params)
               ? doc.params
@@ -102,6 +135,7 @@ module.exports = () => { return getAPITests()
           });
 
           res.writeHead(200);
+          res.write('{}');
           res.end();
         });
       });
@@ -110,7 +144,7 @@ module.exports = () => { return getAPITests()
         done();
       });
 
-      server.listen(serverPort, serverHost);
+      server.listen(serverPort, serverAddress);
     });
 
     apiSuite.afterAll('Test Endpoint destroy', (done) => {
@@ -127,9 +161,10 @@ module.exports = () => { return getAPITests()
       for (let i = 0, iLength = innerMethods[outerMethods[o]].length; i < iLength; i += 1) {
         const method = innerMethods[outerMethods[o]][i];
         const methodSuite = new Suite(`${method.name}()`);
+        methodSuite.timeout(5000);
         
         methodSuite.addTest(new Test('Function exposed', () => {
-          const civo = new civocloud.Civo('test');
+          const civo = new civocloud.Civo({ apiToken: 'test' });
           expect(civo[method.name]).to.be.a('function', 'method is not exposed as a function');
         }));
 
@@ -145,8 +180,28 @@ module.exports = () => { return getAPITests()
           expect(method.see).to.include.to.match(/{@link https:\/\/www\.civo\.com\/api.+/);
         }));
 
+
+        if (/\[GET|POST|PUT|HEAD|DELETE|OPTIONS\]/.test(method.description)) {
+          // request stuff here
+          methodSuite.addTest(new Test('Function calls API endpoint', (done) => {
+            const methodType = method.description.match(/\[(GET|POST|PUT|HEAD|DELETE|OPTIONS)\]/)[1];
+            const MUTT = new civocloud.Civo({ apiToken: serverValidKey, host: serverHost, port: serverPort });
+            serverEmitter.once('receivedRequest', (payload) => {
+              expect(payload.req.headers).to.deep.include({ authorization: 'Bearer validKey' });
+              expect(payload.req.method).to.be.equal(methodType);
+              done();
+            });
+
+            MUTT[method.name]
+              .apply(MUTT, generateArgsFromParams(method.params))
+              .catch((err) => {
+                done(err);
+              });
+          }));
+        }
+
         methodSuite.addTest(new Test('Correct Parameters', () => {
-          const civo = new civocloud.Civo('test');
+          const civo = new civocloud.Civo({ apiToken: 'test' });
           const nonOptionalParams = method.params
             .filter((param) => {
               return ((!param.optional || (param.optional && param.optional === false)) && param.name !== '');
