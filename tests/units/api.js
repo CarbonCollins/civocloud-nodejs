@@ -2,6 +2,9 @@
 const Mocha = require('mocha');
 const Chai = require('chai');
 const jsdocx = require('jsdoc-x');
+const http = require('http');
+const qs = require('querystring');
+
 
 const Test = Mocha.Test;
 const Suite = Mocha.Suite;

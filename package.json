@@ -1,6 +1,6 @@
 {
   "name": "civocloud",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Node.JS module for accessing civo cloud",
   "main": "index.js",
   "author": {
@@ -9,12 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "testold": "./node_modules/.bin/mocha ./tests/allTests.js",
-    "test": "node ./tests/test.js",
-    "test:harmony": "node --harmony ./tests/test.js"
-  },
-  "engines": {
-    "node": ">=4.0.0"
+    "test": "istanbul cover ./tests/test.js"
   },
   "repository": {
     "type": "git",
@@ -34,9 +29,13 @@
     "eslint-plugin-mocha": "^4.9.0",
     "fs-extra": "^4.0.2",
     "gulp": "^3.9.1",
+    "istanbul": "^0.4.5",
     "jsdoc-to-markdown": "^3.0.0",
     "jsdoc-x": "^2.0.0",
     "mocha": "^3.4.1",
     "promise-once-events": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=6.0"
   }
 }
