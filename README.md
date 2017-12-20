@@ -1,11 +1,13 @@
 # civocloud-nodejs
 
-[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/civocloud-nodejs.svg?style=flat-square)](https://github.com/CarbonCollins/civocloud-nodejs/issues)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/CarbonCollins/civocloud-nodejs/master/LICENSE)
-[![GitHub (pre-)release](https://img.shields.io/github/release/CarbonCollins/civocloud-nodejs/all.svg?style=flat-square)]()
-[![David](https://img.shields.io/david/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
-[![David](https://img.shields.io/david/dev/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
-[![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat-square)]()
+[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/civocloud-nodejs.svg?style=flat)](https://github.com/CarbonCollins/civocloud-nodejs/issues)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/CarbonCollins/civocloud-nodejs/master/LICENSE)
+[![GitHub (pre-)release](https://img.shields.io/github/release/CarbonCollins/civocloud-nodejs/all.svg?style=flat)]()
+[![David](https://img.shields.io/david/CarbonCollins/civocloud-nodejs.svg?style=flat)]()
+[![David](https://img.shields.io/david/dev/CarbonCollins/civocloud-nodejs.svg?style=flat)]()
+[![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat)]()
+[![Maintainability](https://api.codeclimate.com/v1/badges/37a079ce18bb52b3ee1e/maintainability)](https://codeclimate.com/github/CarbonCollins/civocloud-nodejs/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/37a079ce18bb52b3ee1e/test_coverage)](https://codeclimate.com/github/CarbonCollins/civocloud-nodejs/test_coverage)
 
 This module is for accessing the [v2 civo API which is documented here](https://www.civo.com/api "CIVO API")
 
