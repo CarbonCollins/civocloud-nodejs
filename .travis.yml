@@ -1,23 +1,34 @@
 language: node_js
 matrix:
   include:
-    - node_js: "4"
-      env:
-        - UNIT=test:harmony
-    - node_js: "5"
-      env:
-        - UNIT=test:harmony
-    - node_js: "6"
-      env:
-        - UNIT=test
-    - node_js: "7"
-      env:
-        - UNIT=test
-    - node_js: "8"
-      env:
-        - UNIT=test
-    - node_js: "node"
-      env:
-        - UNIT=test
+  - node_js: '6'
+    env:
+    - UNIT=test
+  - node_js: '7'
+    env:
+    - UNIT=test
+  - node_js: '8'
+    env:
+    - UNIT=test
+  - node_js: '9'
+    env:
+    - UNIT=test
+  - node_js: node
+    env:
+    - UNIT=test
 script:
-  - npm run $UNIT
+- npm run $UNIT
+env:
+  global:
+  - CC_TEST_REPORTER_ID=763e97a0c5f3ac20364ed45c9ec2183ddd4ff5660247534bd635f65fd18c9968
+  - NODE_ENV=testing
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+after_script:
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+notifications:
+  slack:
+    secure: chglZADedaxprTpHsdNwMY2eR9+UxUJK9UFypFcx6zBAEVitZIAUX9EZVIKO6YHyQxBxLKLx7089m7aNzud9oeIVb+Pz/w6tGkTY7u8rjxTkfVNlBoRvkJ6zNokP5NzitzX8eFhj46b4bhSgsyV1QCIH5bIxll3ZtBzE3GK/KZnGNjgw4XHLoB6th20w7SSphF2rGBxoP9jFJ10YHPMVT8L3PAr+oNOuOQb/RKuZYxHW3rSd3LtxVmChJcGIbhr5IlS9KheHm/u4BrheYQJGxGAnbeLJ2YHjjzExFSVFp0jcgZZb2aHh1sZj8710Uxh9v6g2QRRaPMFo1pUJGpJSppGn62mnWViJLZU5xsD1QBwZdF3hcF9cj+NKnW7ztmpOiQiEgsUd5gN4OE3mtewnxbbgv20OrgO16c3gfEj1JOfUrF9waK2OYRjoEpbg9txseGJuqOzbcFpB9cupaOZF0cpJ1wTnr+W9QpgRkg3gRoUIBtwMHyausvRA64EQ9RGtAaBuotG38+9SWiuT3Fvzp9qrd1E3X5DEtS6N0OsYRC5n9PDAYEF+0xIz1ptzMx2DJVBlUUdW/IiWNTQSwO5prP9mcfjT5/QyxZpU8pNVosL3/4wm/IwPUwTafk70cWhNeL0I0SUKnmXIM5mTx/2aVwCr6IkbK0DFrCptl83YyJU=
