@@ -2,7 +2,7 @@
 
 /**
  * @module civocloud
- * @desc a node.js module which provides access to the Civo v2 API
+ * @description a node.js module which provides access to the Civo v2 API
  */
 
 const request = require('request');
@@ -67,7 +67,7 @@ class Civo {
 
   /**
    * @method Civo~handleResponse
-   * @desc handles the responses from the civo API
+   * @description handles the responses from the civo API
    * @param {Function} resolve a promise resolve callback
    * @param {Function} reject a promise reject callback
    * @private
@@ -92,7 +92,7 @@ class Civo {
 
   /**
    * @method Civo~getRequest
-   * @desc performs a get request and formats the return body
+   * @description performs a get request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {String|Object} [qs] an optional query string to attach to the request
    * @returns {Promise} resolves with the body or rejects with an error
@@ -108,7 +108,7 @@ class Civo {
 
   /**
    * @method Civo~postRequest
-   * @desc performs a post request and formats the return body
+   * @description performs a post request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {Object} form form data to be attached to the request
    * @returns {Promise} resolves with the body or rejects with an error
@@ -131,7 +131,7 @@ class Civo {
 
   /**
    * @method Civo~putRequest
-   * @desc performs a put request and formats the return body
+   * @description performs a put request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {Object} form form data to be attached to the request
    * @returns {Promise} resolves with the body or rejects with an error
@@ -154,7 +154,7 @@ class Civo {
 
   /**
    * @method Civo~deleteRequest
-   * @desc performs a put request and formats the return body
+   * @description performs a put request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @returns {Promise} resolves with the body or rejects with an error
    * @private
