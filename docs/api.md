@@ -50,7 +50,7 @@ a node.js module which provides access to the Civo v2 API
 
 * [civocloud](#module_civocloud)
     * [~Civo](#module_civocloud..Civo)
-        * [new Civo(apiToken, [endpoint])](#new_module_civocloud..Civo_new)
+        * [new Civo(options)](#new_module_civocloud..Civo_new)
 
 <a name="module_civocloud..Civo"></a>
 
@@ -61,12 +61,14 @@ The full class with all of the api functions
 **Mixes**: [<code>ChargesAPI</code>](#ChargesAPI), [<code>DomainAPI</code>](#DomainAPI), [<code>FirewallAPI</code>](#FirewallAPI), [<code>InstanceAPI</code>](#InstanceAPI), [<code>InstanceRegionAPI</code>](#InstanceRegionAPI), [<code>InstanceSizingAPI</code>](#InstanceSizingAPI), [<code>LoadBallancerAPI</code>](#LoadBallancerAPI), [<code>NetworkAPI</code>](#NetworkAPI), [<code>QuotaAPI</code>](#QuotaAPI), [<code>SnapshotAPI</code>](#SnapshotAPI), [<code>SSHKeysAPI</code>](#SSHKeysAPI), [<code>TemplateAPI</code>](#TemplateAPI)  
 <a name="new_module_civocloud..Civo_new"></a>
 
-#### new Civo(apiToken, [endpoint])
+#### new Civo(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| apiToken | <code>String</code> |  | the provided api token from your civo account |
-| [endpoint] | <code>String</code> | <code>&#x27;https://api.civo.com/v2&#x27;</code> | An optional end point |
+| options | <code>Object</code> |  |  |
+| options.apiToken | <code>String</code> |  | the provided api token from your civo account |
+| [options.host] | <code>String</code> | <code>https://api.civo.com/v2</code> | An optional end point |
+| [options.port] | <code>String</code> \| <code>Number</code> | <code>443</code> | an optional port to call |
 
 <a name="ChargesAPI"></a>
 
@@ -75,7 +77,7 @@ The full class with all of the api functions
 <a name="ChargesAPI..listCharges"></a>
 
 ### ChargesAPI~listCharges([options]) ⇒ <code>Promise</code>
-gets an array of chargable service hours
+gets an array of chargable service hours [GET]
 
 **Kind**: inner method of [<code>ChargesAPI</code>](#ChargesAPI)  
 **Access**: public  
@@ -103,7 +105,7 @@ gets an array of chargable service hours
 <a name="DomainAPI..listDomains"></a>
 
 ### DomainAPI~listDomains() ⇒ <code>Promise</code>
-gets an array of the domains on civo account
+gets an array of the domains on civo account [GET]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -112,7 +114,7 @@ gets an array of the domains on civo account
 <a name="DomainAPI..createDomain"></a>
 
 ### DomainAPI~createDomain(name) ⇒ <code>Promise</code>
-creates a new domain within civo
+creates a new domain within civo [POST]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -126,7 +128,7 @@ creates a new domain within civo
 <a name="DomainAPI..deleteDomain"></a>
 
 ### DomainAPI~deleteDomain(id) ⇒ <code>Promise</code>
-removes a new domain within civo
+removes a new domain within civo [DELETE]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -140,7 +142,7 @@ removes a new domain within civo
 <a name="DomainAPI..listDomainRecords"></a>
 
 ### DomainAPI~listDomainRecords(id) ⇒ <code>Promise</code>
-gets an array of the domains on civo account
+gets an array of the domains on civo account [GET]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -154,7 +156,7 @@ gets an array of the domains on civo account
 <a name="DomainAPI..createDomainRecord"></a>
 
 ### DomainAPI~createDomainRecord(domain_id, type, name, value, [options]) ⇒ <code>Promise</code>
-gets an array of the domains on civo account
+gets an array of the domains on civo account [POST]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -174,7 +176,7 @@ gets an array of the domains on civo account
 <a name="DomainAPI..deleteDomainRecord"></a>
 
 ### DomainAPI~deleteDomainRecord(domain_id, id) ⇒ <code>Promise</code>
-removes a new domain within civo
+removes a new domain within civo [DELETE]
 
 **Kind**: inner method of [<code>DomainAPI</code>](#DomainAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -202,7 +204,7 @@ removes a new domain within civo
 <a name="FirewallAPI..listFirewalls"></a>
 
 ### FirewallAPI~listFirewalls() ⇒ <code>Promise</code>
-gets an array of the firewalls on civo account
+gets an array of the firewalls on civo account [GET]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -211,7 +213,7 @@ gets an array of the firewalls on civo account
 <a name="FirewallAPI..createFirewall"></a>
 
 ### FirewallAPI~createFirewall(name) ⇒ <code>Promise</code>
-creates a new firewall in civo
+creates a new firewall in civo [POST]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -225,7 +227,7 @@ creates a new firewall in civo
 <a name="FirewallAPI..deleteFirewall"></a>
 
 ### FirewallAPI~deleteFirewall(id) ⇒ <code>Promise</code>
-deletes an existing firewall within civo
+deletes an existing firewall within civo [DELETE]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -239,7 +241,7 @@ deletes an existing firewall within civo
 <a name="FirewallAPI..listFirewallRules"></a>
 
 ### FirewallAPI~listFirewallRules(id) ⇒ <code>Promise</code>
-gets an array of the firewalls rules on civo account
+gets an array of the firewalls rules on civo account [GET]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -253,7 +255,7 @@ gets an array of the firewalls rules on civo account
 <a name="FirewallAPI..createFirewallRule"></a>
 
 ### FirewallAPI~createFirewallRule(id, start_port, [options]) ⇒ <code>Promise</code>
-creates a new firewall rule within an existing firewall
+creates a new firewall rule within an existing firewall [POST]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with a success or rejects with an error  
@@ -273,7 +275,7 @@ creates a new firewall rule within an existing firewall
 <a name="FirewallAPI..deleteFirewallRule"></a>
 
 ### FirewallAPI~deleteFirewallRule(firewall_id, id) ⇒ <code>Promise</code>
-deletes an existing firewall rule within a firewall
+deletes an existing firewall rule within a firewall [DELETE]
 
 **Kind**: inner method of [<code>FirewallAPI</code>](#FirewallAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -310,7 +312,7 @@ deletes an existing firewall rule within a firewall
 <a name="InstanceAPI..listInstances"></a>
 
 ### InstanceAPI~listInstances() ⇒ <code>Promise</code>
-gets an array of the instances on civo cloud
+gets an array of the instances on civo cloud [GET]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the instance list or rejects with an error  
@@ -319,7 +321,7 @@ gets an array of the instances on civo cloud
 <a name="InstanceAPI..createInstance"></a>
 
 ### InstanceAPI~createInstance(size, network_id, hostname, [options]) ⇒ <code>Promise</code>
-creates a new instance network in civo
+creates a new instance network in civo [POST]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -343,7 +345,7 @@ creates a new instance network in civo
 <a name="InstanceAPI..deleteInstance"></a>
 
 ### InstanceAPI~deleteInstance(id) ⇒ <code>Promise</code>
-deletes an existing instance within civo
+deletes an existing instance within civo [DELETE]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -357,7 +359,7 @@ deletes an existing instance within civo
 <a name="InstanceAPI..getInstance"></a>
 
 ### InstanceAPI~getInstance(id) ⇒ <code>Promise</code>
-gets an existing instance from civo
+gets an existing instance from civo [GET]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -371,7 +373,7 @@ gets an existing instance from civo
 <a name="InstanceAPI..retagInstance"></a>
 
 ### InstanceAPI~retagInstance(id, [options]) ⇒ <code>Promise</code>
-updates the tags on an existing instance in civo
+updates the tags on an existing instance in civo [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -387,7 +389,7 @@ updates the tags on an existing instance in civo
 <a name="InstanceAPI..rebootInstance"></a>
 
 ### InstanceAPI~rebootInstance(id) ⇒ <code>Promise</code>
-reboots an instance in civo
+reboots an instance in civo [POST]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -401,7 +403,7 @@ reboots an instance in civo
 <a name="InstanceAPI..hardRebootInstance"></a>
 
 ### InstanceAPI~hardRebootInstance(id) ⇒ <code>Promise</code>
-hard reboots an instance in civo
+hard reboots an instance in civo [POST]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -415,7 +417,7 @@ hard reboots an instance in civo
 <a name="InstanceAPI..softRebootInstance"></a>
 
 ### InstanceAPI~softRebootInstance(id) ⇒ <code>Promise</code>
-soft reboots an instance in civo
+soft reboots an instance in civo [POST]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -429,7 +431,7 @@ soft reboots an instance in civo
 <a name="InstanceAPI..stopInstance"></a>
 
 ### InstanceAPI~stopInstance(id) ⇒ <code>Promise</code>
-stops (shutdown) an instance in civo
+stops (shutdown) an instance in civo [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -443,7 +445,7 @@ stops (shutdown) an instance in civo
 <a name="InstanceAPI..startInstance"></a>
 
 ### InstanceAPI~startInstance(id) ⇒ <code>Promise</code>
-starts an instance in civo
+starts an instance in civo [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -457,7 +459,7 @@ starts an instance in civo
 <a name="InstanceAPI..resizeInstance"></a>
 
 ### InstanceAPI~resizeInstance(id, size) ⇒ <code>Promise</code>
-resizes an instance in civo
+resizes an instance in civo [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -472,7 +474,7 @@ resizes an instance in civo
 <a name="InstanceAPI..rebuildInstance"></a>
 
 ### InstanceAPI~rebuildInstance(id) ⇒ <code>Promise</code>
-rebuilds an instance in civo
+rebuilds an instance in civo [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -486,7 +488,7 @@ rebuilds an instance in civo
 <a name="InstanceAPI..restoreInstance"></a>
 
 ### InstanceAPI~restoreInstance(id, snapshot) ⇒ <code>Promise</code>
-restores an instance in civo from a snapshot
+restores an instance in civo from a snapshot [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -501,7 +503,7 @@ restores an instance in civo from a snapshot
 <a name="InstanceAPI..updateInstanceFirewall"></a>
 
 ### InstanceAPI~updateInstanceFirewall(id, [options]) ⇒ <code>Promise</code>
-Applies a firewall to an instance
+Applies a firewall to an instance [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -517,7 +519,7 @@ Applies a firewall to an instance
 <a name="InstanceAPI..movePublicIpToInstance"></a>
 
 ### InstanceAPI~movePublicIpToInstance(id, ip_address) ⇒ <code>Promise</code>
-Moves an owned public ip address from one instance you own to another instance
+Moves an owned public ip address from one instance you own to another instance [PUT]
 
 **Kind**: inner method of [<code>InstanceAPI</code>](#InstanceAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -536,7 +538,7 @@ Moves an owned public ip address from one instance you own to another instance
 <a name="InstanceRegionAPI..listRegions"></a>
 
 ### InstanceRegionAPI~listRegions() ⇒ <code>Promise</code>
-gets an array of the currently available regions on civo cloud
+gets an array of the currently available regions on civo cloud [GET]
 
 **Kind**: inner method of [<code>InstanceRegionAPI</code>](#InstanceRegionAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the available region list or rejects with an
@@ -550,7 +552,7 @@ error
 <a name="InstanceSizingAPI..listInstanceSizes"></a>
 
 ### InstanceSizingAPI~listInstanceSizes() ⇒ <code>Promise</code>
-gets an array of the currently available instance sizes on civo cloud
+gets an array of the currently available instance sizes on civo cloud [GET]
 
 **Kind**: inner method of [<code>InstanceSizingAPI</code>](#InstanceSizingAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the instance size list or rejects with an
@@ -571,7 +573,7 @@ error
 <a name="LoadBallancerAPI..listLoadBalancers"></a>
 
 ### LoadBallancerAPI~listLoadBalancers() ⇒ <code>Promise</code>
-Lists all of the available load ballancers on the civo account
+Lists all of the available load ballancers on the civo account [GET]
 
 **Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
 **Returns**: <code>Promise</code> - resolves with a list of available load balancers or rejects with an error  
@@ -580,7 +582,7 @@ Lists all of the available load ballancers on the civo account
 <a name="LoadBallancerAPI..createLoadBalancer"></a>
 
 ### LoadBallancerAPI~createLoadBalancer(hostname, backends, [options]) ⇒ <code>Promise</code>
-Creates a new load ballancer on the civo account
+Creates a new load ballancer on the civo account [POST]
 
 **Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
 **Returns**: <code>Promise</code> - resolves when load balancer is created or rejects with an error  
@@ -606,7 +608,7 @@ Creates a new load ballancer on the civo account
 <a name="LoadBallancerAPI..updateLoadBalancer"></a>
 
 ### LoadBallancerAPI~updateLoadBalancer(id, [options]) ⇒ <code>Promise</code>
-updates an existing load ballancer with new information
+updates an existing load ballancer with new information [PUT]
 
 **Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
 **Returns**: <code>Promise</code> - resolves when load balancer is created or rejects with an error  
@@ -633,7 +635,7 @@ updates an existing load ballancer with new information
 <a name="LoadBallancerAPI..deleteLoadBalancer"></a>
 
 ### LoadBallancerAPI~deleteLoadBalancer(id) ⇒ <code>Promise</code>
-deletes an existing load ballancer from the civo account
+deletes an existing load ballancer from the civo account [DELETE]
 
 **Kind**: inner method of [<code>LoadBallancerAPI</code>](#LoadBallancerAPI)  
 **Returns**: <code>Promise</code> - resolves when load balancer is deleted or rejects with an error  
@@ -658,7 +660,7 @@ deletes an existing load ballancer from the civo account
 <a name="NetworkAPI..listNetworks"></a>
 
 ### NetworkAPI~listNetworks() ⇒ <code>Promise</code>
-gets an array of the private networks on civo cloud
+gets an array of the private networks on civo cloud [GET]
 
 **Kind**: inner method of [<code>NetworkAPI</code>](#NetworkAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the network list or rejects with an error  
@@ -667,7 +669,7 @@ gets an array of the private networks on civo cloud
 <a name="NetworkAPI..createNetwork"></a>
 
 ### NetworkAPI~createNetwork(label, [options]) ⇒ <code>Promise</code>
-creates a new private network in civo
+creates a new private network in civo [POST]
 
 **Kind**: inner method of [<code>NetworkAPI</code>](#NetworkAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -683,7 +685,7 @@ creates a new private network in civo
 <a name="NetworkAPI..renameNetwork"></a>
 
 ### NetworkAPI~renameNetwork(id, label) ⇒ <code>Promise</code>
-renames an existing network within civo
+renames an existing network within civo [PUT]
 
 **Kind**: inner method of [<code>NetworkAPI</code>](#NetworkAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -698,7 +700,7 @@ renames an existing network within civo
 <a name="NetworkAPI..deleteNetwork"></a>
 
 ### NetworkAPI~deleteNetwork(id) ⇒ <code>Promise</code>
-deletes an existing network within civo
+deletes an existing network within civo [DELETE]
 
 **Kind**: inner method of [<code>NetworkAPI</code>](#NetworkAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -716,7 +718,7 @@ deletes an existing network within civo
 <a name="QuotaAPI..getQuota"></a>
 
 ### QuotaAPI~getQuota() ⇒ <code>Promise</code>
-gets an object of quota values
+gets an object of quota values [GET]
 
 **Kind**: inner method of [<code>QuotaAPI</code>](#QuotaAPI)  
 **Access**: public  
@@ -735,7 +737,7 @@ gets an object of quota values
 <a name="SnapshotAPI..listSnapshots"></a>
 
 ### SnapshotAPI~listSnapshots() ⇒ <code>Promise</code>
-gets an array of the snapshots on civo account
+gets an array of the snapshots on civo account [GET]
 
 **Kind**: inner method of [<code>SnapshotAPI</code>](#SnapshotAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -744,7 +746,7 @@ gets an array of the snapshots on civo account
 <a name="SnapshotAPI..createSnapshot"></a>
 
 ### SnapshotAPI~createSnapshot(name, instance_id, safe) ⇒ <code>Promise</code>
-creates a snapshot of a given instance (alias of updateSnapshot)
+creates a snapshot of a given instance (alias of updateSnapshot) [PUT]
 
 **Kind**: inner method of [<code>SnapshotAPI</code>](#SnapshotAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -760,7 +762,7 @@ creates a snapshot of a given instance (alias of updateSnapshot)
 <a name="SnapshotAPI..updateSnapshot"></a>
 
 ### SnapshotAPI~updateSnapshot(name, instance_id, safe) ⇒ <code>Promise</code>
-updates a snapshot of a given instance
+updates a snapshot of a given instance [PUT]
 
 **Kind**: inner method of [<code>SnapshotAPI</code>](#SnapshotAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
@@ -776,7 +778,7 @@ updates a snapshot of a given instance
 <a name="SnapshotAPI..deleteSnapshot"></a>
 
 ### SnapshotAPI~deleteSnapshot(name) ⇒ <code>Promise</code>
-deletes an existing snapshot within civo
+deletes an existing snapshot within civo [DELETE]
 
 **Kind**: inner method of [<code>SnapshotAPI</code>](#SnapshotAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
@@ -800,7 +802,7 @@ deletes an existing snapshot within civo
 <a name="SSHKeysAPI..listSSHKeys"></a>
 
 ### SSHKeysAPI~listSSHKeys() ⇒ <code>Promise</code>
-gets an array of the currently available ssh keys on civo cloud
+gets an array of the currently available ssh keys on civo cloud [GET]
 
 **Kind**: inner method of [<code>SSHKeysAPI</code>](#SSHKeysAPI)  
 **Returns**: <code>Promise</code> - a promise which resolves with the sshkeys list or rejects with an error  
@@ -809,7 +811,7 @@ gets an array of the currently available ssh keys on civo cloud
 <a name="SSHKeysAPI..uploadSSHKey"></a>
 
 ### SSHKeysAPI~uploadSSHKey(name, public_key) ⇒ <code>Promise</code>
-uploads a supplied ssh key into civo
+uploads a supplied ssh key into civo [POST]
 
 **Kind**: inner method of [<code>SSHKeysAPI</code>](#SSHKeysAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result and id or rejects with an error  
@@ -824,7 +826,7 @@ uploads a supplied ssh key into civo
 <a name="SSHKeysAPI..deleteSSHKey"></a>
 
 ### SSHKeysAPI~deleteSSHKey(name) ⇒ <code>Promise</code>
-gets an array of the currently available ssh keys on civo cloud
+gets an array of the currently available ssh keys on civo cloud [DELETE]
 
 **Kind**: inner method of [<code>SSHKeysAPI</code>](#SSHKeysAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the sshkeys list or rejects with an error  
@@ -849,7 +851,7 @@ gets an array of the currently available ssh keys on civo cloud
 <a name="TemplateAPI..listTemplates"></a>
 
 ### TemplateAPI~listTemplates() ⇒ <code>Promise</code>
-gets an array of the currently available templates on civo cloud
+gets an array of the currently available templates on civo cloud [GET]
 
 **Kind**: inner method of [<code>TemplateAPI</code>](#TemplateAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the available region list or rejects with an
@@ -859,7 +861,7 @@ error
 <a name="TemplateAPI..createTemplate"></a>
 
 ### TemplateAPI~createTemplate(name, image_id, [options]) ⇒ <code>Promise</code>
-creates a new template on the civo account
+creates a new template on the civo account [POST]
 
 **Kind**: inner method of [<code>TemplateAPI</code>](#TemplateAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the available region list or rejects with an
@@ -880,7 +882,7 @@ error
 <a name="TemplateAPI..updateTemplate"></a>
 
 ### TemplateAPI~updateTemplate(id, [options]) ⇒ <code>Promise</code>
-updates an existing template on the civo account
+updates an existing template on the civo account [PUT]
 
 **Kind**: inner method of [<code>TemplateAPI</code>](#TemplateAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the available region list or rejects with an
@@ -901,7 +903,7 @@ error
 <a name="TemplateAPI..deleteTemplate"></a>
 
 ### TemplateAPI~deleteTemplate(id) ⇒ <code>Promise</code>
-deletes an existing template within civo
+deletes an existing template within civo [DELETE]
 
 **Kind**: inner method of [<code>TemplateAPI</code>](#TemplateAPI)  
 **Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  

@@ -7,7 +7,10 @@
   "plugins": [
     "mocha"
   ],
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base"
+  ],
   "env": {
     "mocha": true,
     "node":  true,
