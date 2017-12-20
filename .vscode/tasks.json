@@ -16,6 +16,11 @@
       "taskName": "generateDocs",
       "type": "shell",
       "problemMatcher": []
+    },
+    {
+      "type": "gulp",
+      "task": "generateDocs",
+      "problemMatcher": []
     }
   ]
 }

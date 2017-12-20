@@ -1,9 +1,6 @@
-'use strict';
+/* eslint class-methods-use-this: ["error", { "exceptMethods": ["handleResponse"] }] */
 
-/**
- * @module civocloud
- * @description a node.js module which provides access to the Civo v2 API
- */
+'use strict';
 
 const request = require('request');
 
@@ -35,20 +32,15 @@ class MixinBuilder {
 }
 
 /**
+ * @module CivoCloud/api
+ * @description The CivoCloud/api module acts as an abstracton layer for accessing the various civo APIs
+ * @see {@link https://www.civo.com/api}
+ * @exports external:Civo
+ */
+
+/**
  * @class
- * @classdesc The full class with all of the api functions
- * @mixes ChargesAPI
- * @mixes DomainAPI
- * @mixes FirewallAPI
- * @mixes InstanceAPI
- * @mixes InstanceRegionAPI
- * @mixes InstanceSizingAPI
- * @mixes LoadBallancerAPI
- * @mixes NetworkAPI
- * @mixes QuotaAPI
- * @mixes SnapshotAPI
- * @mixes SSHKeysAPI
- * @mixes TemplateAPI
+ * @memberof module:CivoCloud/api
  */
 class Civo {
   /**
@@ -57,7 +49,6 @@ class Civo {
    * @param {String} options.apiToken the provided api token from your civo account
    * @param {String} [options.host=https://api.civo.com/v2] An optional end point
    * @param {String|Number} [options.port=443] an optional port to call
-   * @lends 
    */
   constructor(options = {}) {
     this.apiToken = options.apiToken || '';
@@ -69,7 +60,7 @@ class Civo {
   }
 
   /**
-   * @method Civo~handleResponse
+   * @method module:CivoCloud/api.Civo~handleResponse
    * @description handles the responses from the civo API
    * @param {Function} resolve a promise resolve callback
    * @param {Function} reject a promise reject callback
@@ -94,7 +85,7 @@ class Civo {
   }
 
   /**
-   * @method Civo~getRequest
+   * @method module:CivoCloud/api.Civo~getRequest
    * @description performs a get request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {String|Object} [qs] an optional query string to attach to the request
@@ -110,7 +101,7 @@ class Civo {
   }
 
   /**
-   * @method Civo~postRequest
+   * @method module:CivoCloud/api.Civo~postRequest
    * @description performs a post request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {Object} form form data to be attached to the request
@@ -133,7 +124,7 @@ class Civo {
   }
 
   /**
-   * @method Civo~putRequest
+   * @method module:CivoCloud/api.Civo~putRequest
    * @description performs a put request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @param {Object} form form data to be attached to the request
@@ -156,7 +147,7 @@ class Civo {
   }
 
   /**
-   * @method Civo~deleteRequest
+   * @method module:CivoCloud/api.Civo~deleteRequest
    * @description performs a put request and formats the return body
    * @param {String} path the path to apply to the endpoint to query
    * @returns {Promise} resolves with the body or rejects with an error
