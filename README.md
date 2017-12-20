@@ -8,6 +8,7 @@
 [![Travis](https://img.shields.io/travis/CarbonCollins/civocloud-nodejs.svg?style=flat)]()
 [![Maintainability](https://api.codeclimate.com/v1/badges/37a079ce18bb52b3ee1e/maintainability)](https://codeclimate.com/github/CarbonCollins/civocloud-nodejs/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/37a079ce18bb52b3ee1e/test_coverage)](https://codeclimate.com/github/CarbonCollins/civocloud-nodejs/test_coverage)
+[![Known Vulnerabilities](https://snyk.io/test/github/CarbonCollins/civocloud-nodejs/0f2eacb5d1cf39a3b3566b600ff18a5b0557434a/badge.svg)](https://snyk.io/test/github/CarbonCollins/civocloud-nodejs/0f2eacb5d1cf39a3b3566b600ff18a5b0557434a)
 
 This module is for accessing the [v2 civo API which is documented here](https://www.civo.com/api "CIVO API")
 
