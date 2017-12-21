@@ -39,7 +39,7 @@ a simple example of calling one of the APIs is:
 ```
 const { Civo } = require('civocloud');
 
-const civo = new Civo(apiToken);
+const civo = new Civo({ apiToken: 'apiToken' });
 
 civo.listInstanceSizes().then((sizes) => {
   console.log(sizes);
