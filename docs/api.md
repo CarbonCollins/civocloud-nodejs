@@ -30,7 +30,7 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
         * [~createDomain(name)](#module_CivoCloud/api.Domain..createDomain) ⇒ <code>Promise</code>
         * [~deleteDomain(id)](#module_CivoCloud/api.Domain..deleteDomain) ⇒ <code>Promise</code>
         * [~listDomainRecords(id)](#module_CivoCloud/api.Domain..listDomainRecords) ⇒ <code>Promise</code>
-        * [~createDomainRecord(domain_id, type, name, value, [options])](#module_CivoCloud/api.Domain..createDomainRecord) ⇒ <code>Promise</code>
+        * [~createDomainRecord(domainId, type, name, value, [options])](#module_CivoCloud/api.Domain..createDomainRecord) ⇒ <code>Promise</code>
         * [~deleteDomainRecord(domainId, id)](#module_CivoCloud/api.Domain..deleteDomainRecord) ⇒ <code>Promise</code>
     * [.Firewall](#module_CivoCloud/api.Firewall) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
         * [~listFirewalls()](#module_CivoCloud/api.Firewall..listFirewalls) ⇒ <code>Promise</code>
@@ -140,7 +140,7 @@ gets an array of chargable service hours [GET]
     * [~createDomain(name)](#module_CivoCloud/api.Domain..createDomain) ⇒ <code>Promise</code>
     * [~deleteDomain(id)](#module_CivoCloud/api.Domain..deleteDomain) ⇒ <code>Promise</code>
     * [~listDomainRecords(id)](#module_CivoCloud/api.Domain..listDomainRecords) ⇒ <code>Promise</code>
-    * [~createDomainRecord(domain_id, type, name, value, [options])](#module_CivoCloud/api.Domain..createDomainRecord) ⇒ <code>Promise</code>
+    * [~createDomainRecord(domainId, type, name, value, [options])](#module_CivoCloud/api.Domain..createDomainRecord) ⇒ <code>Promise</code>
     * [~deleteDomainRecord(domainId, id)](#module_CivoCloud/api.Domain..deleteDomainRecord) ⇒ <code>Promise</code>
 
 <a name="module_CivoCloud/api.Domain..listDomains"></a>
@@ -196,7 +196,7 @@ gets an array of the domains on civo account [GET]
 
 <a name="module_CivoCloud/api.Domain..createDomainRecord"></a>
 
-#### Domain~createDomainRecord(domain_id, type, name, value, [options]) ⇒ <code>Promise</code>
+#### Domain~createDomainRecord(domainId, type, name, value, [options]) ⇒ <code>Promise</code>
 gets an array of the domains on civo account [POST]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
@@ -206,7 +206,7 @@ gets an array of the domains on civo account [POST]
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| domain_id | <code>String</code> |  | the domain to delete the record from |
+| domainId | <code>String</code> |  | the domain to delete the record from |
 | type | <code>String</code> |  | the type of dns record to use which can be either: 'a', 'cname', 'mx',  or 'txt' |
 | name | <code>String</code> |  | the portion before the domain name (e.g. 'www', or '@') |
 | value | <code>Stirng</code> |  | the ip address fr this dns record to serve |
@@ -429,7 +429,7 @@ updates the tags on an existing instance in civo [PUT]
 | --- | --- | --- |
 | id | <code>String</code> | the instance id to be used to identify the instance in civo |
 | [options] | <code>Object</code> | an optional options object |
-| [options.tags] | <code>String</code> \| <code>Array.&lt;String&gt;</code> | a space seperated string of tags or an array of tags |
+| [options.tags] | <code>Array.&lt;String&gt;</code> \| <code>String</code> | a space seperated string of tags or an array of tags |
 
 <a name="module_CivoCloud/api.Instance..rebootInstance"></a>
 
@@ -1001,7 +1001,7 @@ gets an array of the currently available ebhooks sizes on civo cloud [GET]
 <a name="module_CivoCloud/api.Webhook..createWebhook"></a>
 
 #### Webhook~createWebhook(url, [options]) ⇒ <code>Promise</code>
-creates and registers a new webhook onto the civo account.
+creates and registers a new webhook onto the civo account. [POST]
 
 **Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
 **Returns**: <code>Promise</code> - resolves with the newly created webhook or rejects with an error  
@@ -1032,7 +1032,7 @@ deletes an existing webhook within civo [DELETE]
 <a name="module_CivoCloud/api.Webhook..testWebhook"></a>
 
 #### Webhook~testWebhook(id) ⇒ <code>Promise</code>
-sends a dummy payload to the specific webhook in order to test it
+sends a dummy payload to the specific webhook in order to test it [POST]
 
 **Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
 **Returns**: <code>Promise</code> - resolves when the tummy payload is sent or rejects with an error  
@@ -1046,7 +1046,7 @@ sends a dummy payload to the specific webhook in order to test it
 <a name="module_CivoCloud/api.Webhook..updateWebhook"></a>
 
 #### Webhook~updateWebhook(id, [options]) ⇒ <code>Promise</code>
-creates and registers a new webhook onto the civo account.
+creates and registers a new webhook onto the civo account. [PUT]
 
 **Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
 **Returns**: <code>Promise</code> - resolves with the newly created webhook or rejects with an error  
