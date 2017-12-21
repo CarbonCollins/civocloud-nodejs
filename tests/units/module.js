@@ -1,10 +1,10 @@
 'use strict';
+
 const Mocha = require('mocha');
 const Chai = require('chai');
 
-const Test = Mocha.Test;
-const Suite = Mocha.Suite;
-const expect = Chai.expect;
+const { Test, Suite } = Mocha;
+const { expect } = Chai;
 
 const civocloud = require('../../index');
 
@@ -29,7 +29,7 @@ endpointSuite.addTest(new Test('endpoint defaults to civo v2 api url', (done) =>
     expect(civo.port).to.be.an('string', 'civo.port should be a port string');
     expect(civo.port).to.be.equal('443', 'civo.port default should be "443"');
     done();
-  } catch(err) {
+  } catch (err) {
     done(err);
   }
 }));
@@ -43,7 +43,7 @@ endpointSuite.addTest(new Test('custom host correctly defined', (done) => {
     expect(civo.port).to.be.an('string', 'civo.port should be a port string');
     expect(civo.port).to.be.equal('443', 'civo.port default should be "443"');
     done();
-  } catch(err) {
+  } catch (err) {
     done(err);
   }
 }));
@@ -76,7 +76,7 @@ apiTokenSuite.addTest(new Test('invalid apiToken input (undefined apiToken)', (d
     const civoNoKey = new civocloud.Civo();
     expect(civoNoKey.apiToken).to.not.exist;
     done(new Error('CivoAPI class did not throw an error when invalid apiToken was used'));
-  } catch(err) {
+  } catch (err) {
     expect(err).to.exist;
     expect(err).to.be.instanceof(Error, 'creating a new instance without an apiToken should throw an error');
     expect(err.message).to.be.equal('invalid civo API key', 'error should throw an invalid civo API key');
@@ -89,7 +89,7 @@ apiTokenSuite.addTest(new Test('invalid apiToken input (defined empty apiToken)'
     expect(civoEmptyKey.apiToken).to.exist;
     expect(civoEmptyKey.apiToken).to.be.equal('', 'apiToken should be an empty string for test');
     done(new Error('CivoAPI class did not throw an error when invalid apiToken was used'));
-  } catch(err) {
+  } catch (err) {
     expect(err).to.exist;
     expect(err).to.be.instanceof(Error, 'creating a new instance without an apiToken should throw an error');
     expect(err.message).to.be.equal('invalid civo API key', 'error should throw an invalid civo API key');

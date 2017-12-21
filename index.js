@@ -16,10 +16,7 @@ const quotaMixin = require('./lib/quota');
 const snapshotMixin = require('./lib/snapshot');
 const sshKeyMixin = require('./lib/sshKeys');
 const templateMixin = require('./lib/template');
-
-const mix = (Superclass) => {
-  return new MixinBuilder(Superclass);
-};
+const webhookMixin = require('./lib/webhook');
 
 class MixinBuilder {
   constructor(Superclass) {
@@ -30,6 +27,10 @@ class MixinBuilder {
     return mixins.reduce((c, mixin) => { return mixin(c); }, this.superclass);
   }
 }
+
+const mix = (Superclass) => {
+  return new MixinBuilder(Superclass);
+};
 
 /**
  * @module CivoCloud/api
@@ -72,7 +73,7 @@ class Civo {
         reject(err);
       } else {
         try {
-          if (res.statusCode >= 200 || res.statusCode <= 202) {
+          if (res.statusCode >= 200 && res.statusCode <= 202) {
             resolve(JSON.parse(body));
           } else {
             reject(JSON.parse(body));
@@ -174,5 +175,6 @@ module.exports.Civo = mix(Civo).with(
   quotaMixin,
   snapshotMixin,
   sshKeyMixin,
-  templateMixin
+  templateMixin,
+  webhookMixin
 );
