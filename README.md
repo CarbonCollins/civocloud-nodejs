@@ -32,7 +32,7 @@ to use `civocloud-nodejs` you first need to supply the api token:
 ```
 const { Civo } = require('civocloud');
 
-const civo = new Civo(apiToken);
+const civo = new Civo({ apiToken: 'apiToken' });
 ```
 
 a simple example of calling one of the APIs is:
