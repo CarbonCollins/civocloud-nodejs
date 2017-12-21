@@ -85,6 +85,12 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
         * [~createTemplate(name, image_id, [options])](#module_CivoCloud/api.Template..createTemplate) ⇒ <code>Promise</code>
         * [~updateTemplate(id, [options])](#module_CivoCloud/api.Template..updateTemplate) ⇒ <code>Promise</code>
         * [~deleteTemplate(id)](#module_CivoCloud/api.Template..deleteTemplate) ⇒ <code>Promise</code>
+    * [.Webhook](#module_CivoCloud/api.Webhook) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+        * [~listWebhooks()](#module_CivoCloud/api.Webhook..listWebhooks) ⇒ <code>Promise</code>
+        * [~createWebhook(url, [options])](#module_CivoCloud/api.Webhook..createWebhook) ⇒ <code>Promise</code>
+        * [~deleteWebhook(id)](#module_CivoCloud/api.Webhook..deleteWebhook) ⇒ <code>Promise</code>
+        * [~testWebhook(id)](#module_CivoCloud/api.Webhook..testWebhook) ⇒ <code>Promise</code>
+        * [~updateWebhook(id, [options])](#module_CivoCloud/api.Webhook..updateWebhook) ⇒ <code>Promise</code>
 
 <a name="module_CivoCloud/api.Civo"></a>
 
@@ -968,6 +974,92 @@ deletes an existing template within civo [DELETE]
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>String</code> | the templates id to be used to identify the network in civo |
+
+<a name="module_CivoCloud/api.Webhook"></a>
+
+### CivoCloud/api.Webhook ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+**Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
+**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**See**: [https://www.civo.com/api/webhooks](https://www.civo.com/api/webhooks)  
+
+* [.Webhook](#module_CivoCloud/api.Webhook) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [~listWebhooks()](#module_CivoCloud/api.Webhook..listWebhooks) ⇒ <code>Promise</code>
+    * [~createWebhook(url, [options])](#module_CivoCloud/api.Webhook..createWebhook) ⇒ <code>Promise</code>
+    * [~deleteWebhook(id)](#module_CivoCloud/api.Webhook..deleteWebhook) ⇒ <code>Promise</code>
+    * [~testWebhook(id)](#module_CivoCloud/api.Webhook..testWebhook) ⇒ <code>Promise</code>
+    * [~updateWebhook(id, [options])](#module_CivoCloud/api.Webhook..updateWebhook) ⇒ <code>Promise</code>
+
+<a name="module_CivoCloud/api.Webhook..listWebhooks"></a>
+
+#### Webhook~listWebhooks() ⇒ <code>Promise</code>
+gets an array of the currently available ebhooks sizes on civo cloud [GET]
+
+**Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
+**Returns**: <code>Promise</code> - a promise wich resolves with the webhook list or rejects with an error  
+**Access**: public  
+**See**: [https://www.civo.com/api/webhooks#list-webhooks](https://www.civo.com/api/webhooks#list-webhooks)  
+<a name="module_CivoCloud/api.Webhook..createWebhook"></a>
+
+#### Webhook~createWebhook(url, [options]) ⇒ <code>Promise</code>
+creates and registers a new webhook onto the civo account.
+
+**Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
+**Returns**: <code>Promise</code> - resolves with the newly created webhook or rejects with an error  
+**Access**: public  
+**See**: [https://www.civo.com/api/webhooks#create-a-new-webhook](https://www.civo.com/api/webhooks#create-a-new-webhook)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| url | <code>String</code> |  | a url to send the webhook request too |
+| [options] | <code>Object</code> |  | an object for options |
+| [options.events] | <code>Array.&lt;String&gt;</code> \| <code>String</code> | <code>all events</code> | an array of event names to subscribe to |
+| [options.secret] | <code>String</code> | <code>random string</code> | a secret to send with webhook requests |
+
+<a name="module_CivoCloud/api.Webhook..deleteWebhook"></a>
+
+#### Webhook~deleteWebhook(id) ⇒ <code>Promise</code>
+deletes an existing webhook within civo [DELETE]
+
+**Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
+**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Access**: public  
+**See**: [https://www.civo.com/api/webhooks#deleting-a-webhook](https://www.civo.com/api/webhooks#deleting-a-webhook)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | the webhook id to be used to identify which webhook to delete in civo |
+
+<a name="module_CivoCloud/api.Webhook..testWebhook"></a>
+
+#### Webhook~testWebhook(id) ⇒ <code>Promise</code>
+sends a dummy payload to the specific webhook in order to test it
+
+**Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
+**Returns**: <code>Promise</code> - resolves when the tummy payload is sent or rejects with an error  
+**Access**: public  
+**See**: [https://www.civo.com/api/webhooks#test-a-webhook](https://www.civo.com/api/webhooks#test-a-webhook)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | the id for the specific webhook to test |
+
+<a name="module_CivoCloud/api.Webhook..updateWebhook"></a>
+
+#### Webhook~updateWebhook(id, [options]) ⇒ <code>Promise</code>
+creates and registers a new webhook onto the civo account.
+
+**Kind**: inner method of [<code>Webhook</code>](#module_CivoCloud/api.Webhook)  
+**Returns**: <code>Promise</code> - resolves with the newly created webhook or rejects with an error  
+**Access**: public  
+**See**: [https://www.civo.com/api/webhooks#create-a-new-webhook](https://www.civo.com/api/webhooks#create-a-new-webhook)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>String</code> | the id for the specific webhook |
+| [options] | <code>Object</code> | an object for options |
+| [options.url] | <code>String</code> | a url to send the webhook request too |
+| [options.events] | <code>Array.&lt;String&gt;</code> \| <code>String</code> | an array of event names to subscribe to |
+| [options.secret] | <code>String</code> | a secret to send with webhook requests |
 
 <a name="Backend"></a>
 
