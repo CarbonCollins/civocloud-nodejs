@@ -1,10 +1,21 @@
 {
   "name": "civocloud",
-  "version": "3.1.0",
+  "version": "3.1.6",
   "description": "Node.JS module for accessing civo cloud",
+  "keywords": [
+    "civo",
+    "civocloud",
+    "cloud",
+    "api",
+    "openstack",
+    "virtual",
+    "vm"
+  ],
   "main": "index.js",
   "author": {
     "name": "Steven Collins",
+    "url": "https://carboncollins.uk",
+    "email": "stveen@carboncollins.uk",
     "github": "https://github.com/CarbonCollins"
   },
   "license": "MIT",
@@ -18,9 +29,9 @@
   "bugs": {
     "url": "https://github.com/CarbonCollins/civocloud-nodejs/issues"
   },
+  "homepage": "https://carboncollins.uk/npm/civocloud-nodejs",
   "dependencies": {
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
+    "diff": "^3.4.0",
     "request": "^2.83.0"
   },
   "devDependencies": {
@@ -28,6 +39,8 @@
     "chai": "^4.1.2",
     "dotenv": "^4.0.0",
     "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-mocha": "^4.11.0",
     "fs-extra": "^5.0.0",
     "gulp": "^3.9.1",
@@ -37,7 +50,16 @@
     "mocha": "^4.0.1",
     "promise-once-events": "^0.2.0"
   },
+  "readmeFilename": "README.md",
   "engines": {
     "node": ">=6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "directories": {
+    "doc": "./docs",
+    "lib": "./lib",
+    "test": "./tests"
   }
 }

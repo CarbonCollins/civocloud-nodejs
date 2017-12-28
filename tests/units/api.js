@@ -46,7 +46,7 @@ function generateArgsFromParams(params) {
           case 'Number':
             return 5;
           case 'Object':
-            return { test: true };
+            return { test: true, tags: ['test1', 'test2'] };
           default:
             return null;
         }
