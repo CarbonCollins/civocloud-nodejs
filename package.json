@@ -20,7 +20,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "istanbul cover ./tests/test.js"
+    "test": "istanbul cover ./tests/test.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,8 @@
   "homepage": "https://carboncollins.uk/npm/civocloud-nodejs",
   "dependencies": {
     "diff": "^3.4.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "snyk": "^1.63.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
@@ -61,5 +64,6 @@
     "doc": "./docs",
     "lib": "./lib",
     "test": "./tests"
-  }
+  },
+  "snyk": true
 }
