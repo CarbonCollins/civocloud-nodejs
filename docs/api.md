@@ -40,21 +40,24 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
         * [~createFirewallRule(id, start_port, [options])](#module_CivoCloud/api.Firewall..createFirewallRule) ⇒ <code>Promise</code>
         * [~deleteFirewallRule(firewallId, id)](#module_CivoCloud/api.Firewall..deleteFirewallRule) ⇒ <code>Promise</code>
     * [.Instance](#module_CivoCloud/api.Instance) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
-        * [~listInstances()](#module_CivoCloud/api.Instance..listInstances) ⇒ <code>Promise</code>
-        * [~createInstance(size, network_id, hostname, [options])](#module_CivoCloud/api.Instance..createInstance) ⇒ <code>Promise</code>
-        * [~deleteInstance(id)](#module_CivoCloud/api.Instance..deleteInstance) ⇒ <code>Promise</code>
-        * [~getInstance(id)](#module_CivoCloud/api.Instance..getInstance) ⇒ <code>Promise</code>
-        * [~retagInstance(id, [options])](#module_CivoCloud/api.Instance..retagInstance) ⇒ <code>Promise</code>
-        * [~rebootInstance(id)](#module_CivoCloud/api.Instance..rebootInstance) ⇒ <code>Promise</code>
-        * [~hardRebootInstance(id)](#module_CivoCloud/api.Instance..hardRebootInstance) ⇒ <code>Promise</code>
-        * [~softRebootInstance(id)](#module_CivoCloud/api.Instance..softRebootInstance) ⇒ <code>Promise</code>
-        * [~stopInstance(id)](#module_CivoCloud/api.Instance..stopInstance) ⇒ <code>Promise</code>
-        * [~startInstance(id)](#module_CivoCloud/api.Instance..startInstance) ⇒ <code>Promise</code>
-        * [~resizeInstance(id, size)](#module_CivoCloud/api.Instance..resizeInstance) ⇒ <code>Promise</code>
-        * [~rebuildInstance(id)](#module_CivoCloud/api.Instance..rebuildInstance) ⇒ <code>Promise</code>
-        * [~restoreInstance(id, snapshot)](#module_CivoCloud/api.Instance..restoreInstance) ⇒ <code>Promise</code>
-        * [~updateInstanceFirewall(id, [options])](#module_CivoCloud/api.Instance..updateInstanceFirewall) ⇒ <code>Promise</code>
-        * [~movePublicIpToInstance(id, ipAddress)](#module_CivoCloud/api.Instance..movePublicIpToInstance) ⇒ <code>Promise</code>
+        * _instance_
+            * [.instanceSizes](#module_CivoCloud/api.Instance+instanceSizes) : <code>Object</code>
+        * _inner_
+            * [~listInstances()](#module_CivoCloud/api.Instance..listInstances) ⇒ <code>Promise</code>
+            * [~createInstance(size, network_id, hostname, [options])](#module_CivoCloud/api.Instance..createInstance) ⇒ <code>Promise</code>
+            * [~deleteInstance(id)](#module_CivoCloud/api.Instance..deleteInstance) ⇒ <code>Promise</code>
+            * [~getInstance(id)](#module_CivoCloud/api.Instance..getInstance) ⇒ <code>Promise</code>
+            * [~retagInstance(id, [options])](#module_CivoCloud/api.Instance..retagInstance) ⇒ <code>Promise</code>
+            * [~rebootInstance(id)](#module_CivoCloud/api.Instance..rebootInstance) ⇒ <code>Promise</code>
+            * [~hardRebootInstance(id)](#module_CivoCloud/api.Instance..hardRebootInstance) ⇒ <code>Promise</code>
+            * [~softRebootInstance(id)](#module_CivoCloud/api.Instance..softRebootInstance) ⇒ <code>Promise</code>
+            * [~stopInstance(id)](#module_CivoCloud/api.Instance..stopInstance) ⇒ <code>Promise</code>
+            * [~startInstance(id)](#module_CivoCloud/api.Instance..startInstance) ⇒ <code>Promise</code>
+            * [~resizeInstance(id, size)](#module_CivoCloud/api.Instance..resizeInstance) ⇒ <code>Promise</code>
+            * [~rebuildInstance(id)](#module_CivoCloud/api.Instance..rebuildInstance) ⇒ <code>Promise</code>
+            * [~restoreInstance(id, snapshot)](#module_CivoCloud/api.Instance..restoreInstance) ⇒ <code>Promise</code>
+            * [~updateInstanceFirewall(id, [options])](#module_CivoCloud/api.Instance..updateInstanceFirewall) ⇒ <code>Promise</code>
+            * [~movePublicIpToInstance(id, ipAddress)](#module_CivoCloud/api.Instance..movePublicIpToInstance) ⇒ <code>Promise</code>
     * [.InstanceRegion](#module_CivoCloud/api.InstanceRegion) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
         * [~listRegions()](#module_CivoCloud/api.InstanceRegion..listRegions) ⇒ <code>Promise</code>
     * [.InstanceSizing](#module_CivoCloud/api.InstanceSizing) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
@@ -395,22 +398,34 @@ deletes an existing firewall rule within a firewall [DELETE]
 **See**: [https://www.civo.com/api/instances](https://www.civo.com/api/instances)  
 
 * [.Instance](#module_CivoCloud/api.Instance) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
-    * [~listInstances()](#module_CivoCloud/api.Instance..listInstances) ⇒ <code>Promise</code>
-    * [~createInstance(size, network_id, hostname, [options])](#module_CivoCloud/api.Instance..createInstance) ⇒ <code>Promise</code>
-    * [~deleteInstance(id)](#module_CivoCloud/api.Instance..deleteInstance) ⇒ <code>Promise</code>
-    * [~getInstance(id)](#module_CivoCloud/api.Instance..getInstance) ⇒ <code>Promise</code>
-    * [~retagInstance(id, [options])](#module_CivoCloud/api.Instance..retagInstance) ⇒ <code>Promise</code>
-    * [~rebootInstance(id)](#module_CivoCloud/api.Instance..rebootInstance) ⇒ <code>Promise</code>
-    * [~hardRebootInstance(id)](#module_CivoCloud/api.Instance..hardRebootInstance) ⇒ <code>Promise</code>
-    * [~softRebootInstance(id)](#module_CivoCloud/api.Instance..softRebootInstance) ⇒ <code>Promise</code>
-    * [~stopInstance(id)](#module_CivoCloud/api.Instance..stopInstance) ⇒ <code>Promise</code>
-    * [~startInstance(id)](#module_CivoCloud/api.Instance..startInstance) ⇒ <code>Promise</code>
-    * [~resizeInstance(id, size)](#module_CivoCloud/api.Instance..resizeInstance) ⇒ <code>Promise</code>
-    * [~rebuildInstance(id)](#module_CivoCloud/api.Instance..rebuildInstance) ⇒ <code>Promise</code>
-    * [~restoreInstance(id, snapshot)](#module_CivoCloud/api.Instance..restoreInstance) ⇒ <code>Promise</code>
-    * [~updateInstanceFirewall(id, [options])](#module_CivoCloud/api.Instance..updateInstanceFirewall) ⇒ <code>Promise</code>
-    * [~movePublicIpToInstance(id, ipAddress)](#module_CivoCloud/api.Instance..movePublicIpToInstance) ⇒ <code>Promise</code>
+    * _instance_
+        * [.instanceSizes](#module_CivoCloud/api.Instance+instanceSizes) : <code>Object</code>
+    * _inner_
+        * [~listInstances()](#module_CivoCloud/api.Instance..listInstances) ⇒ <code>Promise</code>
+        * [~createInstance(size, network_id, hostname, [options])](#module_CivoCloud/api.Instance..createInstance) ⇒ <code>Promise</code>
+        * [~deleteInstance(id)](#module_CivoCloud/api.Instance..deleteInstance) ⇒ <code>Promise</code>
+        * [~getInstance(id)](#module_CivoCloud/api.Instance..getInstance) ⇒ <code>Promise</code>
+        * [~retagInstance(id, [options])](#module_CivoCloud/api.Instance..retagInstance) ⇒ <code>Promise</code>
+        * [~rebootInstance(id)](#module_CivoCloud/api.Instance..rebootInstance) ⇒ <code>Promise</code>
+        * [~hardRebootInstance(id)](#module_CivoCloud/api.Instance..hardRebootInstance) ⇒ <code>Promise</code>
+        * [~softRebootInstance(id)](#module_CivoCloud/api.Instance..softRebootInstance) ⇒ <code>Promise</code>
+        * [~stopInstance(id)](#module_CivoCloud/api.Instance..stopInstance) ⇒ <code>Promise</code>
+        * [~startInstance(id)](#module_CivoCloud/api.Instance..startInstance) ⇒ <code>Promise</code>
+        * [~resizeInstance(id, size)](#module_CivoCloud/api.Instance..resizeInstance) ⇒ <code>Promise</code>
+        * [~rebuildInstance(id)](#module_CivoCloud/api.Instance..rebuildInstance) ⇒ <code>Promise</code>
+        * [~restoreInstance(id, snapshot)](#module_CivoCloud/api.Instance..restoreInstance) ⇒ <code>Promise</code>
+        * [~updateInstanceFirewall(id, [options])](#module_CivoCloud/api.Instance..updateInstanceFirewall) ⇒ <code>Promise</code>
+        * [~movePublicIpToInstance(id, ipAddress)](#module_CivoCloud/api.Instance..movePublicIpToInstance) ⇒ <code>Promise</code>
 
+
+* * *
+
+<a name="module_CivoCloud/api.Instance+instanceSizes"></a>
+
+#### instance.instanceSizes : <code>Object</code>
+an object containing the different instance sizes for use with the API
+
+**Kind**: instance property of [<code>Instance</code>](#module_CivoCloud/api.Instance)  
 
 * * *
 
@@ -1282,9 +1297,9 @@ creates and registers a new webhook onto the civo account. [PUT]
 
 | Name | Type | Description |
 | --- | --- | --- |
-| instance_id | <code>String</code> | the backend instance_id |
-| protocol | <code>String</code> | the protocol to communicate with the backend on (either 'http' or 'https') |
-| port | <code>Number</code> | the port to communicate with the backend on |
+| [instance_id] | <code>String</code> | the backend instance_id |
+| [protocol] | <code>String</code> | the protocol to communicate with the backend on (either 'http' or 'https') |
+| [port] | <code>Number</code> | the port to communicate with the backend on |
 
 
 * * *
