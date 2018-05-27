@@ -2,19 +2,19 @@
 
 import request from 'request';
 
-import chargesMixin from './models/charges';
-import domainMixin from './models/domain';
-import firewallMixin from './models/firewall';
-import instanceMixin from './models/instance';
-import instanceRegionMixin from './models/instanceRegion';
-import instanceSizingMixin from './models/instanceSizing';
-import loadBallancerMixin from './models/loadBallancer';
-import networkMixin from './models/network';
-import quotaMixin from './models/quota';
-import snapshotMixin from './models/snapshot';
-import sshKeyMixin from './models/sshKeys';
-import templateMixin from './models/template';
-import webhookMixin from './models/webhook';
+import ChargesMixin from './models/charges';
+import DomainMixin from './models/domain';
+import FirewallMixin from './models/firewall';
+import InstanceMixin from './models/instance';
+import InstanceRegionMixin from './models/instanceRegion';
+import InstanceSizingMixin from './models/instanceSizing';
+import LoadBallancerMixin from './models/loadBallancer';
+import NetworkMixin from './models/network';
+import QuotaMixin from './models/quota';
+import SnapshotMixin from './models/snapshot';
+import SshKeyMixin from './models/sshKeys';
+import TemplateMixin from './models/template';
+import WebhookMixin from './models/webhook';
 
 class MixinBuilder {
   constructor(Superclass) {
@@ -41,7 +41,7 @@ const mix = (Superclass) => {
  * @class
  * @memberof module:CivoCloud/api
  */
-class Civo {
+class CivoCloud {
   /**
    * @constructor
    * @param {Object} options
@@ -161,18 +161,32 @@ class Civo {
   }
 }
 
-export default mix(Civo).with(
-  chargesMixin,
-  domainMixin,
-  firewallMixin,
-  instanceMixin,
-  instanceRegionMixin,
-  instanceSizingMixin,
-  loadBallancerMixin,
-  networkMixin,
-  quotaMixin,
-  snapshotMixin,
-  sshKeyMixin,
-  templateMixin,
-  webhookMixin
+export const Civo = mix(CivoCloud).with(
+  ChargesMixin,
+  DomainMixin,
+  FirewallMixin,
+  InstanceMixin,
+  InstanceRegionMixin,
+  InstanceSizingMixin,
+  LoadBallancerMixin,
+  NetworkMixin,
+  QuotaMixin,
+  SnapshotMixin,
+  SshKeyMixin,
+  TemplateMixin,
+  WebhookMixin
 );
+
+export const chargesMixin = ChargesMixin;
+export const domainMixin = DomainMixin;
+export const firewallMixin = FirewallMixin;
+export const instanceMixin = InstanceMixin;
+export const instanceRegionMixin = InstanceRegionMixin;
+export const instanceSizingMixin = InstanceSizingMixin;
+export const loadBallancerMixin = LoadBallancerMixin;
+export const networkMixin = NetworkMixin;
+export const quotaMixin = QuotaMixin;
+export const snapshotMixin = SnapshotMixin;
+export const sshKeyMixin = SshKeyMixin;
+export const templateMixin = TemplateMixin;
+export const webhookMixin = WebhookMixin;

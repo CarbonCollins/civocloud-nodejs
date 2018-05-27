@@ -21,25 +21,25 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
 **See**: [https://www.civo.com/api](https://www.civo.com/api)  
 
 * [CivoCloud/api](#module_CivoCloud/api)
-    * [.Civo](#module_CivoCloud/api.Civo)
-        * [new Civo(options)](#new_module_CivoCloud/api.Civo_new)
-    * [.Charges](#module_CivoCloud/api.Charges) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.CivoCloud](#module_CivoCloud/api.CivoCloud)
+        * [new CivoCloud(options)](#new_module_CivoCloud/api.CivoCloud_new)
+    * [.Charges](#module_CivoCloud/api.Charges) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listCharges([options])](#module_CivoCloud/api.Charges..listCharges) ⇒ <code>Promise</code>
-    * [.Domain](#module_CivoCloud/api.Domain) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Domain](#module_CivoCloud/api.Domain) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listDomains()](#module_CivoCloud/api.Domain..listDomains) ⇒ <code>Promise</code>
         * [~createDomain(name)](#module_CivoCloud/api.Domain..createDomain) ⇒ <code>Promise</code>
         * [~deleteDomain(id)](#module_CivoCloud/api.Domain..deleteDomain) ⇒ <code>Promise</code>
         * [~listDomainRecords(id)](#module_CivoCloud/api.Domain..listDomainRecords) ⇒ <code>Promise</code>
         * [~createDomainRecord(domainId, type, name, value, [options])](#module_CivoCloud/api.Domain..createDomainRecord) ⇒ <code>Promise</code>
         * [~deleteDomainRecord(domainId, id)](#module_CivoCloud/api.Domain..deleteDomainRecord) ⇒ <code>Promise</code>
-    * [.Firewall](#module_CivoCloud/api.Firewall) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Firewall](#module_CivoCloud/api.Firewall) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listFirewalls()](#module_CivoCloud/api.Firewall..listFirewalls) ⇒ <code>Promise</code>
         * [~createFirewall(name)](#module_CivoCloud/api.Firewall..createFirewall) ⇒ <code>Promise</code>
         * [~deleteFirewall(id)](#module_CivoCloud/api.Firewall..deleteFirewall) ⇒ <code>Promise</code>
         * [~listFirewallRules(id)](#module_CivoCloud/api.Firewall..listFirewallRules) ⇒ <code>Promise</code>
         * [~createFirewallRule(id, start_port, [options])](#module_CivoCloud/api.Firewall..createFirewallRule) ⇒ <code>Promise</code>
         * [~deleteFirewallRule(firewallId, id)](#module_CivoCloud/api.Firewall..deleteFirewallRule) ⇒ <code>Promise</code>
-    * [.Instance](#module_CivoCloud/api.Instance) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Instance](#module_CivoCloud/api.Instance) ⇐ <code>module:CivoCloud/api.Civo</code>
         * _instance_
             * [.instanceSizes](#module_CivoCloud/api.Instance+instanceSizes) : <code>Object</code>
         * _inner_
@@ -58,37 +58,37 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
             * [~restoreInstance(id, snapshot)](#module_CivoCloud/api.Instance..restoreInstance) ⇒ <code>Promise</code>
             * [~updateInstanceFirewall(id, [options])](#module_CivoCloud/api.Instance..updateInstanceFirewall) ⇒ <code>Promise</code>
             * [~movePublicIpToInstance(id, ipAddress)](#module_CivoCloud/api.Instance..movePublicIpToInstance) ⇒ <code>Promise</code>
-    * [.InstanceRegion](#module_CivoCloud/api.InstanceRegion) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.InstanceRegion](#module_CivoCloud/api.InstanceRegion) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listRegions()](#module_CivoCloud/api.InstanceRegion..listRegions) ⇒ <code>Promise</code>
-    * [.InstanceSizing](#module_CivoCloud/api.InstanceSizing) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.InstanceSizing](#module_CivoCloud/api.InstanceSizing) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listInstanceSizes()](#module_CivoCloud/api.InstanceSizing..listInstanceSizes) ⇒ <code>Promise</code>
-    * [.LoadBallancer](#module_CivoCloud/api.LoadBallancer) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.LoadBallancer](#module_CivoCloud/api.LoadBallancer) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listLoadBalancers()](#module_CivoCloud/api.LoadBallancer..listLoadBalancers) ⇒ <code>Promise</code>
         * [~createLoadBalancer(hostname, backends, [options])](#module_CivoCloud/api.LoadBallancer..createLoadBalancer) ⇒ <code>Promise</code>
         * [~updateLoadBalancer(id, [options])](#module_CivoCloud/api.LoadBallancer..updateLoadBalancer) ⇒ <code>Promise</code>
         * [~deleteLoadBalancer(id)](#module_CivoCloud/api.LoadBallancer..deleteLoadBalancer) ⇒ <code>Promise</code>
-    * [.Network](#module_CivoCloud/api.Network) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Network](#module_CivoCloud/api.Network) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listNetworks()](#module_CivoCloud/api.Network..listNetworks) ⇒ <code>Promise</code>
         * [~createNetwork(label, [options])](#module_CivoCloud/api.Network..createNetwork) ⇒ <code>Promise</code>
         * [~renameNetwork(id, label)](#module_CivoCloud/api.Network..renameNetwork) ⇒ <code>Promise</code>
         * [~deleteNetwork(id)](#module_CivoCloud/api.Network..deleteNetwork) ⇒ <code>Promise</code>
-    * [.Quota](#module_CivoCloud/api.Quota) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Quota](#module_CivoCloud/api.Quota) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~getQuota()](#module_CivoCloud/api.Quota..getQuota) ⇒ <code>Promise</code>
-    * [.Snapshot](#module_CivoCloud/api.Snapshot) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Snapshot](#module_CivoCloud/api.Snapshot) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listSnapshots()](#module_CivoCloud/api.Snapshot..listSnapshots) ⇒ <code>Promise</code>
         * [~createSnapshot(name, instance_id, safe)](#module_CivoCloud/api.Snapshot..createSnapshot) ⇒ <code>Promise</code>
         * [~updateSnapshot(name, instance_id, safe)](#module_CivoCloud/api.Snapshot..updateSnapshot) ⇒ <code>Promise</code>
         * [~deleteSnapshot(name)](#module_CivoCloud/api.Snapshot..deleteSnapshot) ⇒ <code>Promise</code>
-    * [.SSHKeys](#module_CivoCloud/api.SSHKeys) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.SSHKeys](#module_CivoCloud/api.SSHKeys) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listSSHKeys()](#module_CivoCloud/api.SSHKeys..listSSHKeys) ⇒ <code>Promise</code>
         * [~uploadSSHKey(name, public_key)](#module_CivoCloud/api.SSHKeys..uploadSSHKey) ⇒ <code>Promise</code>
         * [~deleteSSHKey(name)](#module_CivoCloud/api.SSHKeys..deleteSSHKey) ⇒ <code>Promise</code>
-    * [.Template](#module_CivoCloud/api.Template) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Template](#module_CivoCloud/api.Template) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listTemplates()](#module_CivoCloud/api.Template..listTemplates) ⇒ <code>Promise</code>
         * [~createTemplate(name, image_id, [options])](#module_CivoCloud/api.Template..createTemplate) ⇒ <code>Promise</code>
         * [~updateTemplate(id, [options])](#module_CivoCloud/api.Template..updateTemplate) ⇒ <code>Promise</code>
         * [~deleteTemplate(id)](#module_CivoCloud/api.Template..deleteTemplate) ⇒ <code>Promise</code>
-    * [.Webhook](#module_CivoCloud/api.Webhook) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+    * [.Webhook](#module_CivoCloud/api.Webhook) ⇐ <code>module:CivoCloud/api.Civo</code>
         * [~listWebhooks()](#module_CivoCloud/api.Webhook..listWebhooks) ⇒ <code>Promise</code>
         * [~createWebhook(url, [options])](#module_CivoCloud/api.Webhook..createWebhook) ⇒ <code>Promise</code>
         * [~deleteWebhook(id)](#module_CivoCloud/api.Webhook..deleteWebhook) ⇒ <code>Promise</code>
@@ -98,16 +98,16 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
 
 * * *
 
-<a name="module_CivoCloud/api.Civo"></a>
+<a name="module_CivoCloud/api.CivoCloud"></a>
 
-### CivoCloud/api.Civo
+### CivoCloud/api.CivoCloud
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
 
 * * *
 
-<a name="new_module_CivoCloud/api.Civo_new"></a>
+<a name="new_module_CivoCloud/api.CivoCloud_new"></a>
 
-#### new Civo(options)
+#### new CivoCloud(options)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -121,9 +121,9 @@ The CivoCloud/api module acts as an abstracton layer for accessing the various c
 
 <a name="module_CivoCloud/api.Charges"></a>
 
-### CivoCloud/api.Charges ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Charges ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/charges](https://www.civo.com/api/charges)  
 
 * * *
@@ -148,12 +148,12 @@ gets an array of chargable service hours [GET]
 
 <a name="module_CivoCloud/api.Domain"></a>
 
-### CivoCloud/api.Domain ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Domain ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/dns](https://www.civo.com/api/dns)  
 
-* [.Domain](#module_CivoCloud/api.Domain) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Domain](#module_CivoCloud/api.Domain) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listDomains()](#module_CivoCloud/api.Domain..listDomains) ⇒ <code>Promise</code>
     * [~createDomain(name)](#module_CivoCloud/api.Domain..createDomain) ⇒ <code>Promise</code>
     * [~deleteDomain(id)](#module_CivoCloud/api.Domain..deleteDomain) ⇒ <code>Promise</code>
@@ -270,12 +270,12 @@ removes a new domain within civo [DELETE]
 
 <a name="module_CivoCloud/api.Firewall"></a>
 
-### CivoCloud/api.Firewall ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Firewall ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/firewall](https://www.civo.com/api/firewall)  
 
-* [.Firewall](#module_CivoCloud/api.Firewall) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Firewall](#module_CivoCloud/api.Firewall) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listFirewalls()](#module_CivoCloud/api.Firewall..listFirewalls) ⇒ <code>Promise</code>
     * [~createFirewall(name)](#module_CivoCloud/api.Firewall..createFirewall) ⇒ <code>Promise</code>
     * [~deleteFirewall(id)](#module_CivoCloud/api.Firewall..deleteFirewall) ⇒ <code>Promise</code>
@@ -392,12 +392,12 @@ deletes an existing firewall rule within a firewall [DELETE]
 
 <a name="module_CivoCloud/api.Instance"></a>
 
-### CivoCloud/api.Instance ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Instance ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/instances](https://www.civo.com/api/instances)  
 
-* [.Instance](#module_CivoCloud/api.Instance) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Instance](#module_CivoCloud/api.Instance) ⇐ <code>module:CivoCloud/api.Civo</code>
     * _instance_
         * [.instanceSizes](#module_CivoCloud/api.Instance+instanceSizes) : <code>Object</code>
     * _inner_
@@ -698,9 +698,9 @@ Moves an owned public ip address from one instance you own to another instance [
 
 <a name="module_CivoCloud/api.InstanceRegion"></a>
 
-### CivoCloud/api.InstanceRegion ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.InstanceRegion ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/regions](https://www.civo.com/api/regions)  
 
 * * *
@@ -720,9 +720,9 @@ error
 
 <a name="module_CivoCloud/api.InstanceSizing"></a>
 
-### CivoCloud/api.InstanceSizing ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.InstanceSizing ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/sizes](https://www.civo.com/api/sizes)  
 
 * * *
@@ -742,12 +742,12 @@ error
 
 <a name="module_CivoCloud/api.LoadBallancer"></a>
 
-### CivoCloud/api.LoadBallancer ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.LoadBallancer ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/loadbalancer](https://www.civo.com/api/loadbalancer)  
 
-* [.LoadBallancer](#module_CivoCloud/api.LoadBallancer) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.LoadBallancer](#module_CivoCloud/api.LoadBallancer) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listLoadBalancers()](#module_CivoCloud/api.LoadBallancer..listLoadBalancers) ⇒ <code>Promise</code>
     * [~createLoadBalancer(hostname, backends, [options])](#module_CivoCloud/api.LoadBallancer..createLoadBalancer) ⇒ <code>Promise</code>
     * [~updateLoadBalancer(id, [options])](#module_CivoCloud/api.LoadBallancer..updateLoadBalancer) ⇒ <code>Promise</code>
@@ -846,12 +846,12 @@ deletes an existing load ballancer from the civo account [DELETE]
 
 <a name="module_CivoCloud/api.Network"></a>
 
-### CivoCloud/api.Network ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Network ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/networks](https://www.civo.com/api/networks)  
 
-* [.Network](#module_CivoCloud/api.Network) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Network](#module_CivoCloud/api.Network) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listNetworks()](#module_CivoCloud/api.Network..listNetworks) ⇒ <code>Promise</code>
     * [~createNetwork(label, [options])](#module_CivoCloud/api.Network..createNetwork) ⇒ <code>Promise</code>
     * [~renameNetwork(id, label)](#module_CivoCloud/api.Network..renameNetwork) ⇒ <code>Promise</code>
@@ -928,9 +928,9 @@ deletes an existing network within civo [DELETE]
 
 <a name="module_CivoCloud/api.Quota"></a>
 
-### CivoCloud/api.Quota ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Quota ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/quota](https://www.civo.com/api/quota)  
 
 * * *
@@ -948,12 +948,12 @@ gets an object of quota values [GET]
 
 <a name="module_CivoCloud/api.Snapshot"></a>
 
-### CivoCloud/api.Snapshot ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Snapshot ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/snapshot](https://www.civo.com/api/snapshot)  
 
-* [.Snapshot](#module_CivoCloud/api.Snapshot) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Snapshot](#module_CivoCloud/api.Snapshot) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listSnapshots()](#module_CivoCloud/api.Snapshot..listSnapshots) ⇒ <code>Promise</code>
     * [~createSnapshot(name, instance_id, safe)](#module_CivoCloud/api.Snapshot..createSnapshot) ⇒ <code>Promise</code>
     * [~updateSnapshot(name, instance_id, safe)](#module_CivoCloud/api.Snapshot..updateSnapshot) ⇒ <code>Promise</code>
@@ -1031,12 +1031,12 @@ deletes an existing snapshot within civo [DELETE]
 
 <a name="module_CivoCloud/api.SSHKeys"></a>
 
-### CivoCloud/api.SSHKeys ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.SSHKeys ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/sshkeys](https://www.civo.com/api/sshkeys)  
 
-* [.SSHKeys](#module_CivoCloud/api.SSHKeys) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.SSHKeys](#module_CivoCloud/api.SSHKeys) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listSSHKeys()](#module_CivoCloud/api.SSHKeys..listSSHKeys) ⇒ <code>Promise</code>
     * [~uploadSSHKey(name, public_key)](#module_CivoCloud/api.SSHKeys..uploadSSHKey) ⇒ <code>Promise</code>
     * [~deleteSSHKey(name)](#module_CivoCloud/api.SSHKeys..deleteSSHKey) ⇒ <code>Promise</code>
@@ -1093,12 +1093,12 @@ gets an array of the currently available ssh keys on civo cloud [DELETE]
 
 <a name="module_CivoCloud/api.Template"></a>
 
-### CivoCloud/api.Template ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Template ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/templates](https://www.civo.com/api/templates)  
 
-* [.Template](#module_CivoCloud/api.Template) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Template](#module_CivoCloud/api.Template) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listTemplates()](#module_CivoCloud/api.Template..listTemplates) ⇒ <code>Promise</code>
     * [~createTemplate(name, image_id, [options])](#module_CivoCloud/api.Template..createTemplate) ⇒ <code>Promise</code>
     * [~updateTemplate(id, [options])](#module_CivoCloud/api.Template..updateTemplate) ⇒ <code>Promise</code>
@@ -1187,12 +1187,12 @@ deletes an existing template within civo [DELETE]
 
 <a name="module_CivoCloud/api.Webhook"></a>
 
-### CivoCloud/api.Webhook ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+### CivoCloud/api.Webhook ⇐ <code>module:CivoCloud/api.Civo</code>
 **Kind**: static class of [<code>CivoCloud/api</code>](#module_CivoCloud/api)  
-**Extends**: [<code>Civo</code>](#module_CivoCloud/api.Civo)  
+**Extends**: <code>module:CivoCloud/api.Civo</code>  
 **See**: [https://www.civo.com/api/webhooks](https://www.civo.com/api/webhooks)  
 
-* [.Webhook](#module_CivoCloud/api.Webhook) ⇐ [<code>Civo</code>](#module_CivoCloud/api.Civo)
+* [.Webhook](#module_CivoCloud/api.Webhook) ⇐ <code>module:CivoCloud/api.Civo</code>
     * [~listWebhooks()](#module_CivoCloud/api.Webhook..listWebhooks) ⇒ <code>Promise</code>
     * [~createWebhook(url, [options])](#module_CivoCloud/api.Webhook..createWebhook) ⇒ <code>Promise</code>
     * [~deleteWebhook(id)](#module_CivoCloud/api.Webhook..deleteWebhook) ⇒ <code>Promise</code>
