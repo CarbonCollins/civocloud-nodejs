@@ -28,7 +28,9 @@
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
     "prepublishOnly": "gulp generate-lib",
-    "generateDocs": "gulp generateDocs"
+    "generateLib": "gulp generate-lib",
+    "generateDocs": "gulp generateDocs",
+    "lint": "eslint --config .eslintrc.json src/**/*.mjs"
   },
   "repository": {
     "type": "git",

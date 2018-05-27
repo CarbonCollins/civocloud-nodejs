@@ -32,7 +32,8 @@ const mix = (Superclass) => {
 
 /**
  * @module CivoCloud/api
- * @description The CivoCloud/api module acts as an abstracton layer for accessing the various civo APIs
+ * @description The CivoCloud/api module acts as an abstracton layer for accessing the various civo
+ * APIs
  * @see {@link https://www.civo.com/api}
  * @exports external:Civo
  */

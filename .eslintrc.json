@@ -20,6 +20,17 @@
     "comma-dangle": 0,
     "arrow-body-style": ["error", "always"],
     "strict": [0, "global"],
-    "mocha/no-exclusive-tests": "error"
+    "mocha/no-exclusive-tests": "error",
+    "import/extensions": ["error", "always", {
+      "js": "never",
+      "mjs": "never"
+    }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".mjs"]
+      }
+    }
   }
 }

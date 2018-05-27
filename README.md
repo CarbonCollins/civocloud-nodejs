@@ -26,18 +26,18 @@ v2 of this module has made some changes to the layout of some functions so if yo
 
 ## getting started
 
-this package uses native ES6 promises for all api calls.
+the package exports both an es6 module and an es5 common module which can both be used by your application. In most instances Node.JS will pick the right one for your application. this package also uses native ES6 promises for all api calls.
 
 to use `civocloud-nodejs` you first need to supply the api token:
 ```
-const { Civo } = require('civocloud');
+import { Civo } from 'civocloud';
 
 const civo = new Civo({ apiToken: 'apiToken' });
 ```
 
 a simple example of calling one of the APIs is:
 ```
-const { Civo } = require('civocloud');
+import { Civo } = from 'civocloud';
 
 const civo = new Civo({ apiToken: 'apiToken' });
 
@@ -48,10 +48,74 @@ civo.listInstanceSizes().then((sizes) => {
 });
 ```
 
+if you want to use common modules just replace the import statement with:
+
+```
+const { Civo } = require('civocloud');
+```
+
 ## api functions
 
 The api functions are now documented [on the API page](./docs/api.md)
 
+## development info
+
+this package uses several tools in the development and build processes which might be of intrest to anyone who wishes to develop on this package.
+
+### linting
+
+[ESLint](https://eslint.org/) is used for linting in this application and uses [.eslintrc.json](./.eslintrc.json) to configure this.
+
+if you want to run the linter on its own run the following:
+```
+yarn run lint
+```
+
+### task runner
+
+this package uses [gulp](https://gulpjs.com/) as its task runner to perform build tasks and generate documentation.
+
+an example task is to regenerate the documentation you can run:
+```
+gulp generateDocs
+```
+or
+```
+yarn run generateDocs
+```
+
+### transpiling
+
+this project uses [Babel](https://babeljs.io/) which transpiles the [ES6 source](src) into an [ES5 library](lib/es5) for use on older versions of Node.JS.
+This can be run
+
+to build source you can run:
+```
+gulp generate-lib
+```
+or
+```
+yarn run generateLib
+```
+
+and 
+
+### tests & coverage
+
+tests are run using the [Mocha](https://mochajs.org/) framework with the [Chai](http://www.chaijs.com/) assertion library. 
+coverage is also performed using [Istanbul](https://istanbul.js.org/) library and outputs a html report normaly found in the covergae directory. [Travis-CI](https://travis-ci.org/) is also used to run tests automaticaly when commiting to the GitHub repository.
+
+
+if you want to run the test suite then run the following (a coverage report is done at the same time):
+```
+yarn run test
+```
+
+### code analysis & metrics
+
+this project also integrated with [CodeClimate](https://codeclimate.com/) to perform code analysis and to provide metrics on code quality and maintainability. This is done automaticaly when commiting to the GitHub repository and pulls in the test results from [Travis-CI](https://travis-ci.org/) to provide coverage analysis.
+
 ## Other info
+
 This package is not an official package from [civo](https://www.civo.com) and has not been made by them as it is just an abstraction layer to the [civo API](https://www.civo.com/api "civo API").
 
