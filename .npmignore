@@ -1,0 +1,13 @@
+node_modules
+*.log
+.vscode
+test
+tests
+gulpfile.js
+coverage
+.jsdoc.json
+.gitignore
+.travis.yml
+.babelrc
+.codeclimate.yml
+.eslint.json

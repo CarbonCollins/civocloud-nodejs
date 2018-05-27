@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const SnapshotMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -66,5 +66,3 @@ const SnapshotMixin = (SuperClass) => {
   };
   return Snapshot;
 };
-
-module.exports = SnapshotMixin;

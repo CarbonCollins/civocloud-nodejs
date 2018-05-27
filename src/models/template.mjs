@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const TemplateMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -83,5 +83,3 @@ const TemplateMixin = (SuperClass) => {
   };
   return Template;
 };
-
-module.exports = TemplateMixin;

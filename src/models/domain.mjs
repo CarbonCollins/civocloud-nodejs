@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const DomainMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -95,5 +95,3 @@ const DomainMixin = (SuperClass) => {
   };
   return Domain;
 };
-
-module.exports = DomainMixin;

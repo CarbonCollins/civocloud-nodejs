@@ -1,6 +1,6 @@
 {
   "name": "civocloud",
-  "version": "3.1.9",
+  "version": "4.0.0",
   "description": "Node.JS module for accessing civo cloud",
   "keywords": [
     "civo",
@@ -9,20 +9,25 @@
     "api",
     "openstack",
     "virtual",
-    "vm"
+    "vm",
+    "es5",
+    "es6"
   ],
   "main": "index.js",
+  "module": "index.mjs",
   "author": {
     "name": "Steven Collins",
     "url": "https://carboncollins.uk",
-    "email": "stveen@carboncollins.uk",
+    "email": "steven@carboncollins.uk",
     "github": "https://github.com/CarbonCollins"
   },
   "license": "MIT",
   "scripts": {
+    "pretest": "gulp generate-lib",
     "test": "istanbul cover ./tests/test.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
+    "prepublishOnly": "gulp generate-lib",
     "generateDocs": "gulp generateDocs"
   },
   "repository": {
@@ -38,8 +43,10 @@
     "request": "^2.85.0"
   },
   "devDependencies": {
-    "snyk": "^1.80.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
+    "babel-plugin-transform-rename-import": "^2.2.0",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
@@ -48,11 +55,14 @@
     "eslint-plugin-mocha": "^5.0.0",
     "fs-extra": "^6.0.1",
     "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
     "istanbul": "^0.4.5",
     "jsdoc-to-markdown": "^4.0.1",
     "jsdoc-x": "^3.0.0",
     "mocha": "^5.1.1",
-    "promise-once-events": "^0.2.0"
+    "promise-once-events": "^0.2.0",
+    "snyk": "^1.80.0"
   },
   "readmeFilename": "README.md",
   "engines": {

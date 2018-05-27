@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const LoadBallancerMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -89,8 +89,6 @@ const LoadBallancerMixin = (SuperClass) => {
   };
   return LoadBallancer;
 };
-
-module.exports = LoadBallancerMixin;
 
 /**
  * @typedef {Object} Backend

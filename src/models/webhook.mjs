@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const WebhookMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -89,5 +89,3 @@ const WebhookMixin = (SuperClass) => {
   };
   return Webhook;
 };
-
-module.exports = WebhookMixin;

@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const InstanceRegionMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -27,5 +27,3 @@ const InstanceRegionMixin = (SuperClass) => {
   };
   return InstanceRegion;
 };
-
-module.exports = InstanceRegionMixin;

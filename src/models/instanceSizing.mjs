@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const InstanceSizingMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -27,5 +27,3 @@ const InstanceSizingMixin = (SuperClass) => {
   };
   return InstanceSizing;
 };
-
-module.exports = InstanceSizingMixin;

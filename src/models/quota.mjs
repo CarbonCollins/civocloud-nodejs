@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const QuotaMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -26,5 +26,3 @@ const QuotaMixin = (SuperClass) => {
   };
   return Quota;
 };
-
-module.exports = QuotaMixin;

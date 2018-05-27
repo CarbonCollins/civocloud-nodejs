@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const sshKeysMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -51,5 +51,3 @@ const sshKeysMixin = (SuperClass) => {
   };
   return SSHKeys;
 };
-
-module.exports = sshKeysMixin;

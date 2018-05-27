@@ -5,7 +5,7 @@
  * @private
  * @param {Class} SuperClass a superclass to apply the mixin too
  */
-const FirewallMixin = (SuperClass) => {
+export default (SuperClass) => {
   /**
    * @class
    * @memberof module:CivoCloud/api
@@ -94,5 +94,3 @@ const FirewallMixin = (SuperClass) => {
   };
   return Firewall;
 };
-
-module.exports = FirewallMixin;
