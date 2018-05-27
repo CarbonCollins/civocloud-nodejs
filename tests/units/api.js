@@ -80,7 +80,12 @@ function getFunctionArgumentNames(func) {
  * @returns {Promise} resolves with an object containing the jsdoc info or rejects with an error
  */
 function getAPITests() {
-  return jsdocx.parse('./lib/*.js')
+  return jsdocx.parse({
+    files: ['src/*.mjs', 'src/**/*.mjs'],
+    hierarchy: true,
+    includePattern: '.+\\.(js(doc|x)?|mjs)$',
+    excludePattern: '(^|\\/|\\\\)_'
+  })
     .then((docs) => {
       const innerMethods = docs
         .filter((doc) => { // only get methods

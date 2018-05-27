@@ -24,7 +24,7 @@
   "license": "MIT",
   "scripts": {
     "pretest": "gulp generate-lib",
-    "test": "istanbul cover ./tests/test.js",
+    "test": "istanbul cover tests/test.js",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
     "prepublishOnly": "gulp generate-lib",

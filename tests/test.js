@@ -1,7 +1,8 @@
 'use strict';
 
 const Mocha = require('mocha');
-const Suite = Mocha.Suite;
+
+const { Suite } = Mocha;
 
 const moduleUnitTests = require('./units/module');
 const apiUnitTests = require('./units/api');

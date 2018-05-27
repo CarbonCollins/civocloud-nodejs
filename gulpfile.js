@@ -45,7 +45,8 @@ gulp.task('generateDocs', () => {
       return jsdoc2md.render({
         'no-cache': true,
         separators: true,
-        files: ['./index.js', './lib/*.js']
+        files: ['src/*.mjs', 'src/**/*.mjs'],
+        configure: '.jsdoc.json'
       });
     })
     .then((output) => {

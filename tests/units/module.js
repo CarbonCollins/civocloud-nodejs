@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const fs = require('fs-extra');
 const jsdoc2md = require('jsdoc-to-markdown');
 const diff = require('diff');
@@ -20,16 +19,17 @@ const exportSuite = new Suite('Export tests');
 exportSuite.addTest(new Test('CivoAPI exports class constructor', () => {
   expect(civocloud.Civo).to.be.an('function', 'module should export the CivoAPI class constructor');
 }));
+
 exportSuite.addTest(new Test('API docs present and up-to-date', (done) => {
-  const apiDocPath = path.join(__dirname, '../../docs/api.md');
+  const apiDocPath = 'docs/api.md';
   fs.pathExists(apiDocPath)
     .then((exists) => {
       if (exists) {
         return jsdoc2md.render({
           'no-cache': true,
           separators: true,
-          files: [path.join(__dirname, '../../index.js'), path.join(__dirname, '../../lib/*.js')]
-          // source: files
+          files: ['src/*.mjs', 'src/**/*.mjs'],
+          configure: '.jsdoc.json'
         });
       }
       return Promise.reject(new Error('api.md is not present in documentation folder'));
