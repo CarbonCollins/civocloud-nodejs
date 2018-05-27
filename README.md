@@ -15,13 +15,17 @@ This module is for accessing the [v2 civo API which is documented here](https://
 v2 of this module has made some changes to the layout of some functions so if you are upgrading you may have to make some changes
 
 ## installation
-1. install [npm](https://nodejs.org "npm homepage")
-2. `npm install civocloud --save`
+
+This package recommends the usage of yarn and all the commands will use yarn. However, you can also use [npm](https://www.npmjs.com/) by replacing the `yarn` command with `npm` and `add` with `install`
+
+1. install [yarn](https://yarnpkg.com)
+2. `yarn add civocloud --save`
 
 ## table of contents
 
 - [getting started](#getting-started)
 - [api functions](#api-functions)
+- [development info](#development-info)
 - [other info](#other-info)
 
 ## getting started
@@ -60,60 +64,7 @@ The api functions are now documented [on the API page](./docs/api.md)
 
 ## development info
 
-this package uses several tools in the development and build processes which might be of intrest to anyone who wishes to develop on this package.
-
-### linting
-
-[ESLint](https://eslint.org/) is used for linting in this application and uses [.eslintrc.json](./.eslintrc.json) to configure this.
-
-if you want to run the linter on its own run the following:
-```
-yarn run lint
-```
-
-### task runner
-
-this package uses [gulp](https://gulpjs.com/) as its task runner to perform build tasks and generate documentation.
-
-an example task is to regenerate the documentation you can run:
-```
-gulp generateDocs
-```
-or
-```
-yarn run generateDocs
-```
-
-### transpiling
-
-this project uses [Babel](https://babeljs.io/) which transpiles the [ES6 source](src) into an [ES5 library](lib/es5) for use on older versions of Node.JS.
-This can be run
-
-to build source you can run:
-```
-gulp generate-lib
-```
-or
-```
-yarn run generateLib
-```
-
-and 
-
-### tests & coverage
-
-tests are run using the [Mocha](https://mochajs.org/) framework with the [Chai](http://www.chaijs.com/) assertion library. 
-coverage is also performed using [Istanbul](https://istanbul.js.org/) library and outputs a html report normaly found in the covergae directory. [Travis-CI](https://travis-ci.org/) is also used to run tests automaticaly when commiting to the GitHub repository.
-
-
-if you want to run the test suite then run the following (a coverage report is done at the same time):
-```
-yarn run test
-```
-
-### code analysis & metrics
-
-this project also integrated with [CodeClimate](https://codeclimate.com/) to perform code analysis and to provide metrics on code quality and maintainability. This is done automaticaly when commiting to the GitHub repository and pulls in the test results from [Travis-CI](https://travis-ci.org/) to provide coverage analysis.
+Information on tooling and services used with this package along with any notes for contributors can be found on the [CONTRIBUTING.md](./.github/CONTRIBUTING.md)
 
 ## Other info
 
