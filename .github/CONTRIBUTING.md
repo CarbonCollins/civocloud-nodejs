@@ -30,7 +30,7 @@ yarn run generateDocs
 
 ### Transpiling
 
-this project uses [Babel](https://babeljs.io/) which transpiles the [ES6 source](src) into an [ES5 library](lib/es5) for use on older versions of Node.JS.
+this project uses [Babel](https://babeljs.io/) which transpiles the [ES6 source](src) into an [ES5 library](lib/es5). A copy of the source is made to make the [ES6 library](lib/es6), both of these can be done by running the build task detailed below:
 This can be run
 
 to build source you can run:
@@ -39,12 +39,13 @@ gulp generate-lib
 ```
 or
 ```
-yarn run generateLib
+yarn run build
 ```
 
 ### Testing & Coverage
 
 Tests are run using the [Mocha](https://mochajs.org/) framework with the [Chai](http://www.chaijs.com/) assertion library.
+
 Test coverage is performed using the [Istanbul](https://istanbul.js.org/) library and outputs a html report normally found in the coverage directory.
 
 [Travis-CI](https://travis-ci.org/) is also used to run tests automatically when committing to the GitHub repository.

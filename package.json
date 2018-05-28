@@ -30,7 +30,8 @@
     "prepublishOnly": "gulp generate-lib",
     "generateLib": "gulp generate-lib",
     "generateDocs": "gulp generateDocs",
-    "lint": "eslint --config .eslintrc.json src/**/*.mjs"
+    "lint": "eslint --config .eslintrc.json src/**/*.mjs",
+    "build": "gulp generate-lib"
   },
   "repository": {
     "type": "git",
