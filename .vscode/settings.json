@@ -1,0 +1,11 @@
+{
+  "mocha.files.glob": "tests/**/*.mjs",
+  "mocha.options": {
+    "compilers": "js:babel-core/register"
+  },
+  "mocha.requires": [
+    "babel-core/register"
+  ],
+  "mocha.logVerbose": false,
+  "mocha.runTestsOnSave": "false"
+}

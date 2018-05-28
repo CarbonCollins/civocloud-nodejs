@@ -24,7 +24,8 @@
   "license": "MIT",
   "scripts": {
     "pretest": "gulp generate-lib",
-    "test": "istanbul cover tests/test.js",
+    "test.old": "istanbul cover tests/test.js",
+    "test": "mocha --compilers js:babel-core/register",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect",
     "prepublishOnly": "gulp generate-lib",
@@ -56,6 +57,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-mocha": "^5.0.0",
+    "esm": "^3.0.38",
     "fs-extra": "^6.0.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",

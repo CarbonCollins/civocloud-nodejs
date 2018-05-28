@@ -2,7 +2,8 @@
 
 <dl>
 <dt><a href="#module_CivoCloud/api">CivoCloud/api</a></dt>
-<dd><p>The CivoCloud/api module acts as an abstracton layer for accessing the various civo APIs</p>
+<dd><p>The CivoCloud/api module acts as an abstracton layer for accessing the various civo
+APIs</p>
 </dd>
 </dl>
 
@@ -16,7 +17,8 @@
 <a name="module_CivoCloud/api"></a>
 
 ## CivoCloud/api
-The CivoCloud/api module acts as an abstracton layer for accessing the various civo APIs
+The CivoCloud/api module acts as an abstracton layer for accessing the various civo
+APIs
 
 **See**: [https://www.civo.com/api](https://www.civo.com/api)  
 
@@ -170,7 +172,7 @@ gets an array of chargable service hours [GET]
 gets an array of the domains on civo account [GET]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the firewall list or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#list-domain-names](https://www.civo.com/api/dns#list-domain-names)  
 
@@ -182,13 +184,13 @@ gets an array of the domains on civo account [GET]
 creates a new domain within civo [POST]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#setup-a-new-domain](https://www.civo.com/api/dns#setup-a-new-domain)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | the ndomain name for the new domain |
+| name | <code>String</code> | the domain name for the new domain |
 
 
 * * *
@@ -199,7 +201,7 @@ creates a new domain within civo [POST]
 removes a new domain within civo [DELETE]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#deleting-a-domain](https://www.civo.com/api/dns#deleting-a-domain)  
 
@@ -216,7 +218,7 @@ removes a new domain within civo [DELETE]
 gets an array of the domains on civo account [GET]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the firewall list or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#list-dns-records](https://www.civo.com/api/dns#list-dns-records)  
 
@@ -233,14 +235,14 @@ gets an array of the domains on civo account [GET]
 gets an array of the domains on civo account [POST]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the firewall list or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#create-a-new-dns-record](https://www.civo.com/api/dns#create-a-new-dns-record)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | domainId | <code>String</code> |  | the domain to delete the record from |
-| type | <code>String</code> |  | the type of dns record to use which can be either: 'a', 'cname', 'mx',  or 'txt' |
+| type | <code>String</code> |  | the type of dns record to use which can be either: 'a', 'cname', 'mx', or 'txt' |
 | name | <code>String</code> |  | the portion before the domain name (e.g. 'www', or '@') |
 | value | <code>Stirng</code> |  | the ip address fr this dns record to serve |
 | [options] | <code>Object</code> |  | an optional options object |
@@ -256,7 +258,7 @@ gets an array of the domains on civo account [POST]
 removes a new domain within civo [DELETE]
 
 **Kind**: inner method of [<code>Domain</code>](#module_CivoCloud/api.Domain)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/dns#deleting-a-dns-record](https://www.civo.com/api/dns#deleting-a-dns-record)  
 
@@ -292,7 +294,7 @@ removes a new domain within civo [DELETE]
 gets an array of the firewalls on civo account [GET]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the firewall list or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#list-firewalls](https://www.civo.com/api/firewall#list-firewalls)  
 
@@ -304,7 +306,7 @@ gets an array of the firewalls on civo account [GET]
 creates a new firewall in civo [POST]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#create-a-new-firewall](https://www.civo.com/api/firewall#create-a-new-firewall)  
 
@@ -321,7 +323,7 @@ creates a new firewall in civo [POST]
 deletes an existing firewall within civo [DELETE]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#deleting-a-firewall](https://www.civo.com/api/firewall#deleting-a-firewall)  
 
@@ -338,7 +340,7 @@ deletes an existing firewall within civo [DELETE]
 gets an array of the firewalls rules on civo account [GET]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the foirewall list or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the firewall list or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#list-firewall-rules](https://www.civo.com/api/firewall#list-firewall-rules)  
 
@@ -355,7 +357,7 @@ gets an array of the firewalls rules on civo account [GET]
 creates a new firewall rule within an existing firewall [POST]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with a success or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with a success or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#create-a-new-firewall-rule](https://www.civo.com/api/firewall#create-a-new-firewall-rule)  
 
@@ -378,7 +380,7 @@ creates a new firewall rule within an existing firewall [POST]
 deletes an existing firewall rule within a firewall [DELETE]
 
 **Kind**: inner method of [<code>Firewall</code>](#module_CivoCloud/api.Firewall)  
-**Returns**: <code>Promise</code> - a promise wich resolves with the result or rejects with an error  
+**Returns**: <code>Promise</code> - a promise which resolves with the result or rejects with an error  
 **Access**: public  
 **See**: [https://www.civo.com/api/firewall#deleting-a-firewall-rule](https://www.civo.com/api/firewall#deleting-a-firewall-rule)  
 
