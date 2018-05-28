@@ -17,7 +17,7 @@ export default (SuperClass) => {
      * @method module:CivoCloud/api.Domain~listDomains
      * @see {@link https://www.civo.com/api/dns#list-domain-names}
      * @description gets an array of the domains on civo account [GET]
-     * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+     * @returns {Promise} a promise which resolves with the firewall list or rejects with an error
      * @public
      */
     listDomains() {
@@ -28,8 +28,8 @@ export default (SuperClass) => {
      * @method module:CivoCloud/api.Domain~createDomain
      * @see {@link https://www.civo.com/api/dns#setup-a-new-domain}
      * @description creates a new domain within civo [POST]
-     * @param {String} name the ndomain name for the new domain
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @param {String} name the domain name for the new domain
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     createDomain(name) {
@@ -41,7 +41,7 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/dns#deleting-a-domain}
      * @description removes a new domain within civo [DELETE]
      * @param {String} id the domain id to be deleted
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     deleteDomain(id) {
@@ -53,7 +53,7 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/dns#list-dns-records}
      * @description gets an array of the domains on civo account [GET]
      * @param {String} id the domains id to get the records in
-     * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+     * @returns {Promise} a promise which resolves with the firewall list or rejects with an error
      * @public
      */
     listDomainRecords(id) {
@@ -65,14 +65,14 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/dns#create-a-new-dns-record}
      * @description gets an array of the domains on civo account [POST]
      * @param {String} domainId the domain to delete the record from
-     * @param {String} type the type of dns record to use which can be either: 'a', 'cname', 'mx', 
+     * @param {String} type the type of dns record to use which can be either: 'a', 'cname', 'mx',
      * or 'txt'
      * @param {String} name the portion before the domain name (e.g. 'www', or '@')
      * @param {Stirng} value the ip address fr this dns record to serve
      * @param {Object} [options] an optional options object
-     * @param {Number} [options.priority=10] mx records only but determines the priority of the 
+     * @param {Number} [options.priority=10] mx records only but determines the priority of the
      * @param {Number} [options.ttl=3600] the time to live for the dns record in seconds
-     * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+     * @returns {Promise} a promise which resolves with the firewall list or rejects with an error
      * @public
      */
     createDomainRecord(domainId, type, name, value, options) {
@@ -86,7 +86,7 @@ export default (SuperClass) => {
      * @description removes a new domain within civo [DELETE]
      * @param {String} domainId the domain to delete the record from
      * @param {String} id the record to be deleted
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     deleteDomainRecord(domainId, id) {

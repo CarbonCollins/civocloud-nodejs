@@ -26,3 +26,4 @@ exclude_patterns:
   - "docs/"
   - "package.json"
   - "gulpfile.js"
+  - "lib/"

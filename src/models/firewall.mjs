@@ -1,4 +1,4 @@
-'use strict';
+/* eslint camelcase: [2, { properties: "never" }] */
 
 /**
  * @method FirewallMixin
@@ -17,7 +17,7 @@ export default (SuperClass) => {
      * @method module:CivoCloud/api.Firewall~listFirewalls
      * @see {@link https://www.civo.com/api/firewall#list-firewalls}
      * @description gets an array of the firewalls on civo account [GET]
-     * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+     * @returns {Promise} a promise which resolves with the firewall list or rejects with an error
      * @public
      */
     listFirewalls() {
@@ -29,7 +29,7 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/firewall#create-a-new-firewall}
      * @description creates a new firewall in civo [POST]
      * @param {String} name the name to be used to identify the firewall in civo
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     createFirewall(name) {
@@ -41,7 +41,7 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/firewall#deleting-a-firewall}
      * @description deletes an existing firewall within civo [DELETE]
      * @param {String} id the firewalls id to be used to identify the network in civo
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     deleteFirewall(id) {
@@ -53,7 +53,7 @@ export default (SuperClass) => {
      * @see {@link https://www.civo.com/api/firewall#list-firewall-rules}
      * @description gets an array of the firewalls rules on civo account [GET]
      * @param {String} id the firewalls id to be used to identify the network in civo
-     * @returns {Promise} a promise wich resolves with the foirewall list or rejects with an error
+     * @returns {Promise} a promise which resolves with the firewall list or rejects with an error
      * @public
      */
     listFirewallRules(id) {
@@ -70,8 +70,9 @@ export default (SuperClass) => {
      * @param {Stirng|Number} [options.end_port] the end of a range of ports
      * @param {String} [options.protocol] the protocol that the ule will allow e.g. 'tcp'
      * @param {String} [options.direction] the direction in which the rule applies to e.g. 'inwards'
-     * @param {String} [options.cidr] a ip range in which the rule is applied to e.g. '0.0.0.0/0' for all
-     * @returns {Promise} a promise wich resolves with a success or rejects with an error
+     * @param {String} [options.cidr] a ip range in which the rule is applied to e.g. '0.0.0.0/0'
+     * for all
+     * @returns {Promise} a promise which resolves with a success or rejects with an error
      * @public
      */
     createFirewallRule(id, start_port, options) {
@@ -85,7 +86,7 @@ export default (SuperClass) => {
      * @description deletes an existing firewall rule within a firewall [DELETE]
      * @param {String} firewallId the firewalls id to be used to identify in civo
      * @param {String} id the firewall rules id in civo
-     * @returns {Promise} a promise wich resolves with the result or rejects with an error
+     * @returns {Promise} a promise which resolves with the result or rejects with an error
      * @public
      */
     deleteFirewallRule(firewallId, id) {
