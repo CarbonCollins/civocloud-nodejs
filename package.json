@@ -35,7 +35,7 @@
   "homepage": "https://carboncollins.uk/npm/civocloud-nodejs",
   "dependencies": {
     "diff": "^3.5.0",
-    "request": "^2.85.0"
+    "request": "^2.87.0"
   },
   "devDependencies": {
     "snyk": "^1.80.0",
